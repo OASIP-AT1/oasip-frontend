@@ -20,8 +20,8 @@ onBeforeMount(async () => {
 });
 
 // POST
-const createNewUsers = async (Name, Email, Role) => {
-  if (Name.trim() != "") {
+const createNewUsers = async (Name, Email, Role, isunique) => {
+  if (Name.trim() != "" && isunique == false) {
     const res = await fetch(import.meta.env.VITE_USER_URL, {
       method: "POST",
       headers: {
@@ -56,23 +56,25 @@ const removeUsers = async (removeContentID) => {
 };
 
 // PUT
-const modifyUser = async (newId, newName, newEmail, newRole) => {
-  const res = await fetch(import.meta.env.VITE_USER_URL + "/" + newId, {
-    method: "PUT",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({
-      Name: newName,
-      Email: newEmail,
-      Role: newRole,
-    }),
-  });
-  if (res.status === 200) {
-    const edit = await res.json();
-    getUsers();
-    console.log("edited successfully");
-  } else console.log("error, cannot edit");
+const modifyUser = async (newId, newName, newEmail, newRole, isunique) => {
+  if (isunique == false) {
+    const res = await fetch(import.meta.env.VITE_USER_URL + "/" + newId, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        name: newName,
+        email: newEmail,
+        role: newRole,
+      }),
+    });
+    if (res.status === 200) {
+      getUsers();
+      console.log("edited successfully");
+    } else console.log("error, cannot edit");
+    console.log(newRole, newName, newEmail);
+  }
 };
 
 const currentDetail = ref({});
@@ -82,7 +84,7 @@ const moreDetail = (curUserId) => {
   getUsers();
 };
 </script>
-  
+
 <template>
   <!-- <Login /> -->
   <div id="contents-list" v-cloak class="px-10 py-5 flex justify-center">
@@ -91,7 +93,7 @@ const moreDetail = (curUserId) => {
         <tr>
           <UNavbar />
           <th>
-            <UCreate @create="createNewUsers" />
+            <UCreate @create="createNewUsers" :users="users" />
           </th>
         </tr>
       </thead>
@@ -118,9 +120,10 @@ const moreDetail = (curUserId) => {
           <td>
             <div>
               <UDetail
-                @more-detail="moreDetail(contents)"
-                @edit-detail="modifyUser"
+                @moreDetail="moreDetail(contents)"
                 :detail="currentDetail"
+                :users="users"
+                @editDetail="modifyUser"
               />
               <UDelete @delete="removeUsers(contents.id)" />
             </div>

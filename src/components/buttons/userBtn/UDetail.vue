@@ -3,9 +3,13 @@ import moment from "moment";
 import { ref } from "vue";
 
 defineEmits(["moreDetail", "editDetail"]);
-defineProps({
+const props = defineProps({
   detail: {
     type: Object,
+    require: true,
+  },
+  users: {
+    type: Array,
     require: true,
   },
 });
@@ -13,6 +17,32 @@ defineProps({
 const edit = ref(false);
 const isModalOn = ref(false);
 const roles = ["admin", "lecturer", "student"];
+
+const isunique = ref(false);
+const Nerror = ref(false);
+
+const uniquename = (name, id) => {
+  props.users.forEach((e) => {
+    if (e.id != id) {
+      if (e.name.toLowerCase() == name.trim().toLowerCase()) {
+        isunique.value = true;
+        Nerror.value = true;
+      }
+    }
+  });
+};
+const Eerror = ref(false);
+const uniqueemail = (email, id) => {
+  props.users.forEach((e) => {
+    if (e.id != id) {
+      if (e.email.toLowerCase() == email.trim().toLowerCase()) {
+        isunique.value = true;
+        Eerror.value = true;
+
+      }
+    }
+  });
+};
 </script>
 
 <template>
@@ -21,6 +51,9 @@ const roles = ["admin", "lecturer", "student"];
     @click="
       $emit('moreDetail');
       isModalOn = !isModalOn;
+      Nerror = false;
+      Eerror = false;
+      isunique = false;
     "
   >
     Detail
@@ -36,15 +69,6 @@ const roles = ["admin", "lecturer", "student"];
             <p v-show="!edit" class="font-header">
               {{ detail.name }}
             </p>
-            <div v-show="edit" class="text-lg font-header">
-              Name :
-              <input
-                type="text"
-                v-model="detail.name"
-                maxlength="100"
-                class="text-black p-2 rounded-lg text-lg w-72"
-              />
-            </div>
             <button v-show="!edit" @click="edit = !edit" class="pl-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -68,32 +92,12 @@ const roles = ["admin", "lecturer", "student"];
           >
             {{ detail.email }}
           </div>
-          <div v-show="edit" class="font-bold text-lg font-header py-5">
-            Email :
-            <input
-              type="email"
-              v-model="detail.email"
-              maxlength="50"
-              class="text-black p-2 rounded-lg text-lg w-72"
-            />
-          </div>
-          <div class="grid justify-center">
-            <div v-show="!edit">
-              <p class="font-header text-2xl font-bold py-2">Role</p>
-              <div class="text-base font-medium grid justify-center py-2">
-                {{ detail.role }}
-              </div>
-            </div>
-            <div v-show="edit" class="font-bold text-lg font-header">
-              Role :
-              <select
-                name="role"
-                class="text-black p-2 rounded-lg text-lg"
-                v-model="detail.role"
-                required
-              >
-                <option v-for="role in roles">{{ role }}</option>
-              </select>
+          <div v-show="!edit">
+            <p class="font-header text-2xl font-bold py-2 grid justify-center">
+              Role
+            </p>
+            <div class="text-base font-medium grid justify-center py-2">
+              {{ detail.role }}
             </div>
           </div>
           <!-- form -->
@@ -103,13 +107,52 @@ const roles = ["admin", "lecturer", "student"];
               $emit(
                 'editDetail',
                 detail.id,
-                detail.Name,
-                detail.Email,
-                detail.Role
+                detail.name,
+                detail.email,
+                detail.role,
+                isunique
               );
-              edit = !edit;
+              isunique == true ? edit : (edit = !edit);
+              isunique = false;
             "
           >
+            <div v-show="edit" class="text-lg font-header">
+              Name :
+              <input
+                type="text"
+                v-model="detail.name"
+                maxlength="100"
+                class="text-black p-2 rounded-lg text-lg w-72"
+              />
+              <p class="text-red-600" v-show="Nerror">
+                Error!!! unique element
+              </p>
+            </div>
+            <div v-show="edit" class="font-bold text-lg font-header py-5">
+              Email :
+              <input
+                type="email"
+                v-model="detail.email"
+                maxlength="50"
+                class="text-black p-2 rounded-lg text-lg w-72"
+              />
+              <p class="text-red-600" v-show="Eerror">
+                Error!!! unique element
+              </p>
+            </div>
+            <div class="grid justify-center">
+              <div v-show="edit" class="font-bold text-lg font-header">
+                Role :
+                <select
+                  name="role"
+                  class="text-black p-2 rounded-lg text-lg"
+                  v-model="detail.role"
+                  required
+                >
+                  <option v-for="role in roles">{{ role }}</option>
+                </select>
+              </div>
+            </div>
             <p class="font-header text-2xl font-bold py-2 grid justify-center">
               OnCreate
             </p>
@@ -130,8 +173,17 @@ const roles = ["admin", "lecturer", "student"];
                   .format("D MMMM YYYY, h:mm:ss A")
               }}
             </div>
-            <div class="flex justify-center ">
-              <input class="btn m-2" v-show="edit" type="submit" value="OK" />
+            <div class="flex justify-center">
+              <input
+                class="btn m-2"
+                v-show="edit"
+                type="submit"
+                value="OK"
+                @click="
+                  uniquename(detail.name, detail.id);
+                  uniqueemail(detail.email, detail.id);
+                "
+              />
               <input
                 class="btn m-2"
                 v-show="edit"

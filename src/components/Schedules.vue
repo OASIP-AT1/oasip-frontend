@@ -41,7 +41,6 @@ const removeSchedules = async (removeContentID) => {
 
 // PUT
 const modifySchedules = async (newId, newTime, newNotes, isOverlap) => {
-  console.log(isOverlap);
   if (isOverlap) {
   } else {
     const res = await fetch(import.meta.env.VITE_EVENT_URL + "/" + newId, {
@@ -59,6 +58,7 @@ const modifySchedules = async (newId, newTime, newNotes, isOverlap) => {
       data.value = edit.eventNotes;
       getSchedules();
       console.log("edited successfully");
+      console.log(newId, newTime, newNotes);
     } else console.log("error, cannot edit");
   }
 };
@@ -74,7 +74,7 @@ const createNewSchedules = async (
   isOverlap
 ) => {
   console.log(isOverlap);
-  if (isOverlap || Name.trim() == '') {
+  if (isOverlap || Name.trim() == "") {
   } else {
     const res = await fetch(import.meta.env.VITE_EVENT_URL, {
       method: "POST",

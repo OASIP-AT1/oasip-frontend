@@ -2,7 +2,7 @@
 import { ref, onBeforeMount } from "vue";
 defineEmits(["create"]);
 const props = defineProps({
-  detail: {
+  users: {
     type: Array,
     require: true,
   },
@@ -22,6 +22,27 @@ const empty = (name) => {
     error.value = false;
   }
 };
+
+const isunique = ref(false);
+const Nerror = ref(false);
+
+const uniquename = (name) => {
+  props.users.forEach((e) => {
+    if (e.name.toLowerCase() == name.trim().toLowerCase()) {
+      isunique.value = true;
+      Nerror.value = true;
+    }
+  });
+};
+const Eerror = ref(false);
+const uniqueemail = (email) => {
+  props.users.forEach((e) => {
+    if (e.email.toLowerCase() == email.trim().toLowerCase()) {
+      isunique.value = true;
+      Eerror.value = true;
+    }
+  });
+};
 </script>
 
 <template>
@@ -33,6 +54,9 @@ const empty = (name) => {
         Email = '';
         option = undefined;
         error = false;
+        Nerror = false;
+        Eerror = false;
+        isunique = false;
         isModalOn = !isModalOn;
       "
     >
@@ -47,8 +71,13 @@ const empty = (name) => {
         <form
           method="post"
           @submit.prevent="
-            $emit('create', Name, Email, option);
-            error == true ? isModalOn : (isModalOn = !isModalOn);
+            $emit('create', Name, Email, option, isunique);
+            error == true
+              ? isModalOn
+              : isunique == true
+              ? isModalOn
+              : (isModalOn = !isModalOn);
+            isunique = false;
           "
         >
           <!-- Name -->
@@ -67,7 +96,9 @@ const empty = (name) => {
                 required
               />
             </div>
-            <p class="text-red-600" v-show="error">Error!!!</p>
+            <p class="text-red-600" v-show="error">Error!!! Empty element</p>
+            <p class="text-red-600" v-show="Nerror">Error!!! unique element</p>
+
             <!-- Email -->
             <label for="Email"
               >Email
@@ -83,6 +114,8 @@ const empty = (name) => {
                 required
               />
             </div>
+            <p class="text-red-600" v-show="Eerror">Error!!! unique element</p>
+
             <!-- Role -->
             <label for="role">Role</label>
             <div class="py-3">
@@ -102,7 +135,11 @@ const empty = (name) => {
               class="btn"
               type="submit"
               value="Create"
-              @click="empty(Name)"
+              @click="
+                empty(Name);
+                uniquename(Name);
+                uniqueemail(Email);
+              "
             />
           </div>
         </form>
