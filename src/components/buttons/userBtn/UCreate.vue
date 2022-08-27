@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onBeforeMount } from "vue";
+import { ref } from "vue";
 defineEmits(["create"]);
 const props = defineProps({
   users: {
@@ -12,7 +12,9 @@ const isModalOn = ref(false);
 const Name = ref("");
 const Email = ref("");
 const option = ref();
-const roles = ["admin", "lecturer", "student"];
+const roles = ["student","lecturer","admin"];
+const Password = ref("");
+const Conpass = ref("");
 const error = ref(false);
 
 const empty = (name) => {
@@ -43,6 +45,22 @@ const uniqueemail = (email) => {
     }
   });
 };
+
+const errorpass = ref(false);
+const confirmPass = (pass, conpass) => {
+  if (pass !== conpass) {
+    errorpass.value = true;
+  }
+};
+
+const showpassword = ref(false);
+const togglepassword = () => {
+  showpassword.value = !showpassword.value;
+};
+const showpassword2 = ref(false);
+const togglepassword2 = () => {
+  showpassword2.value = !showpassword2.value;
+};
 </script>
 
 <template>
@@ -53,10 +71,14 @@ const uniqueemail = (email) => {
         Name = '';
         Email = '';
         option = undefined;
+        Password = '';
+        Conpass = '';
         error = false;
         Nerror = false;
         Eerror = false;
         isunique = false;
+        showpassword = true;
+        showpassword2 = true;
         isModalOn = !isModalOn;
       "
     >
@@ -71,10 +93,12 @@ const uniqueemail = (email) => {
         <form
           method="post"
           @submit.prevent="
-            $emit('create', Name, Email, option, isunique);
+            $emit('create', Name, Email, option, Password, isunique, errorpass);
             error == true
               ? isModalOn
               : isunique == true
+              ? isModalOn
+              : errorpass == true
               ? isModalOn
               : (isModalOn = !isModalOn);
             isunique = false;
@@ -128,17 +152,156 @@ const uniqueemail = (email) => {
                 <option v-for="role in roles">{{ role }}</option>
               </select>
             </div>
+            <!-- password -->
+            <label for="Email"
+              >Password
+              <span class="auto-fill">({{ Password.length }}/8-14)</span></label
+            >
+            <div class="py-3 flex items-center">
+              <input
+                v-if="showpassword"
+                type="password"
+                v-model="Password"
+                minlength="8"
+                maxlength="14"
+                class="form-password bg-base-100 w-72"
+                placeholder="Your password"
+                required
+              />
+              <input
+                v-else
+                type="text"
+                v-model="Password"
+                minlength="8"
+                maxlength="14"
+                class="form-password bg-base-100 w-72"
+                placeholder="Your password"
+                required
+              />
+              <button @click="togglepassword" v-if="showpassword">
+                <svg
+                  style="color: white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-eye-fill border w-10 h-12 p-1 form-eye"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"
+                    fill="white"
+                  ></path>
+                  <path
+                    d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
+                    fill="white"
+                  ></path>
+                </svg>
+              </button>
+              <button @click="togglepassword" v-else>
+                <svg
+                  style="color: white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-eye-fill border w-10 h-12 p-1 form-eye"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588zM5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474L5.21 3.089z"
+                    fill="white"
+                  ></path>
+                  <path
+                    d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12-.708.708z"
+                    fill="white"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            <!-- confirm password -->
+            <label for="password"
+              >Confirm Password
+              <span class="auto-fill">({{ Conpass.length }}/8-14)</span></label
+            >
+            <div class="py-3 flex items-center">
+              <input
+                v-if="showpassword2"
+                type="password"
+                v-model="Conpass"
+                minlength="8"
+                maxlength="14"
+                class="form-password bg-base-100 w-72"
+                placeholder="Confirm your password"
+                required
+              />
+              <input
+                v-else
+                type="text"
+                v-model="Conpass"
+                minlength="8"
+                maxlength="14"
+                class="form-password bg-base-100 w-72"
+                placeholder="Confirm your password"
+                required
+              />
+              <button @click="togglepassword2" v-if="showpassword2">
+                <svg
+                  style="color: white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-eye-fill border w-10 h-12 p-1 form-eye"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"
+                    fill="white"
+                  ></path>
+                  <path
+                    d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
+                    fill="white"
+                  ></path>
+                </svg>
+              </button>
+              <button @click="togglepassword2" v-else>
+                <svg
+                  style="color: white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-eye-fill border w-10 h-12 p-1 form-eye"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588zM5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474L5.21 3.089z"
+                    fill="white"
+                  ></path>
+                  <path
+                    d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12-.708.708z"
+                    fill="white"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            <p class="text-red-600" v-show="errorpass">
+              Error!!! password not match!!!
+            </p>
           </div>
-          <div class="flex justify-end pt-2">
+          <div class="pt-2">
+            <input class="justify-start btn" type="reset" value="Reset" />
             <!-- Create -->
             <input
-              class="btn"
+              class="float-right justify-end btn"
               type="submit"
               value="Create"
               @click="
                 empty(Name);
                 uniquename(Name);
                 uniqueemail(Email);
+                confirmPass(Password, Conpass);
               "
             />
           </div>
@@ -149,6 +312,20 @@ const uniqueemail = (email) => {
 </template>
 
 <style>
+.form-password {
+  border-color: #494a7d;
+  border-width: 2px;
+  padding: 10px;
+  border-top-left-radius: 0.375rem; /* 6px */
+  border-bottom-left-radius: 0.375rem; /* 6px */
+}
+.form-eye {
+  border-color: #494a7d;
+  padding: 8px;
+  border-width: 2px;
+  border-top-right-radius: 0.375rem; /* 6px */
+  border-bottom-right-radius: 0.375rem; /* 6px */
+}
 .form-element {
   border-color: #494a7d;
   border-radius: 5px;

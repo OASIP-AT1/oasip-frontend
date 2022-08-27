@@ -16,7 +16,7 @@ const props = defineProps({
 
 const edit = ref(false);
 const isModalOn = ref(false);
-const roles = ["admin", "lecturer", "student"];
+const roles = ["student","lecturer","admin"];
 
 const isunique = ref(false);
 const Nerror = ref(false);
@@ -54,6 +54,7 @@ const uniqueemail = (email, id) => {
       Nerror = false;
       Eerror = false;
       isunique = false;
+      edit = false;
     "
   >
     Detail

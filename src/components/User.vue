@@ -20,9 +20,10 @@ onBeforeMount(async () => {
 });
 
 // POST
-const createNewUsers = async (Name, Email, Role, isunique) => {
-  if (Name.trim() != "" && isunique == false) {
-    const res = await fetch(import.meta.env.VITE_USER_URL, {
+const createNewUsers = async (Name, Email, Role, Password, isunique, error) => {
+  if (Name.trim() != "" && isunique == false && error == false) {
+    // const res = await fetch(import.meta.env.VITE_USER_URL, {
+    const res = await fetch("http://localhost:5001/user", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -31,6 +32,7 @@ const createNewUsers = async (Name, Email, Role, isunique) => {
         name: Name.trim(),
         email: Email.trim(),
         role: Role,
+        password: Password
       }),
     });
     if (res.status === 201) {

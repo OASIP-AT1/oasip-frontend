@@ -77,10 +77,32 @@
   ],
   "user": [
     {
-      "Name": "Tongnahee",
-      "Email": "tong@kmutt.com",
-      "Role": "LECTURER",
+      "name": "Tongnahee",
+      "email": "tong@kmutt.com",
+      "role": "LECTURER",
+      "password": "6969",
       "id": 1
+    },
+    {
+      "name": "Nod",
+      "email": "kuaynod@gmail.com",
+      "role": "student",
+      "password": "69696969",
+      "id": 2
+    },
+    {
+      "name": "nod kung",
+      "email": "kuaynod@gmail.com",
+      "role": "student",
+      "password": "69696969",
+      "id": 3
+    },
+    {
+      "name": "ad",
+      "email": "asdasda@adsa.ca",
+      "role": "student",
+      "password": "dasdasdasd",
+      "id": 4
     }
   ]
 }
