@@ -1,4 +1,7 @@
-<script setup></script>
+<script setup>
+
+  
+</script>
 
 <template>
   <span id="login" class="btn text-xl font-extrabold px-10">Login</span>

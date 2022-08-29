@@ -6,7 +6,7 @@ import LoginContents from "../views/LoginContents.vue";
 
 const history = createWebHistory(import.meta.env.VITE_BASE_URL);
 const routes = [{
-        path: "/",
+        path: "/schedules",
         name: "scheduleContents",
         component: Contents,
     },
@@ -21,7 +21,7 @@ const routes = [{
         component: UserContents,
     },
     {
-        path: "/login",
+        path: "/",
         name: "loginContents",
         component: LoginContents
     }

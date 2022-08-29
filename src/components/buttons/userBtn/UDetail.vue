@@ -117,8 +117,8 @@ const uniqueemail = (email, id) => {
               isunique = false;
             "
           >
-            <div v-show="edit" class="text-lg font-header">
-              Name :
+            <div v-show="edit" class="font-bold text-lg font-header">
+              Username :
               <input
                 type="text"
                 v-model="detail.name"
@@ -176,7 +176,7 @@ const uniqueemail = (email, id) => {
             </div>
             <div class="flex justify-center">
               <input
-                class="btn m-2"
+                class="btn btn-primary m-2"
                 v-show="edit"
                 type="submit"
                 value="OK"
@@ -186,7 +186,7 @@ const uniqueemail = (email, id) => {
                 "
               />
               <input
-                class="btn m-2"
+                class="btn m-2 btn-active text-white bg-red-400 hover:bg-red-500"
                 v-show="edit"
                 type="button"
                 value="Cancel"

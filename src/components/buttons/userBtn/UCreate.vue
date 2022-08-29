@@ -12,7 +12,7 @@ const isModalOn = ref(false);
 const Name = ref("");
 const Email = ref("");
 const option = ref();
-const roles = ["student","lecturer","admin"];
+const roles = ["student", "lecturer", "admin"];
 const Password = ref("");
 const Conpass = ref("");
 const error = ref(false);
@@ -61,6 +61,28 @@ const showpassword2 = ref(false);
 const togglepassword2 = () => {
   showpassword2.value = !showpassword2.value;
 };
+
+const resetError = () => {
+  error.value = false;
+  Nerror.value = false;
+  Eerror.value = false;
+  errorpass.value = false;
+};
+
+const resetClicks = () => {
+  Name.value = "";
+  Email.value = "";
+  option.value = undefined;
+  Password.value = "";
+  Conpass.value = "";
+  error.value = false;
+  Nerror.value = false;
+  Eerror.value = false;
+  isunique.value = false;
+  showpassword.value = true;
+  showpassword2.value = true;
+  errorpass.value = false;
+};
 </script>
 
 <template>
@@ -68,17 +90,7 @@ const togglepassword2 = () => {
     <button
       class="btn text-xl font-extrabold px-10"
       @click="
-        Name = '';
-        Email = '';
-        option = undefined;
-        Password = '';
-        Conpass = '';
-        error = false;
-        Nerror = false;
-        Eerror = false;
-        isunique = false;
-        showpassword = true;
-        showpassword2 = true;
+        resetClicks();
         isModalOn = !isModalOn;
       "
     >
@@ -102,12 +114,13 @@ const togglepassword2 = () => {
               ? isModalOn
               : (isModalOn = !isModalOn);
             isunique = false;
+            // resetError();
           "
         >
-          <!-- Name -->
+          <!-- UserName -->
           <div class="grid justify-center">
-            <label for="name"
-              >Name
+            <label for="username"
+              >Username
               <span class="auto-fill">({{ Name.length }}/100)</span></label
             >
             <div class="py-3">
@@ -140,18 +153,6 @@ const togglepassword2 = () => {
             </div>
             <p class="text-red-600" v-show="Eerror">Error!!! unique element</p>
 
-            <!-- Role -->
-            <label for="role">Role</label>
-            <div class="py-3">
-              <select
-                name="roles"
-                class="select form-element bg-base-100 border-b-2 italic"
-                v-model="option"
-                required
-              >
-                <option v-for="role in roles">{{ role }}</option>
-              </select>
-            </div>
             <!-- password -->
             <label for="Email"
               >Password
@@ -219,6 +220,7 @@ const togglepassword2 = () => {
                 </svg>
               </button>
             </div>
+
             <!-- confirm password -->
             <label for="password"
               >Confirm Password
@@ -289,15 +291,29 @@ const togglepassword2 = () => {
             <p class="text-red-600" v-show="errorpass">
               Error!!! password not match!!!
             </p>
+
+            <!-- Role -->
+            <label for="role">Role</label>
+            <div class="py-3">
+              <select
+                name="roles"
+                class="select form-element bg-base-100 border-b-2 italic"
+                v-model="option"
+                required
+              >
+                <option v-for="role in roles">{{ role }}</option>
+              </select>
+            </div>
           </div>
           <div class="pt-2">
-            <input class="justify-start btn" type="reset" value="Reset" />
+            <input class="justify-start btn bg-yellow-600 hover:bg-yellow-700 text-white" type="reset" value="Reset" />
             <!-- Create -->
             <input
-              class="float-right justify-end btn"
+              class="float-right justify-end btn btn-primary"
               type="submit"
               value="Create"
               @click="
+                resetError();
                 empty(Name);
                 uniquename(Name);
                 uniqueemail(Email);

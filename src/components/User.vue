@@ -22,8 +22,8 @@ onBeforeMount(async () => {
 // POST
 const createNewUsers = async (Name, Email, Role, Password, isunique, error) => {
   if (Name.trim() != "" && isunique == false && error == false) {
-    // const res = await fetch(import.meta.env.VITE_USER_URL, {
-    const res = await fetch("http://localhost:5001/user", {
+    const res = await fetch(import.meta.env.VITE_USER_URL, {
+    // const res = await fetch("http://localhost:5001/user", {
       method: "POST",
       headers: {
         "content-type": "application/json",
