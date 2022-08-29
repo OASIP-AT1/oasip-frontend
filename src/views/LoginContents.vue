@@ -5,26 +5,34 @@ import { useRouter } from "vue-router";
 const appRouter = useRouter();
 const email = ref();
 const password = ref();
-const users = ref([]);
+const error = ref(false);
 
 const scheduleRouter = () => appRouter.push({ name: "scheduleContents" });
 
-// // GET
-// const getUsers = async () => {
-//   const res = await fetch(import.meta.env.VITE_USER_URL);
-//   if (res.status === 200) {
-//     users.value = await res.json();
-//   } else console.log("error, cannot get data");
-// };
-// onBeforeMount(async () => {
-//   await getUsers();
-// });
-
-const checkLogin = () => {
-    users.value.forEach(check => {
-      console.log(check.password);
+//POST
+const LoginUsers = async (email, password) => {
+    const res = await fetch(import.meta.env.VITE_LOGIN_URL, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password
+      }),
     });
-}
+    if (res.status === 200) {
+      console.log("Login successfully");
+      error.value = false;
+
+    } else{
+      error.value = true;
+      console.log("error, cannot be login");
+    }
+  }
+
+
+
 
 </script>
 
@@ -32,7 +40,9 @@ const checkLogin = () => {
   <div id="center">
     <span class="p-10">OASIP-AT-1</span>
     <br />
-    <form action="post" @submit.prevent="scheduleRouter">
+    <form action="post" 
+    @submit.prevent="LoginUsers(email, password); 
+    (error == true ? console.log('can not login') : scheduleRouter())">
       <div class="flex items-center mt-5">
         <svg
           style="color: white"
@@ -85,8 +95,9 @@ const checkLogin = () => {
         type="submit"
         class="btn btn-primary rounded-full w-full max-w-xs"
       >
-        Match
+        Login
       </button>
+      <p class="text-lg text-red-600" v-show="error">Wrong!!! email or password</p>
     </form>
   </div>
 </template>
