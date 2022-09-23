@@ -2,7 +2,6 @@
 import { ref, onBeforeMount } from "vue";
 import CEdit from "./buttons/categoryBtn/CEdit.vue";
 import CNavbar from "./buttons/categoryBtn/CNavbar.vue";
-import Login from "./buttons/Login.vue";
 
 const categories = ref([]);
 

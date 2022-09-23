@@ -3,7 +3,6 @@ import UNavbar from "./buttons/userBtn/UNavbar.vue";
 import UCreate from "./buttons/userBtn/UCreate.vue";
 import UDetail from "./buttons/userBtn/UDetail.vue";
 import UDelete from "./buttons/userBtn/UDelete.vue";
-import Login from "./buttons/Login.vue";
 
 import { ref, onBeforeMount } from "vue";
 

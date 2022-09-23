@@ -2,11 +2,18 @@ import { createRouter, createWebHistory } from "vue-router";
 import Contents from "../views/Contents.vue";
 import CategoryContent from "../views/CategoryContent.vue";
 import UserContents from "../views/UserContents.vue";
-import LoginContents from "../views/LoginContents.vue";
+import HomeContents from "../views/HomeContent.vue";
+import LoginContent from "../views/LoginContent.vue";
+import SignUpContent from "../views/SignUpContent.vue";
 
-const history = createWebHistory(import.meta.env.VITE_BASE_URL);
+const history = createWebHistory(
+    import.meta.env.VITE_BASE_URL);
 const routes = [{
         path: "/",
+        name: "homeContents",
+        component: HomeContents
+    }, {
+        path: "/schedule",
         name: "scheduleContents",
         component: Contents,
     },
@@ -23,7 +30,12 @@ const routes = [{
     {
         path: "/login",
         name: "loginContents",
-        component: LoginContents
+        component: LoginContent,
+    },
+    {
+        path: "/signUp",
+        name: "signUpContents",
+        component: SignUpContent,
     }
 ];
 

@@ -2,11 +2,9 @@
 import { ref, onBeforeMount } from "vue";
 import moment from "moment";
 import Detail from "./buttons/scheduleBtn/Detail.vue";
-import Create from "./buttons/scheduleBtn/Create.vue";
 import Delete from "./buttons/scheduleBtn/Delete.vue";
 import Navbar from "./buttons/scheduleBtn/Navbar.vue";
 import SortDate from "./buttons/scheduleBtn/SortDate.vue";
-import Login from "./buttons/Login.vue";
 
 const schedules = ref([]);
 
@@ -168,9 +166,6 @@ const getSortDate = async (date) => {
       <thead class="table-header bg-base-200">
         <tr>
           <Navbar @option="getClinic" @upcoming="getUpcoming" @past="getPast" />
-          <th>
-            <Create :detail="schedules" @create="createNewSchedules" />
-          </th>
         </tr>
       </thead>
       <div
@@ -257,7 +252,6 @@ const getSortDate = async (date) => {
                 :data="data"
                 @editDetail="modifySchedules"
               />
-
               <Delete @delete="removeSchedules(contents.id)" />
             </div>
           </td>
