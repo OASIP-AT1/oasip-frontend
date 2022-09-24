@@ -177,7 +177,7 @@ const empty = (name) => {
                 required
               >
                 <option
-                  v-for="categories in category"
+                  v-for="categories in category" :key="categories"
                   :value="categories.eventCategoryName"
                 >
                   {{ categories.eventCategoryName }}

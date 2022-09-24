@@ -1,15 +1,19 @@
 <script setup>
-
+  import { useRouter } from "vue-router";
   
-</script>
-
-<template>
-  <span id="login" class="btn text-xl font-extrabold px-10">Login</span>
-</template>
-
-<style>
-#login {
-  left: 76%;
-  position: sticky;
-}
-</style>
+  const appRouter = useRouter();
+  const loginRouter = () => appRouter.push({ name: "loginContents" });
+  
+  </script>
+   
+  <template>
+      <buttons id="login" class="btn font-extrabold px-10 bg-green-600 text-white hover:bg-green-700" @click="loginRouter">LOGIN</buttons>
+  </template>
+   
+  <style>
+  #login {
+      position: absolute;
+      right: 15%;
+      top: 3%;
+  }
+  </style>

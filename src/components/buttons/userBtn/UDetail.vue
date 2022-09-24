@@ -150,7 +150,7 @@ const uniqueemail = (email, id) => {
                   v-model="detail.role"
                   required
                 >
-                  <option v-for="role in roles">{{ role }}</option>
+                  <option v-for="role in roles" :key="role">{{ role }}</option>
                 </select>
               </div>
             </div>

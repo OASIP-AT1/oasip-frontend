@@ -4,8 +4,16 @@ import UCreate from "./buttons/userBtn/UCreate.vue";
 import UDetail from "./buttons/userBtn/UDetail.vue";
 import UDelete from "./buttons/userBtn/UDelete.vue";
 import Login from "./buttons/Login.vue";
+import SignOut from "./buttons/SignOut.vue";
 
 import { ref, onBeforeMount } from "vue";
+
+const props = defineProps({
+  token: {
+    type: String,
+    require: true,
+  },
+});
 
 const users = ref([]);
 // GET
@@ -23,7 +31,7 @@ onBeforeMount(async () => {
 const createNewUsers = async (Name, Email, Role, Password, isunique, error) => {
   if (Name.trim() != "" && isunique == false && error == false) {
     const res = await fetch(import.meta.env.VITE_USER_URL, {
-    // const res = await fetch("http://localhost:5001/user", {
+      // const res = await fetch("http://localhost:5001/user", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -32,7 +40,7 @@ const createNewUsers = async (Name, Email, Role, Password, isunique, error) => {
         name: Name.trim(),
         email: Email.trim(),
         role: Role,
-        password: Password
+        password: Password,
       }),
     });
     if (res.status === 201) {
@@ -88,7 +96,8 @@ const moreDetail = (curUserId) => {
 </script>
 
 <template>
-  <!-- <Login /> -->
+  <Login />
+  <sign-out />
   <div id="contents-list" v-cloak class="px-10 py-5 flex justify-center">
     <table class="table-zebra table-layout table-element">
       <thead class="table-header bg-base-200">
@@ -99,11 +108,20 @@ const moreDetail = (curUserId) => {
           </th>
         </tr>
       </thead>
-      <div class="no-event text-5xl pt-20" v-if="users.length < 1" v-cloak>
+      <div>
+        <img
+          class="center mt-14"
+          src="https://previews.123rf.com/images/limbi007/limbi0071301/limbi007130100033/17259439-orange-cartoon-character-with-green-button-login-.jpg"
+          alt=""
+        />
+        <p class="center text-center font-extrabold tracking-wider text-xl py-5">PLEASE LOGIN FIRST</p>
+        <button></button>
+      </div>
+      <!-- <div class="no-event text-5xl pt-20" v-if="users.length < 1" v-cloak>
         No Users
       </div>
       <tbody v-else>
-        <tr v-for="contents in users">
+        <tr v-for="contents in users" :key="contents">
           <td class="p-10 text-xl">
             <div class="box-element break-words">
               {{ contents.name }}
@@ -131,7 +149,7 @@ const moreDetail = (curUserId) => {
             </div>
           </td>
         </tr>
-      </tbody>
+      </tbody> -->
     </table>
   </div>
 </template>
@@ -141,6 +159,11 @@ const moreDetail = (curUserId) => {
   display: none;
 }
 
+.center{
+  display: block;
+  width: 80%;
+  margin-left: 150%;
+}
 .no-event {
   text-align: center;
   width: 100%;

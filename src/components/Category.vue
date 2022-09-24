@@ -3,6 +3,8 @@ import { ref, onBeforeMount } from "vue";
 import CEdit from "./buttons/categoryBtn/CEdit.vue";
 import CNavbar from "./buttons/categoryBtn/CNavbar.vue";
 import Login from "./buttons/Login.vue";
+import SignOut from "./buttons/SignOut.vue";
+
 
 const categories = ref([]);
 
@@ -54,6 +56,7 @@ const moreDetail = (curbookingId) => {
 </script>
 
 <template>
+  <sign-out />
   <!-- <Login /> -->
   <div id="contents-list" v-cloak class="px-10 py-5 flex justify-center">
     <table class="table-zebra table-layout table-element">

@@ -7,6 +7,7 @@ import Delete from "./buttons/scheduleBtn/Delete.vue";
 import Navbar from "./buttons/scheduleBtn/Navbar.vue";
 import SortDate from "./buttons/scheduleBtn/SortDate.vue";
 import Login from "./buttons/Login.vue";
+import SignOut from "./buttons/SignOut.vue";
 
 const schedules = ref([]);
 
@@ -20,7 +21,8 @@ const getSchedules = async () => {
 
 onBeforeMount(async () => {
   await getSchedules();
-});
+}); 
+
 //DELETE
 const removeSchedules = async (removeContentID) => {
   if (confirm("Do you really want to delete")) {
@@ -162,6 +164,7 @@ const getSortDate = async (date) => {
 
 <template>
   <SortDate @sort-date="getSortDate" />
+  <sign-out />
   <!-- <Login /> -->
   <div id="contents-list" v-cloak class="px-10 py-5 flex justify-center">
     <table class="table-zebra table-layout table-element">
@@ -187,8 +190,8 @@ const getSortDate = async (date) => {
         <p v-else>No Past Events</p>
       </div>
       <tbody v-else>
-        <tr
-          v-if="filter == undefined"
+        <template v-if="filter === undefined">
+        <tr 
           v-for="contents in schedules"
           :key="contents.id"
         >
@@ -227,7 +230,9 @@ const getSortDate = async (date) => {
             </div>
           </td>
         </tr>
-        <tr v-else v-for="contents in filter">
+      </template>
+      <template  v-else >
+        <tr v-for="contents in filter" :key="contents">
           <td class="p-10 text-xl">
             <div class="box-element break-words">
               {{ contents.bookingName }}
@@ -262,6 +267,7 @@ const getSortDate = async (date) => {
             </div>
           </td>
         </tr>
+      </template>
       </tbody>
     </table>
   </div>

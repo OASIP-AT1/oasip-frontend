@@ -11,7 +11,7 @@ const props = defineProps({
 const isModalOn = ref(false);
 const Name = ref("");
 const Email = ref("");
-const option = ref();
+const option = ref("student");
 const roles = ["student", "lecturer", "admin"];
 const Password = ref("");
 const Conpass = ref("");
@@ -72,7 +72,7 @@ const resetError = () => {
 const resetClicks = () => {
   Name.value = "";
   Email.value = "";
-  option.value = undefined;
+  option.value = "student";
   Password.value = "";
   Conpass.value = "";
   error.value = false;
@@ -301,7 +301,7 @@ const resetClicks = () => {
                 v-model="option"
                 required
               >
-                <option v-for="role in roles">{{ role }}</option>
+                <option v-for="role in roles" :key="role" >{{ role }}</option>
               </select>
             </div>
           </div>
