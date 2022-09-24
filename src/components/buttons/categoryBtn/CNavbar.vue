@@ -27,7 +27,7 @@ const userRouter = () => appRouter.push({ name: "userContents",});
     <th class="text-xl font-extrabold px-10">
         <div class="dropdown dropdown-hover">
             <button tabindex="0" class="m-1 text-xl font-extrabold">
-                <p>  CATEGORY <i class="arrow down ml-3 mb-1"></i></p>
+                <p> CATEGORY <i class="arrow down ml-3 mb-1"></i></p>
             </button>
             <ul
                 tabindex="0"
