@@ -2,11 +2,10 @@
 import { ref, onBeforeMount } from "vue";
 import CEdit from "./buttons/categoryBtn/CEdit.vue";
 import CNavbar from "./buttons/categoryBtn/CNavbar.vue";
-import Login from "./buttons/Login.vue";
-import SignOut from "./buttons/SignOut.vue";
-
+import Login from "./LoginFirst.vue";
 
 const categories = ref([]);
+let token = localStorage.getItem("token");
 
 // GET
 const getCategories = async () => {
@@ -56,8 +55,11 @@ const moreDetail = (curbookingId) => {
 </script>
 
 <template>
-  <sign-out />
-  <!-- <Login /> -->
+    <Login v-if="token == null" />
+<div v-else>
+  <h1 class="inline-block text-5xl font-medium pt-5 pl-32 pr-5">
+    Category Event
+  </h1>
   <div id="contents-list" v-cloak class="px-10 py-5 flex justify-center">
     <table class="table-zebra table-layout table-element">
       <thead class="table-header bg-base-200">
@@ -109,6 +111,7 @@ const moreDetail = (curbookingId) => {
       </tbody>
     </table>
   </div>
+</div>
 </template>
 
 <style scoped>

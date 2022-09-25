@@ -145,7 +145,7 @@ const empty = (name) => {
                 type="text"
                 v-model="Name"
                 maxlength="100"
-                class="form-element bg-base-100 italic"
+                class="form-element bg-base-100 italic" 
                 placeholder="Your name"
                 required
               />

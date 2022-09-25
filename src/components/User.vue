@@ -3,19 +3,13 @@ import UNavbar from "./buttons/userBtn/UNavbar.vue";
 import UCreate from "./buttons/userBtn/UCreate.vue";
 import UDetail from "./buttons/userBtn/UDetail.vue";
 import UDelete from "./buttons/userBtn/UDelete.vue";
-import Login from "./buttons/Login.vue";
-import SignOut from "./buttons/SignOut.vue";
+import Login from "./LoginFirst.vue";
 
 import { ref, onBeforeMount } from "vue";
 
-const props = defineProps({
-  token: {
-    type: String,
-    require: true,
-  },
-});
-
 const users = ref([]);
+
+let token = localStorage.getItem("token");
 // GET
 const getUsers = async () => {
   const res = await fetch(import.meta.env.VITE_USER_URL);
@@ -96,8 +90,9 @@ const moreDetail = (curUserId) => {
 </script>
 
 <template>
-  <Login />
-  <sign-out />
+  <Login v-if="token == null" />
+  <div v-else>
+  <h1 class="inline-block text-5xl font-medium pt-5 pl-32 pr-5">Users Event</h1>
   <div id="contents-list" v-cloak class="px-10 py-5 flex justify-center">
     <table class="table-zebra table-layout table-element">
       <thead class="table-header bg-base-200">
@@ -108,16 +103,7 @@ const moreDetail = (curUserId) => {
           </th>
         </tr>
       </thead>
-      <div>
-        <img
-          class="center mt-14"
-          src="https://previews.123rf.com/images/limbi007/limbi0071301/limbi007130100033/17259439-orange-cartoon-character-with-green-button-login-.jpg"
-          alt=""
-        />
-        <p class="center text-center font-extrabold tracking-wider text-xl py-5">PLEASE LOGIN FIRST</p>
-        <button></button>
-      </div>
-      <!-- <div class="no-event text-5xl pt-20" v-if="users.length < 1" v-cloak>
+      <div class="no-event text-5xl pt-20" v-if="users.length < 1" v-cloak>
         No Users
       </div>
       <tbody v-else>
@@ -149,8 +135,9 @@ const moreDetail = (curUserId) => {
             </div>
           </td>
         </tr>
-      </tbody> -->
+      </tbody>
     </table>
+  </div>
   </div>
 </template>
 
@@ -159,7 +146,7 @@ const moreDetail = (curUserId) => {
   display: none;
 }
 
-.center{
+.center {
   display: block;
   width: 80%;
   margin-left: 150%;

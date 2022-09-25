@@ -2,12 +2,19 @@ import { createRouter, createWebHistory } from "vue-router";
 import Contents from "../views/Contents.vue";
 import CategoryContent from "../views/CategoryContent.vue";
 import UserContents from "../views/UserContents.vue";
-import LoginContents from "../views/LoginContents.vue";
+import HomeContents from "../views/HomeContent.vue";
+import LoginContent from "../views/LoginContent.vue";
+import SignUpContent from "../views/SignUpContent.vue";
 import NotFound from "../views/NotFound.vue";
 
-const history = createWebHistory(import.meta.env.VITE_BASE_URL);
+const history = createWebHistory(
+    import.meta.env.VITE_BASE_URL);
 const routes = [{
-        path: "/schedules",
+        path: "/",
+        name: "homeContents",
+        component: HomeContents
+    }, {
+        path: "/schedule",
         name: "scheduleContents",
         component: Contents,
     },
@@ -22,9 +29,14 @@ const routes = [{
         component: UserContents,
     },
     {
-        path: "/",
+        path: "/login",
         name: "loginContents",
-        component: LoginContents
+        component: LoginContent,
+    },
+    {
+        path: "/signUp",
+        name: "signUpContents",
+        component: SignUpContent,
     },
     {
         path: "/:catchNotMatchPath(.*)",

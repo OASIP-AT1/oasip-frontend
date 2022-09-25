@@ -16,7 +16,7 @@ const props = defineProps({
 
 const edit = ref(false);
 const isModalOn = ref(false);
-const roles = ["student","lecturer","admin"];
+const roles = ["student", "lecturer", "admin"];
 
 const isunique = ref(false);
 const Nerror = ref(false);
@@ -38,7 +38,6 @@ const uniqueemail = (email, id) => {
       if (e.email.toLowerCase() == email.trim().toLowerCase()) {
         isunique.value = true;
         Eerror.value = true;
-
       }
     }
   });
@@ -47,7 +46,7 @@ const uniqueemail = (email, id) => {
 
 <template>
   <button
-    class="btn modal-button"
+    class="btn modal-button btn-color"
     @click="
       $emit('moreDetail');
       isModalOn = !isModalOn;
@@ -201,6 +200,11 @@ const uniqueemail = (email, id) => {
 </template>
 
 <style scoped>
+.btn-color {
+  @apply border-transparent;
+  color: white;
+  background-color: #f99952;
+}
 .font-header {
   color: #ff9d00;
 }

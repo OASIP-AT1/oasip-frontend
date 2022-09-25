@@ -88,7 +88,7 @@ const resetClicks = () => {
 <template>
   <div id="create">
     <button
-      class="btn text-xl font-extrabold px-10"
+      class="btn text-xl font-extrabold px-10 btn-color"
       @click="
         resetClicks();
         isModalOn = !isModalOn;
@@ -128,7 +128,7 @@ const resetClicks = () => {
                 type="text"
                 v-model="Name"
                 maxlength="100"
-                class="form-element bg-base-100 italic"
+                class="input input-md border-slate-400 w-96 max-w-xs bg-white mb-5"
                 placeholder="Your name"
                 required
               />
@@ -146,7 +146,7 @@ const resetClicks = () => {
                 type="email"
                 v-model="Email"
                 maxlength="50"
-                class="form-element bg-base-100 border-b-2 italic"
+                class="input input-md border-slate-400 w-full max-w-xs bg-white mb-3"
                 placeholder="Your email"
                 required
               />
@@ -165,7 +165,7 @@ const resetClicks = () => {
                 v-model="Password"
                 minlength="8"
                 maxlength="14"
-                class="form-password bg-base-100 w-72"
+                class="input input-md border-slate-400 w-full max-w-xs bg-white mb-3"
                 placeholder="Your password"
                 required
               />
@@ -175,47 +175,57 @@ const resetClicks = () => {
                 v-model="Password"
                 minlength="8"
                 maxlength="14"
-                class="form-password bg-base-100 w-72"
+                class="input input-md border-slate-400 w-full max-w-xs bg-white mb-3"
                 placeholder="Your password"
                 required
               />
               <button @click="togglepassword" v-if="showpassword">
                 <svg
-                  style="color: white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
+                  class="text-gray-800 mb-3 cursor-pointer -ml-8"
+                  width="24"
                   height="16"
-                  fill="currentColor"
-                  class="bi bi-eye-fill border w-10 h-12 p-1 form-eye"
-                  viewBox="0 0 16 16"
+                  fill="none"
+                  viewBox="0 0 22 16"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"
-                    fill="white"
+                    d="M20.257 6.962C20.731 7.582 20.731 8.419 20.257 9.038C18.764 10.987 15.182 15 11 15C6.81801 15 3.23601 10.987 1.74301 9.038C1.51239 8.74113 1.38721 8.37592 1.38721 8C1.38721 7.62408 1.51239 7.25887 1.74301 6.962C3.23601 5.013 6.81801 1 11 1C15.182 1 18.764 5.013 20.257 6.962V6.962Z"
+                    stroke="currentColor"
+                    stroke-width="0.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                   ></path>
                   <path
-                    d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                    fill="white"
+                    d="M11 11C12.6569 11 14 9.65685 14 8C14 6.34315 12.6569 5 11 5C9.34315 5 8 6.34315 8 8C8 9.65685 9.34315 11 11 11Z"
+                    stroke="currentColor"
+                    stroke-width="0.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                   ></path>
                 </svg>
               </button>
               <button @click="togglepassword" v-else>
                 <svg
-                  style="color: white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
+                  class="text-gray-800 mb-3 cursor-pointer -ml-8"
+                  width="24"
                   height="16"
-                  fill="currentColor"
-                  class="bi bi-eye-fill border w-10 h-12 p-1 form-eye"
-                  viewBox="0 0 16 16"
+                  viewBox="0 0 22 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588zM5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474L5.21 3.089z"
-                    fill="white"
+                    d="M5.87313 14.129C4.02813 12.819 2.56813 11.115 1.74313 10.039C1.51244 9.74198 1.38721 9.37659 1.38721 9.0005C1.38721 8.62441 1.51244 8.25902 1.74313 7.962C3.23613 6.013 6.81813 2 11.0001 2C12.8761 2 14.6301 2.807 16.1301 3.874"
+                    stroke="currentColor"
+                    stroke-width="0.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                   ></path>
                   <path
-                    d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12-.708.708z"
-                    fill="white"
+                    d="M13.13 6.887C12.8523 6.60467 12.5214 6.38011 12.1565 6.22629C11.7916 6.07246 11.3998 5.99241 11.0038 5.99075C10.6078 5.98909 10.2154 6.06586 9.84915 6.21662C9.48295 6.36738 9.15022 6.58916 8.87016 6.86915C8.5901 7.14915 8.36824 7.48183 8.21739 7.84799C8.06654 8.21416 7.98969 8.60657 7.99125 9.00259C7.99282 9.3986 8.07278 9.79039 8.22652 10.1554C8.38026 10.5203 8.60473 10.8512 8.887 11.129M3 17L19 1M9 15.704C9.6492 15.8972 10.3227 15.9969 11 16C15.182 16 18.764 11.987 20.257 10.038C20.4876 9.74071 20.6127 9.37509 20.6125 8.99883C20.6124 8.62256 20.4869 8.25707 20.256 7.96C19.7313 7.27549 19.1684 6.62112 18.57 6"
+                    stroke="currentColor"
+                    stroke-width="0.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                   ></path>
                 </svg>
               </button>
@@ -233,7 +243,7 @@ const resetClicks = () => {
                 v-model="Conpass"
                 minlength="8"
                 maxlength="14"
-                class="form-password bg-base-100 w-72"
+                class="input input-md border-slate-400 w-full max-w-xs bg-white mb-3"
                 placeholder="Confirm your password"
                 required
               />
@@ -243,47 +253,57 @@ const resetClicks = () => {
                 v-model="Conpass"
                 minlength="8"
                 maxlength="14"
-                class="form-password bg-base-100 w-72"
+                class="input input-md border-slate-400 w-full max-w-xs bg-white mb-3"
                 placeholder="Confirm your password"
                 required
               />
               <button @click="togglepassword2" v-if="showpassword2">
                 <svg
-                  style="color: white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
+                  class="text-gray-800 mb-3 cursor-pointer -ml-8"
+                  width="24"
                   height="16"
-                  fill="currentColor"
-                  class="bi bi-eye-fill border w-10 h-12 p-1 form-eye"
-                  viewBox="0 0 16 16"
+                  fill="none"
+                  viewBox="0 0 22 16"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"
-                    fill="white"
+                    d="M20.257 6.962C20.731 7.582 20.731 8.419 20.257 9.038C18.764 10.987 15.182 15 11 15C6.81801 15 3.23601 10.987 1.74301 9.038C1.51239 8.74113 1.38721 8.37592 1.38721 8C1.38721 7.62408 1.51239 7.25887 1.74301 6.962C3.23601 5.013 6.81801 1 11 1C15.182 1 18.764 5.013 20.257 6.962V6.962Z"
+                    stroke="currentColor"
+                    stroke-width="0.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                   ></path>
                   <path
-                    d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                    fill="white"
+                    d="M11 11C12.6569 11 14 9.65685 14 8C14 6.34315 12.6569 5 11 5C9.34315 5 8 6.34315 8 8C8 9.65685 9.34315 11 11 11Z"
+                    stroke="currentColor"
+                    stroke-width="0.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                   ></path>
                 </svg>
               </button>
               <button @click="togglepassword2" v-else>
                 <svg
-                  style="color: white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
+                  class="text-gray-800 mb-3 cursor-pointer -ml-8"
+                  width="24"
                   height="16"
-                  fill="currentColor"
-                  class="bi bi-eye-fill border w-10 h-12 p-1 form-eye"
-                  viewBox="0 0 16 16"
+                  viewBox="0 0 22 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588zM5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474L5.21 3.089z"
-                    fill="white"
+                    d="M5.87313 14.129C4.02813 12.819 2.56813 11.115 1.74313 10.039C1.51244 9.74198 1.38721 9.37659 1.38721 9.0005C1.38721 8.62441 1.51244 8.25902 1.74313 7.962C3.23613 6.013 6.81813 2 11.0001 2C12.8761 2 14.6301 2.807 16.1301 3.874"
+                    stroke="currentColor"
+                    stroke-width="0.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                   ></path>
                   <path
-                    d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12-.708.708z"
-                    fill="white"
+                    d="M13.13 6.887C12.8523 6.60467 12.5214 6.38011 12.1565 6.22629C11.7916 6.07246 11.3998 5.99241 11.0038 5.99075C10.6078 5.98909 10.2154 6.06586 9.84915 6.21662C9.48295 6.36738 9.15022 6.58916 8.87016 6.86915C8.5901 7.14915 8.36824 7.48183 8.21739 7.84799C8.06654 8.21416 7.98969 8.60657 7.99125 9.00259C7.99282 9.3986 8.07278 9.79039 8.22652 10.1554C8.38026 10.5203 8.60473 10.8512 8.887 11.129M3 17L19 1M9 15.704C9.6492 15.8972 10.3227 15.9969 11 16C15.182 16 18.764 11.987 20.257 10.038C20.4876 9.74071 20.6127 9.37509 20.6125 8.99883C20.6124 8.62256 20.4869 8.25707 20.256 7.96C19.7313 7.27549 19.1684 6.62112 18.57 6"
+                    stroke="currentColor"
+                    stroke-width="0.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                   ></path>
                 </svg>
               </button>
@@ -297,16 +317,20 @@ const resetClicks = () => {
             <div class="py-3">
               <select
                 name="roles"
-                class="select form-element bg-base-100 border-b-2 italic"
+                class="input input-md border-slate-400 w-full max-w-xs bg-white mb-3"
                 v-model="option"
                 required
               >
-                <option v-for="role in roles" :key="role" >{{ role }}</option>
+                <option v-for="role in roles" :key="role">{{ role }}</option>
               </select>
             </div>
           </div>
           <div class="pt-2">
-            <input class="justify-start btn bg-yellow-600 hover:bg-yellow-700 text-white" type="reset" value="Reset" />
+            <input
+              class="justify-start btn bg-yellow-600 hover:bg-yellow-700 text-white"
+              type="reset"
+              value="Reset"
+            />
             <!-- Create -->
             <input
               class="float-right justify-end btn btn-primary"
@@ -327,7 +351,12 @@ const resetClicks = () => {
   </div>
 </template>
 
-<style>
+<style scoped>
+.btn-color {
+  @apply border-transparent;
+  color: white;
+  background-color: #f99952;
+}
 .form-password {
   border-color: #494a7d;
   border-width: 2px;

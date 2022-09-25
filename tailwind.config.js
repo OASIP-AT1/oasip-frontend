@@ -11,11 +11,9 @@ module.exports = {
         themes: [{
             light: {
                 ...require("daisyui/src/colors/themes")[
-                    "[data-theme=garden]"
+                    "[data-theme=pastel]"
                 ],
-                "base-100": "#060938",
-                "base-200": "#0d104a",
-                "base-300": "#1a1c63"
+
             },
         }, ],
     },

@@ -43,13 +43,13 @@ const unique = (name, id) => {
 
 <template>
   <button
-    class="btn modal-button"
+    class="btn modal-button btn-color"
     @click="
       $emit('moreDetail');
       isModalOn = !isModalOn;
       error = false;
       name = detail.eventCategoryName;
-      description = detail.eventCategoryDescription
+      description = detail.eventCategoryDescription;
       duration = detail.eventDuration;
     "
   >
@@ -89,7 +89,7 @@ const unique = (name, id) => {
               <input
                 type="text"
                 v-model="name"
-                class="text-black p-1 m-1 rounded-md"
+                class="text-black p-1 m-1 rounded-md ring-black ring-1"
                 maxlength="100"
                 required
               />
@@ -109,7 +109,8 @@ const unique = (name, id) => {
                   rows="4"
                   maxlength="500"
                   v-model="description"
-                  class="text-black p-2 m-1 rounded-md"
+                  class="text-black p-2 m-1 rounded-md ring-black ring-1"
+                  placeholder="Maximum 500 characters"
                 ></textarea>
               </div>
             </div>
@@ -121,7 +122,7 @@ const unique = (name, id) => {
                   min="1"
                   max="480"
                   v-model="duration"
-                  class="text-black p-1 m-1 rounded-md"
+                  class="text-black p-1 m-1 rounded-md ring-black ring-1"
                   required
                 />
                 <span>min: 1 | max: 480</span>
@@ -151,6 +152,11 @@ const unique = (name, id) => {
 </template>
 
 <style scoped>
+.btn-color {
+  @apply border-transparent;
+  color: white;
+  background-color: #f99952;
+}
 .auto-fill {
   color: #8f8f8f;
 }
