@@ -3,10 +3,13 @@ import UNavbar from "./buttons/userBtn/UNavbar.vue";
 import UCreate from "./buttons/userBtn/UCreate.vue";
 import UDetail from "./buttons/userBtn/UDetail.vue";
 import UDelete from "./buttons/userBtn/UDelete.vue";
+import Login from "./LoginFirst.vue";
 
 import { ref, onBeforeMount } from "vue";
 
 const users = ref([]);
+
+let token = localStorage.getItem("token");
 // GET
 const getUsers = async () => {
   const res = await fetch(import.meta.env.VITE_USER_URL);
@@ -21,8 +24,8 @@ onBeforeMount(async () => {
 // POST
 const createNewUsers = async (Name, Email, Role, Password, isunique, error) => {
   if (Name.trim() != "" && isunique == false && error == false) {
-    // const res = await fetch(import.meta.env.VITE_USER_URL, {
-    const res = await fetch("http://localhost:5001/user", {
+    const res = await fetch(import.meta.env.VITE_USER_URL, {
+      // const res = await fetch("http://localhost:5001/user", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -31,7 +34,7 @@ const createNewUsers = async (Name, Email, Role, Password, isunique, error) => {
         name: Name.trim(),
         email: Email.trim(),
         role: Role,
-        password: Password
+        password: Password,
       }),
     });
     if (res.status === 201) {
@@ -87,7 +90,9 @@ const moreDetail = (curUserId) => {
 </script>
 
 <template>
-  <!-- <Login /> -->
+  <Login v-if="token == null" />
+  <div v-else>
+  <h1 class="inline-block text-5xl font-medium pt-5 pl-32 pr-5">Users Event</h1>
   <div id="contents-list" v-cloak class="px-10 py-5 flex justify-center">
     <table class="table-zebra table-layout table-element">
       <thead class="table-header bg-base-200">
@@ -102,7 +107,7 @@ const moreDetail = (curUserId) => {
         No Users
       </div>
       <tbody v-else>
-        <tr v-for="contents in users">
+        <tr v-for="contents in users" :key="contents">
           <td class="p-10 text-xl">
             <div class="box-element break-words">
               {{ contents.name }}
@@ -133,6 +138,7 @@ const moreDetail = (curUserId) => {
       </tbody>
     </table>
   </div>
+  </div>
 </template>
 
 <style scoped>
@@ -140,6 +146,11 @@ const moreDetail = (curUserId) => {
   display: none;
 }
 
+.center {
+  display: block;
+  width: 80%;
+  margin-left: 150%;
+}
 .no-event {
   text-align: center;
   width: 100%;

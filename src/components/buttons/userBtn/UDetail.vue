@@ -16,7 +16,7 @@ const props = defineProps({
 
 const edit = ref(false);
 const isModalOn = ref(false);
-const roles = ["student","lecturer","admin"];
+const roles = ["student", "lecturer", "admin"];
 
 const isunique = ref(false);
 const Nerror = ref(false);
@@ -38,7 +38,6 @@ const uniqueemail = (email, id) => {
       if (e.email.toLowerCase() == email.trim().toLowerCase()) {
         isunique.value = true;
         Eerror.value = true;
-
       }
     }
   });
@@ -47,7 +46,7 @@ const uniqueemail = (email, id) => {
 
 <template>
   <button
-    class="btn modal-button"
+    class="btn modal-button btn-color"
     @click="
       $emit('moreDetail');
       isModalOn = !isModalOn;
@@ -117,8 +116,8 @@ const uniqueemail = (email, id) => {
               isunique = false;
             "
           >
-            <div v-show="edit" class="text-lg font-header">
-              Name :
+            <div v-show="edit" class="font-bold text-lg font-header">
+              Username :
               <input
                 type="text"
                 v-model="detail.name"
@@ -150,7 +149,7 @@ const uniqueemail = (email, id) => {
                   v-model="detail.role"
                   required
                 >
-                  <option v-for="role in roles">{{ role }}</option>
+                  <option v-for="role in roles" :key="role">{{ role }}</option>
                 </select>
               </div>
             </div>
@@ -176,7 +175,7 @@ const uniqueemail = (email, id) => {
             </div>
             <div class="flex justify-center">
               <input
-                class="btn m-2"
+                class="btn btn-primary m-2"
                 v-show="edit"
                 type="submit"
                 value="OK"
@@ -186,7 +185,7 @@ const uniqueemail = (email, id) => {
                 "
               />
               <input
-                class="btn m-2"
+                class="btn m-2 btn-active text-white bg-red-400 hover:bg-red-500"
                 v-show="edit"
                 type="button"
                 value="Cancel"
@@ -201,6 +200,11 @@ const uniqueemail = (email, id) => {
 </template>
 
 <style scoped>
+.btn-color {
+  @apply border-transparent;
+  color: white;
+  background-color: #f99952;
+}
 .font-header {
   color: #ff9d00;
 }

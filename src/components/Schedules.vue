@@ -5,8 +5,10 @@ import Detail from "./buttons/scheduleBtn/Detail.vue";
 import Delete from "./buttons/scheduleBtn/Delete.vue";
 import Navbar from "./buttons/scheduleBtn/Navbar.vue";
 import SortDate from "./buttons/scheduleBtn/SortDate.vue";
+import Login from "./LoginFirst.vue";
 
 const schedules = ref([]);
+let token = localStorage.getItem("token");
 
 // GET
 const getSchedules = async () => {
@@ -19,6 +21,7 @@ const getSchedules = async () => {
 onBeforeMount(async () => {
     await getSchedules();
 });
+
 //DELETE
 const removeSchedules = async (removeContentID) => {
     if (confirm("Do you really want to delete")) {
@@ -154,25 +157,120 @@ const getSortDate = async (date) => {
     );
     if (res.status === 200) {
         filter.value = await res.json();
-    } else console.log("error, cannot sget data");
+    } else console.log("error, cannot get data");
 };
 </script>
 
 <template>
-        <div class="container">
-            <div class="child-head py-12 mr-10 rounded-3xl">
-                <p class="text-5xl font-medium ml-8 pt-5 pl-32 pr-5">
-                    Schedules Event
-                </p>
-            </div>
-            <div class="child-content">
-                <div class="box-element">
-                    <p>Name<span>Clinic</span></p>
-                    <p>Date<span> minute</span>s</p>
-                </div>
-            </div>
+  <Login v-if="token == null" />
+  <div v-else>
+    <h1 class="inline-block text-5xl font-medium pt-5 pl-32 pr-5">
+      Schedules Event
+    </h1>
+    <SortDate @sort-date="getSortDate" />
+
+    <div id="contents-list" v-cloak class="px-10 py-5 flex justify-center">
+      <table class="table-zebra table-layout table-element">
+        <thead class="table-header bg-base-200">
+          <tr>
+            <Navbar
+              @option="getClinic"
+              @upcoming="getUpcoming"
+              @past="getPast"
+            />
+          </tr>
+        </thead>
+        <div
+          v-if="schedules < 1 || filter < 1"
+          class="no-event text-5xl pt-20"
+          v-cloak
+        >
+          <p v-if="upcomingEvent == undefined && pastEvent == undefined">
+            No Scheduled Events
+          </p>
+          <p v-else-if="upcomingEvent != undefined">
+            No On-Going or Upcoming Events
+          </p>
+          <p v-else>No Past Events</p>
         </div>
-    
+        <tbody v-else>
+          <template v-if="filter === undefined">
+            <tr v-for="contents in schedules" :key="contents.id">
+              <td class="p-10 text-xl">
+                <div class="box-element break-words">
+                  {{ contents.bookingName }}
+                </div>
+              </td>
+              <td class="p-10 text-xl">
+                <div class="pt-2">
+                  {{ contents.categoryName }}
+                </div>
+              </td>
+              <td class="p-10 text-xl">
+                {{
+                  moment(contents.eventStartTime)
+                    .local()
+                    .format("D MMMM YYYY, h:mm:ss A")
+                }}
+              </td>
+
+              <td class="p-10 text-xl">{{ contents.eventDuration }} minute</td>
+
+              <td>
+                <div id="showDetail">
+                  <Detail
+                    @moreDetail="moreDetail(contents)"
+                    :detail="currentDetail"
+                    :data="data"
+                    :event="schedules"
+                    @editDetail="modifySchedules"
+                  />
+
+                  <Delete @delete="removeSchedules(contents.id)" />
+                </div>
+              </td>
+            </tr>
+          </template>
+          <template v-else>
+            <tr v-for="contents in filter" :key="contents">
+              <td class="p-10 text-xl">
+                <div class="box-element break-words">
+                  {{ contents.bookingName }}
+                </div>
+              </td>
+              <td class="p-10 text-xl">
+                <div class="pt-2">
+                  {{ contents.categoryName }}
+                </div>
+              </td>
+
+              <td class="p-10 text-xl">
+                {{
+                  moment(contents.eventStartTime)
+                    .local()
+                    .format("D MMMM YYYY, h:mm:ss A")
+                }}
+              </td>
+
+              <td class="p-10 text-xl">{{ contents.eventDuration }} minute</td>
+
+              <td>
+                <div id="showDetail">
+                  <Detail
+                    @moreDetail="moreDetail(contents)"
+                    :detail="currentDetail"
+                    :data="data"
+                    @editDetail="modifySchedules"
+                  />
+                  <Delete @delete="removeSchedules(contents.id)" />
+                </div>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </template>
 
 <style scoped>

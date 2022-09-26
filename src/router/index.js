@@ -5,7 +5,7 @@ import UserContents from "../views/UserContents.vue";
 import HomeContents from "../views/HomeContent.vue";
 import LoginContent from "../views/LoginContent.vue";
 import SignUpContent from "../views/SignUpContent.vue";
-import NotFoundContent from "../views/NotFoundContent.vue";
+import NotFound from "../views/NotFound.vue";
 
 const history = createWebHistory(
     import.meta.env.VITE_BASE_URL);
@@ -39,10 +39,10 @@ const routes = [{
         component: SignUpContent,
     },
     {
-        path: '/:catchNotMatchPath(.*)',
-        name: 'notFoundContents',
-        component: NotFoundContent
-    }
+        path: "/:catchNotMatchPath(.*)",
+        name: "NotFound",
+        component: NotFound,
+    },
 ];
 
 const router = createRouter({

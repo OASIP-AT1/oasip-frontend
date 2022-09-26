@@ -1,4 +1,5 @@
 <script setup>
+import {ref} from 'vue'
 import { useRouter } from "vue-router";
 
 const appRouter = useRouter();
@@ -8,6 +9,13 @@ const categoryRouter = () => appRouter.push({ name: "categoryContents" });
 const userRouter = () => appRouter.push({ name: "userContents" });
 const loginRouter = () => appRouter.push({ name: "loginContents" });
 const signUpRouter = () => appRouter.push({ name: "signUpContents" });
+
+const token = ref(localStorage.getItem("token"));
+
+const reloadPage = () => {
+    localStorage.removeItem("token");
+    appRouter.go();
+}
 </script>
 
 <template>
@@ -16,7 +24,7 @@ const signUpRouter = () => appRouter.push({ name: "signUpContents" });
             <li class="logo" @click.left="homeRouter">
                 <a href="#" class="nav-link">
                     <span class="link-text logo-text font-black" 
-                        >OASIP-AT1</span
+                        >OASIP-AT1 </span
                     >
                     <svg
                         aria-hidden="true"
@@ -118,7 +126,31 @@ const signUpRouter = () => appRouter.push({ name: "signUpContents" });
                     <span class="link-text font-black">User</span>
                 </a>
             </li>
-            <li class="nav-item" @click.left="loginRouter">
+            <li v-if="token === null" class="nav-item" @click.left="loginRouter">
+                <a href="#" class="nav-link">
+                    <svg
+                        aria-hidden="true"
+                        focusable="false"
+                        data-prefix="fad"
+                        data-icon="login"
+                        role="img"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 512 512"
+                    >
+                        <g class="fa-group">
+                            <path
+                                fill="currentColor"
+                                d="M352 96h64c17.7 0 32 14.3 32 32V384c0 17.7-14.3 32-32 32H352c-17.7 0-32 14.3-32 32s14.3 32 32 32h64c53 0 96-43 96-96V128c0-53-43-96-96-96H352c-17.7 0-32 14.3-32 32s14.3 32 32 32zm-7.5 177.4c4.8-4.5 7.5-10.8 7.5-17.4s-2.7-12.9-7.5-17.4l-144-136c-7-6.6-17.2-8.4-26-4.6s-14.5 12.5-14.5 22v72H32c-17.7 0-32 14.3-32 32v64c0 17.7 14.3 32 32 32H160v72c0 9.6 5.7 18.2 14.5 22s19 2 26-4.6l144-136z"
+                                class="fa-secondary"
+                            ></path>
+                        </g>
+                    </svg>
+                    <span  class="link-text font-black" 
+                        >Login</span
+                    >
+                </a>
+            </li>
+            <li v-else class="nav-item" @click.left="reloadPage">
                 <a href="#" class="nav-link">
                     <svg
                         aria-hidden="true"
@@ -138,7 +170,7 @@ const signUpRouter = () => appRouter.push({ name: "signUpContents" });
                         </g>
                     </svg>
                     <span class="link-text font-black" 
-                        >Login</span
+                        >Logout</span
                     >
                 </a>
             </li>
@@ -194,6 +226,7 @@ const signUpRouter = () => appRouter.push({ name: "signUpContents" });
     background-color: #222222;
     transition: width 600ms ease;
     overflow: hidden;
+    z-index: 1;
 }
 
 .navbar-nav {

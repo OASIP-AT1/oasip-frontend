@@ -15,47 +15,23 @@ const getSchedules = async () => {
 };
 
 onBeforeMount(async () => {
-    await getSchedules();
+  await getSchedules();
 });
-
-const scheduleRouter = () =>appRouter.push({name: "scheduleContents"});
-const categoryRouter = () => appRouter.push({ name: "categoryContents"});
-const userRouter = () => appRouter.push({ name: "userContents",});
 </script>
 
 <template>
-    <th class="text-xl font-extrabold px-10">
-        <div class="dropdown dropdown-hover">
-            <button tabindex="0" class="m-1 text-xl font-extrabold">
-                <p>  USER <i class="arrow down ml-3 mb-1"></i></p>
-            </button>
-            <ul
-                tabindex="0"
-                class="dropdown-content menu p-2 bg-base-300 shadow rounded-box w-64"
-            >
-                <li>
-                    <button class="text-xl" @click="scheduleRouter">Name</button>
-                </li>
-                <li>
-                    <button class="text-xl" @click="categoryRouter">Category</button>
-                </li>
-                <li>
-                    <button class="text-xl" @click.left="userRouter">
-                        User
-                    </button>
-                </li>
-            </ul>
-        </div>
-    </th>
-    <th class="text-xl font-extrabold px-10">EMAIL</th>
-    <th class="text-xl font-extrabold px-10">ROLE</th>
-    <!-- <th class="text-xl font-extrabold px-10">CREATEON</th>
+  <th class="text-xl font-extrabold px-10">
+    <button tabindex="0" class="m-1 text-xl font-extrabold">USER</button>
+  </th>
+  <th class="text-xl font-extrabold px-10">EMAIL</th>
+  <th class="text-xl font-extrabold px-10">ROLE</th>
+  <!-- <th class="text-xl font-extrabold px-10">CREATEON</th>
     <th class="text-xl font-extrabold px-10">UPDATEDON</th> -->
 </template>
 
 <style scoped>
 .arrow {
-  border: solid rgb(255, 255, 255);
+  border: solid black;
   border-width: 0 4px 4px 0;
   display: inline-block;
   padding: 3px;

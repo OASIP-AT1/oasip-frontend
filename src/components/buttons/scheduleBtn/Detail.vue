@@ -10,12 +10,12 @@ const props = defineProps({
   },
   data: {
     type: String,
-    require:true,
+    require: true,
   },
   event: {
-      type: Array,
-      require:true,
-  }
+    type: Array,
+    require: true,
+  },
 });
 
 const edit = ref(false);
@@ -34,7 +34,9 @@ const isOverlap = ref(false);
 const error = ref(false);
 const overlap = () => {
   var startTime = moment(props.detail.eventStartTime).format();
-  var endTime = moment(props.detail.eventStartTime).add(props.detail.eventDuration, "minutes").format();
+  var endTime = moment(props.detail.eventStartTime)
+    .add(props.detail.eventDuration, "minutes")
+    .format();
   props.event.forEach((e) => {
     if (e.categoryId === props.detail.categoryId && e.id !== props.detail.id) {
       var startTime_2 = e.eventStartTime;
@@ -58,7 +60,7 @@ const checkOverlap = (start_1, end_1, start_2, end_2) => {
 
 <template>
   <button
-    class="btn modal-button"
+    class="btn modal-button btn-color"
     @click="
       $emit('moreDetail');
       edit = false;
@@ -118,9 +120,7 @@ const checkOverlap = (start_1, end_1, start_2, end_2) => {
                 detail.eventNotes,
                 isOverlap
               );
-              (isOverlap == true
-              ? edit
-              : ( edit = !edit));
+              isOverlap == true ? edit : (edit = !edit);
               isOverlap = false;
             "
           >
@@ -129,7 +129,9 @@ const checkOverlap = (start_1, end_1, start_2, end_2) => {
               class="text-base font-medium grid justify-center py-2"
             >
               {{
-                moment(detail.eventStartTime).local().format("D MMMM YYYY, h:mm:ss A")
+                moment(detail.eventStartTime)
+                  .local()
+                  .format("D MMMM YYYY, h:mm:ss A")
               }}
             </div>
             <div
@@ -141,10 +143,10 @@ const checkOverlap = (start_1, end_1, start_2, end_2) => {
                 v-model="detail.eventStartTime"
                 :min="date"
                 step="any"
-                class="text-black p-1 rounded-md"
+                class="text-black p-1 rounded-md ring-black ring-1"
                 required
               />
-               <p class="text-red-600" v-show="error">
+              <p class="text-red-600" v-show="error">
                 Error!!! this start time is overlapped other event.
               </p>
             </div>
@@ -179,18 +181,30 @@ const checkOverlap = (start_1, end_1, start_2, end_2) => {
                   cols="50"
                   rows="3"
                   v-model="data"
-                  class="text-black p-2 rounded-lg"
+                  class="text-black p-2 rounded-lg ring-black ring-1"
+                  placeholder="Maximum 500 characters"
                 ></textarea>
               </div>
             </div>
             <div class="flex justify-end">
-              <input class="btn m-2" v-show="edit" type="submit" value="OK" @click="detail.eventNotes = data; overlap()" />
+              <input
+                class="btn m-2"
+                v-show="edit"
+                type="submit"
+                value="OK"
+                @click="
+                  detail.eventNotes = data;
+                  overlap();
+                "
+              />
               <input
                 class="btn m-2"
                 v-show="edit"
                 type="button"
                 value="Cancel"
-                @click="edit = !edit; data = detail.eventNotes
+                @click="
+                  edit = !edit;
+                  data = detail.eventNotes;
                 "
               />
             </div>
@@ -202,6 +216,11 @@ const checkOverlap = (start_1, end_1, start_2, end_2) => {
 </template>
 
 <style scoped>
+.btn-color {
+  @apply border-transparent;
+  color: white;
+  background-color: #f99952;
+}
 .font-header {
   color: #ff9d00;
 }
@@ -233,6 +252,6 @@ const checkOverlap = (start_1, end_1, start_2, end_2) => {
   cursor: pointer;
 }
 .auto-fill {
-    color: #8f8f8f;
+  color: #8f8f8f;
 }
 </style>
