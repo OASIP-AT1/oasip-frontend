@@ -3,8 +3,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 const appRouter = useRouter();
 const signUpRouter = () => appRouter.push({ name: "signUpContents" });
-const homeRouter = () => appRouter.push({ name: "homeContents" });
-const loginRouter = () => appRouter.push({ name: "loginContents" });
+const scheduleRouter = () => appRouter.push({ name: "scheduleContents" });
 
 const username = ref("");
 const password = ref("");
@@ -99,7 +98,7 @@ const LoginUsers = async (username, password) => {
           </div>
           <div class="flex justify-end">
             <button
-              @click.left="reloadPage"
+              @click.left="scheduleRouter"
               class="btn btn-sm text-green-600 bg-white hover:bg-slate-200 px-5"
             >
               Ok

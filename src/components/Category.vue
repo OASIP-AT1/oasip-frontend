@@ -55,14 +55,14 @@ const moreDetail = (curbookingId) => {
 </script>
 
 <template>
-    <Login v-if="token == null" />
+<Login v-if="token == null" />
 <div v-else>
-  <h1 class="inline-block text-5xl font-medium pt-5 pl-32 pr-5">
+  <div id="contents-list" v-cloak class="px-10 py-5 grid justify-items-center">
+    <h1 class="inline-block text-5xl font-medium py-5">
     Category Event
   </h1>
-  <div id="contents-list" v-cloak class="px-10 py-5 flex justify-center">
-    <table class="table-zebra table-layout table-element">
-      <thead class="table-header bg-base-200">
+    <table class="table-zebra table-layout table-element ">
+      <thead class="table-header bg-base-100">
         <tr>
           <CNavbar />
           <th></th>
@@ -81,7 +81,7 @@ const moreDetail = (curbookingId) => {
                 contents.eventCategoryDescription != null &&
                 contents.eventCategoryDescription.trim() != ''
               "
-              class="pt-2"
+              class="pt-2 box-element break-word"
             >
               {{ contents.eventCategoryDescription }}
             </div>
@@ -138,7 +138,6 @@ textarea {
 }
 .table-layout {
   table-layout: fixed;
-  width: 90%;
 }
 .box-element {
   width: 250px;

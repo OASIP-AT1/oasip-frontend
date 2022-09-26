@@ -1,12 +1,14 @@
 <script setup>
 import UNavbar from "./buttons/userBtn/UNavbar.vue";
-import UCreate from "./buttons/userBtn/UCreate.vue";
+// import UCreate from "./buttons/userBtn/UCreate.vue";
 import UDetail from "./buttons/userBtn/UDetail.vue";
 import UDelete from "./buttons/userBtn/UDelete.vue";
 import Login from "./LoginFirst.vue";
-
 import { ref, onBeforeMount } from "vue";
+import { useRouter } from "vue-router";
 
+const appRouter = useRouter();
+const signUpRouter = () => appRouter.push({ name: "signUpContents" });
 const users = ref([]);
 
 let token = localStorage.getItem("token");
@@ -92,14 +94,15 @@ const moreDetail = (curUserId) => {
 <template>
   <Login v-if="token == null" />
   <div v-else>
-  <h1 class="inline-block text-5xl font-medium pt-5 pl-32 pr-5">Users Event</h1>
-  <div id="contents-list" v-cloak class="px-10 py-5 flex justify-center">
+    <div id="contents-list" v-cloak class="px-10 py-5 grid justify-items-center">
+    <h1 class="inline-block text-5xl font-medium py-5">Users Event</h1>
     <table class="table-zebra table-layout table-element">
       <thead class="table-header bg-base-200">
         <tr>
           <UNavbar />
           <th>
-            <UCreate @create="createNewUsers" :users="users" />
+            <button class="btn btn-color text-xl font-extrabold px-10" @click.left="signUpRouter">CREATE</button>
+            <!-- <UCreate @create="createNewUsers" :users="users" /> -->
           </th>
         </tr>
       </thead>
@@ -145,11 +148,16 @@ const moreDetail = (curUserId) => {
 [v-cloak] {
   display: none;
 }
+.btn-color {
+  @apply border-transparent;
+  color: white;
+  background-color: #f99952;
+}
 
-.center {
-  display: block;
-  width: 80%;
-  margin-left: 150%;
+.btn-color:hover {
+  @apply border-transparent;
+  color: rgb(211, 209, 209);
+  background-color: #f48c41;
 }
 .no-event {
   text-align: center;
@@ -177,7 +185,6 @@ textarea {
 }
 .table-layout {
   table-layout: fixed;
-  width: 90%;
 }
 .box-element {
   width: 250px;

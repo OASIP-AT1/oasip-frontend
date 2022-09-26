@@ -164,13 +164,14 @@ const getSortDate = async (date) => {
 <template>
   <Login v-if="token == null" />
   <div v-else>
-    <h1 class="inline-block text-5xl font-medium pt-5 pl-32 pr-5">
+    <div id="contents-list" v-cloak class="px-10 py-5 grid justify-items-center">
+      <div>
+      <h1 class="inline-block text-5xl font-medium py-5 pr-5 ">
       Schedules Event
     </h1>
-    <SortDate @sort-date="getSortDate" />
-
-    <div id="contents-list" v-cloak class="px-10 py-5 flex justify-center">
-      <table class="table-zebra table-layout table-element">
+    <SortDate @sort-date="getSortDate"/>
+  </div>
+      <table class="table-zebra table-layout table-element ">
         <thead class="table-header bg-base-200">
           <tr>
             <Navbar
@@ -201,12 +202,12 @@ const getSortDate = async (date) => {
                   {{ contents.bookingName }}
                 </div>
               </td>
-              <td class="p-10 text-xl">
+              <td class="p-10 text-xl box-element break-words">
                 <div class="pt-2">
                   {{ contents.categoryName }}
                 </div>
               </td>
-              <td class="p-10 text-xl">
+              <td class="p-10 text-xl box-element break-words">
                 {{
                   moment(contents.eventStartTime)
                     .local()
@@ -238,13 +239,13 @@ const getSortDate = async (date) => {
                   {{ contents.bookingName }}
                 </div>
               </td>
-              <td class="p-10 text-xl">
+              <td class="p-10 text-xl box-element break-words">
                 <div class="pt-2">
                   {{ contents.categoryName }}
                 </div>
               </td>
 
-              <td class="p-10 text-xl">
+              <td class="p-10 text-xl box-element break-words">
                 {{
                   moment(contents.eventStartTime)
                     .local()
@@ -277,22 +278,6 @@ const getSortDate = async (date) => {
 [v-cloak] {
     display: none;
 }
-.container {
-    width: auto;
-    height: auto;
-    display: flex;
-}
-
-.child-head {
-    width: 500px;
-    height: 250px;
-    text-decoration: underline ;
-}
-.child-content {
-    width: 700px;
-    height: 600px;
-    background-color: #f48c41;
-}
 
 .no-event {
     text-align: center;
@@ -312,12 +297,20 @@ input,
 textarea {
     color: rgb(0 0 0);
 }
-
-.box-element {
-    width: 250px;
-    background-color:white;
+.table-header {
+  position: sticky;
+  top: 0;
+  height: 100px;
 }
-
+.table-layout {
+  table-layout: fixed;
+}
+.table-element {
+  height: 100px;
+}
+.box-element {
+  width: 250px;
+}
 .modal-content {
     background-color: #ffffff;
     margin: auto;

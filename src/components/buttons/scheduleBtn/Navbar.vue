@@ -1,9 +1,7 @@
 <script setup>
 import { onBeforeMount, ref } from "vue";
-import { useRouter } from "vue-router";
 defineEmits(["option", "upcoming", "past"]);
 const category = ref([]);
-const appRouter = useRouter();
 
 // GET
 const getCategories = async () => {
@@ -15,9 +13,6 @@ const getCategories = async () => {
 onBeforeMount(async () => {
   await getCategories();
 });
-const scheduleRouter = () => appRouter.push({ name: "scheduleContents" });
-const categoryRouter = () => appRouter.push({ name: "categoryContents" });
-const userRouter = () => appRouter.push({ name: "userContents" });
 
 const ListCategory = (list) => {
   return list.eventCategoryName.substring(0, list.eventCategoryName.length - 7);
@@ -37,12 +32,12 @@ const ListCategory = (list) => {
         class="dropdown-content menu p-2 bg-base-300 shadow rounded-box w-64"
       >
         <li>
-          <button @click="$emit('option', 0)" class="text-xl">
+          <button @click="$emit('option', 0)" class="text-lg">
             All Clinic
           </button>
         </li>
         <li v-for="content in category" :key="content">
-          <button @click="$emit('option', content.id)" class="text-xl">
+          <button @click="$emit('option', content.id)" class="text-lg">
             {{ ListCategory(content) }}
           </button>
         </li>

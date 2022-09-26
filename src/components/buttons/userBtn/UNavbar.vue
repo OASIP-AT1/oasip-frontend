@@ -1,10 +1,8 @@
 <script setup>
 import { ref, onBeforeMount } from "vue";
-import { useRouter } from "vue-router";
 defineEmits(["option"]);
 
 const schedules = ref([]);
-const appRouter = useRouter();
 
 // GET
 const getSchedules = async () => {
