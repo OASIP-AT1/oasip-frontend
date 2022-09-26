@@ -65,151 +65,145 @@ const togglepassword2 = () => {
 
 <template>
     <div id="create">
-        <div class="grid justify-center">
-            <p class="text-5xl py-5 font-black grid justify-start">SIGN UP</p>
-            <form
-                class="text-black grid justify-center"
-                method="post"
-                @submit.prevent="
-                    $emit(
-                        'create',
-                        Name,
-                        Email,
-                        option,
-                        Password,
-                        isunique,
-                        errorpass
-                    );
-                    error == true
-                        ? isModalOn
-                        : isunique == true
-                        ? isModalOn
-                        : errorpass == true
-                        ? isModalOn
-                        : (isModalOn = !isModalOn);
-                    isunique = false;
-                "
-            >
-                <label for="Name"
-                    >Name
-                    <span class="auto-fill"
-                        >({{ Name.length }}/100)</span
-                    ></label
-                >
-                <input
-                    type="text"
-                    placeholder="name"
-                    maxlength="100"
-                    v-model="Name"
-                    class="input input-md border-slate-400 w-96 max-w-xs bg-white mb-5"
-                    required
-                />
-                <p class="text-red-600" v-show="Nerror">
-                    This name is already in use!!!
-                </p>
-                <label for="Email"
-                    >Email
-                    <span class="auto-fill"
-                        >({{ Email.length }}/50)</span
-                    ></label
-                >
-                <input
-                    type="email"
-                    placeholder="email"
-                    maxlength="50"
-                    v-model="Email"
-                    class="input input-md border-slate-400 w-full max-w-xs bg-white mb-3"
-                    required
-                />
-                <p class="text-red-600" v-show="Eerror">
-                    Email can not be empty!!!
-                </p>
-                <label for="role">Role</label>
-                <div class="py-3">
-                    <select
-                        name="roles"
-                        class="input input-md border-slate-400 w-96 max-w-xs bg-white mb-5"
-                        v-model="option"
-                        required
-                    >
-                        <option v-for="role in roles">
-                            {{ role }}
-                        </option>
-                    </select>
-                </div>
-                <label for="Password"
-                    >Password
-                    <span class="auto-fill"
-                        >({{ Password.length }}/8-14)</span
-                    ></label
-                >
-                <input
-                    type="password"
-                    placeholder="password"
-                    v-model="Password"
-                    minlength="8"
-                    maxlength="14"
-                    class="input input-md border-slate-400 w-full max-w-xs bg-white mb-3"
-                    required
-                />
-                <label for="ConfirmPassword"
-                    >Confirm Password
-                    <span class="auto-fill"
-                        >({{ Conpass.length }}/8-14)</span
-                    ></label
-                >
-                <input
-                    type="password"
-                    placeholder="Confirm password"
-                    v-model="Conpass"
-                    minlength="8"
-                    maxlength="14"
-                    class="input input-md border-slate-400 w-full max-w-xs bg-white mb-3"
-                    required
-                />
-
-                <div class="pt-2">
-                    <input
-                        class="justify-start btn btn-color border-transparent"
-                        type="reset"
-                        value="Reset"
-                    />
-                    <!-- Create -->
-                    <input
-                        class="float-right justify-end btn btn-color border-transparent"
-                        type="submit"
-                        value="Create"
-                        @click="
-                            empty(Name);
-                            uniquename(Name);
-                            uniqueemail(Email);
-                            confirmPass(Password, Conpass);
-                        "
-                    />
-                </div>
-            </form>
-        </div>
-
-        <!-- <button
-            class="btn text-xl font-extrabold px-10"
-            @click="
-                Name = '';
-                Email = '';
-                option = undefined;
-                Password = '';
-                Conpass = '';
-                error = false;
-                Nerror = false;
-                Eerror = false;
+        <p class="text-5xl py-5 font-black grid justify-start">SIGN UP</p>
+        <form
+            class="text-black grid justify-center"
+            method="post"
+            @submit.prevent="
+                $emit(
+                    'create',
+                    Name,
+                    Email,
+                    option,
+                    Password,
+                    isunique,
+                    errorpass
+                );
+                error == true
+                    ? isModalOn
+                    : isunique == true
+                    ? isModalOn
+                    : errorpass == true
+                    ? isModalOn
+                    : (isModalOn = !isModalOn);
                 isunique = false;
-                showpassword = true;
-                showpassword2 = true;
-                isModalOn = !isModalOn;
             "
         >
-            CREATE
-            </button> -->
+            <label for="Name"
+                >Name
+                <span class="auto-fill">({{ Name.length }}/100)</span></label
+            >
+            <input
+                type="text"
+                placeholder="name"
+                maxlength="100"
+                v-model="Name"
+                class="input input-md border-slate-400 w-96 max-w-xs bg-white mb-5"
+                required
+            />
+            <p class="text-red-600" v-show="Nerror">
+                This name is already in use!!!
+            </p>
+            <label for="Email"
+                >Email
+                <span class="auto-fill">({{ Email.length }}/50)</span></label
+            >
+            <input
+                type="email"
+                placeholder="email"
+                maxlength="50"
+                v-model="Email"
+                class="input input-md border-slate-400 w-full max-w-xs bg-white mb-3"
+                required
+            />
+            <p class="text-red-600" v-show="Eerror">
+                Email can not be empty!!!
+            </p>
+            <label for="role">Role</label>
+            <div class="py-3">
+                <select
+                    name="roles"
+                    class="input input-md border-slate-400 w-96 max-w-xs bg-white mb-5"
+                    v-model="option"
+                    required
+                >
+                    <option v-for="role in roles">
+                        {{ role }}
+                    </option>
+                </select>
+            </div>
+            <label for="Password"
+                >Password
+                <span class="auto-fill"
+                    >({{ Password.length }}/8-14)</span
+                ></label
+            >
+            <input
+                type="password"
+                placeholder="password"
+                v-model="Password"
+                minlength="8"
+                maxlength="14"
+                class="input input-md border-slate-400 w-full max-w-xs bg-white mb-3"
+                required
+            />
+            <label for="ConfirmPassword"
+                >Confirm Password
+                <span class="auto-fill"
+                    >({{ Conpass.length }}/8-14)</span
+                ></label
+            >
+            <input
+                type="password"
+                placeholder="Confirm password"
+                v-model="Conpass"
+                minlength="8"
+                maxlength="14"
+                class="input input-md border-slate-400 w-full max-w-xs bg-white mb-3"
+                required
+            />
+
+            <div class="pt-2">
+                <input
+                    class="justify-start btn btn-color border-transparent"
+                    type="reset"
+                    value="Reset"
+                />
+                <!-- Create -->
+                <input
+                    class="float-right justify-end btn btn-color border-transparent"
+                    type="submit"
+                    value="Create"
+                    @click="
+                        empty(Name);
+                        uniquename(Name);
+                        uniqueemail(Email);
+                        confirmPass(Password, Conpass);
+                    "
+                />
+            </div>
+        </form>
     </div>
+
+    <!-- <button
+                class="btn text-xl font-extrabold px-10"
+                @click="
+                    Name = '';
+                    Email = '';
+                    option = undefined;
+                    Password = '';
+                    Conpass = '';
+                    error = false;
+                    Nerror = false;
+                    Eerror = false;
+                    isunique = false;
+                    showpassword = true;
+                    showpassword2 = true;
+                    isModalOn = !isModalOn;
+                "
+            >
+                CREATE
+                </button> -->
 </template>
 
 <style>

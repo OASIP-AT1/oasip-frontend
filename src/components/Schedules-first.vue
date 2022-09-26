@@ -159,20 +159,129 @@ const getSortDate = async (date) => {
 </script>
 
 <template>
+    <div class="flex justify-content">
         <div class="container">
-            <div class="child-head py-12 mr-10 rounded-3xl">
-                <p class="text-5xl font-medium ml-8 pt-5 pl-32 pr-5">
-                    Schedules Event
-                </p>
+            <div class="child-head">
+                <p class="flex items-center justify-center text-5xl font-medium ml-8 pt-5 pl-32 pr-5">Schedules Event</p>
             </div>
-            <div class="child-content">
-                <div class="box-element">
-                    <p>Name<span>Clinic</span></p>
-                    <p>Date<span> minute</span>s</p>
-                </div>
+            <div v-cloak class="child px-10 py-5">
+                <SortDate @sort-date="getSortDate" />
+                <table class="table-zebra table-layout table-element">
+                    <thead class="table-header bg-base-200">
+                        <tr>
+                            <Navbar
+                                @option="getClinic"
+                                @upcoming="getUpcoming"
+                                @past="getPast"
+                            />
+                        </tr>
+                    </thead>
+                    <div
+                        v-if="schedules < 1 || filter < 1"
+                        class="no-event text-5xl pt-20"
+                        v-cloak
+                    >
+                        <p
+                            v-if="
+                                upcomingEvent == undefined &&
+                                pastEvent == undefined
+                            "
+                        >
+                            No Scheduled Events
+                        </p>
+                        <p v-else-if="upcomingEvent != undefined">
+                            No On-Going or Upcoming Events
+                        </p>
+                        <p v-else>No Past Events</p>
+                    </div>
+                    <tbody v-else>
+                        <tr
+                            v-if="filter == undefined"
+                            v-for="contents in schedules"
+                            :key="contents.id"
+                        >
+                            <td class="p-10 text-xl">
+                                <div class="box-element break-words">
+                                    {{ contents.bookingName }}
+                                </div>
+                            </td>
+                            <td class="p-10 text-xl">
+                                <div class="pt-2">
+                                    {{ contents.categoryName }}
+                                </div>
+                            </td>
+
+                            <td class="p-10 text-xl">
+                                {{
+                                    moment(contents.eventStartTime)
+                                        .local()
+                                        .format("D MMMM YYYY, h:mm:ss A")
+                                }}
+                            </td>
+
+                            <td class="p-10 text-xl">
+                                {{ contents.eventDuration }} minute
+                            </td>
+
+                            <td>
+                                <div id="showDetail">
+                                    <Detail
+                                        @moreDetail="moreDetail(contents)"
+                                        :detail="currentDetail"
+                                        :data="data"
+                                        :event="schedules"
+                                        @editDetail="modifySchedules"
+                                    />
+
+                                    <Delete
+                                        @delete="removeSchedules(contents.id)"
+                                    />
+                                </div>
+                            </td>
+                        </tr>
+                        <tr v-else v-for="contents in filter">
+                            <td class="p-10 text-xl">
+                                <div class="box-element break-words">
+                                    {{ contents.bookingName }}
+                                </div>
+                            </td>
+                            <td class="p-10 text-xl">
+                                <div class="pt-2">
+                                    {{ contents.categoryName }}
+                                </div>
+                            </td>
+
+                            <td class="p-10 text-xl">
+                                {{
+                                    moment(contents.eventStartTime)
+                                        .local()
+                                        .format("D MMMM YYYY, h:mm:ss A")
+                                }}
+                            </td>
+
+                            <td class="p-10 text-xl">
+                                {{ contents.eventDuration }} minute
+                            </td>
+
+                            <td>
+                                <div id="showDetail">
+                                    <Detail
+                                        @moreDetail="moreDetail(contents)"
+                                        :detail="currentDetail"
+                                        :data="data"
+                                        @editDetail="modifySchedules"
+                                    />
+                                    <Delete
+                                        @delete="removeSchedules(contents.id)"
+                                    />
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-    
+    </div>
 </template>
 
 <style scoped>
@@ -180,22 +289,21 @@ const getSortDate = async (date) => {
     display: none;
 }
 .container {
-    width: auto;
-    height: auto;
+    width: 1000px;
+    height: 1000px;
     display: flex;
 }
 
 .child-head {
+    color:white;
+    width: 500px;
+    height: 500px;
+    background-color:#f48c41;
+}
+.child {
     width: 500px;
     height: 250px;
-    text-decoration: underline ;
 }
-.child-content {
-    width: 700px;
-    height: 600px;
-    background-color: #f48c41;
-}
-
 .no-event {
     text-align: center;
     width: 100%;
@@ -215,11 +323,21 @@ textarea {
     color: rgb(0 0 0);
 }
 
+.table-header {
+    position: sticky;
+    top: 0;
+    height: 100px;
+}
+.table-layout {
+    table-layout: fixed;
+    width: 90%;
+}
 .box-element {
     width: 250px;
-    background-color:white;
 }
-
+.table-element {
+    height: 100px;
+}
 .modal-content {
     background-color: #ffffff;
     margin: auto;
