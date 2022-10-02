@@ -11,7 +11,7 @@ const error = ref("");
 const token = ref("");
 
 const reloadPage = () => {
-    appRouter.go();
+    location.replace('/schedule')
 };
 
 //POST
@@ -98,7 +98,7 @@ const LoginUsers = async (username, password) => {
           </div>
           <div class="flex justify-end">
             <button
-              @click.left="scheduleRouter"
+              @click.left="reloadPage"
               class="btn btn-sm text-green-600 bg-white hover:bg-slate-200 px-5"
             >
               Ok

@@ -44,7 +44,7 @@ const ListCategory = (list) => {
       </ul>
     </div>
   </th>
-  <th class="px-10">
+  <th class="px-10 w-1/4">
     <div class="dropdown dropdown-hover">
       <button tabindex="0" class="m-1 text-xl font-extrabold">
         <p>DATE<i class="arrow down ml-3 mb-1"></i></p>

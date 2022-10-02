@@ -2,7 +2,7 @@
 import UNavbar from "./buttons/userBtn/UNavbar.vue";
 // import UCreate from "./buttons/userBtn/UCreate.vue";
 import UDetail from "./buttons/userBtn/UDetail.vue";
-import UDelete from "./buttons/userBtn/UDelete.vue";
+import UDelete from "./buttons/Delete.vue";
 import Login from "./LoginFirst.vue";
 import { ref, onBeforeMount } from "vue";
 import { useRouter } from "vue-router";

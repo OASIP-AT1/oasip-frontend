@@ -2,7 +2,7 @@
 import { ref, onBeforeMount } from "vue";
 import moment from "moment";
 import Detail from "./buttons/scheduleBtn/Detail.vue";
-import Delete from "./buttons/scheduleBtn/Delete.vue";
+import Delete from "./buttons/Delete.vue";
 import Navbar from "./buttons/scheduleBtn/Navbar.vue";
 import SortDate from "./buttons/scheduleBtn/SortDate.vue";
 import Login from "./LoginFirst.vue";
@@ -171,8 +171,8 @@ const getSortDate = async (date) => {
     </h1>
     <SortDate @sort-date="getSortDate"/>
   </div>
-      <table class="table-zebra table-layout table-element ">
-        <thead class="table-header bg-base-200">
+      <table class="table-zebra table-layout table-element w-4/5">
+        <thead class="table-header bg-base-200 ">
           <tr>
             <Navbar
               @option="getClinic"
