@@ -42,13 +42,14 @@ const uniqueemail = (email, id) => {
     }
   });
 };
+
 </script>
 
 <template>
   <button
     class="btn modal-button btn-color"
-    @click="
-      $emit('moreDetail');
+    @click.left="
+      $emit('moreDetail',$event);
       isModalOn = !isModalOn;
       Nerror = false;
       Eerror = false;

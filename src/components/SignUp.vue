@@ -52,6 +52,14 @@ const confirmPass = (pass, conpass) => {
     errorpass.value = true;
   }
 };
+
+const reset = () => {
+  Name.value = '';
+  Email.value = '';
+  roles.value = 'student';
+  Password.value = '';
+  Conpass.value = '';
+}
 </script>
 
 <template>
@@ -142,6 +150,7 @@ const confirmPass = (pass, conpass) => {
             class="justify-start btn btn-color border-transparent"
             type="reset"
             value="Reset"
+            @click="reset()"
           />
           <!-- Create -->
           <input
@@ -158,27 +167,10 @@ const confirmPass = (pass, conpass) => {
         </div>
       </form>
     </div>
-
-    <!-- <button
-            class="btn text-xl font-extrabold px-10"
-            @click="
-                Name = '';
-                Email = '';
-                option = undefined;
-                Password = '';
-                Conpass = '';
-                error = false;
-                Nerror = false;
-                Eerror = false;
-                isunique = false;
-            "
-        >
-            CREATE
-            </button> -->
   </div>
 </template>
 
-<style>
+<style scoped>
 .btn-color {
   @apply border-transparent;
   color: white;

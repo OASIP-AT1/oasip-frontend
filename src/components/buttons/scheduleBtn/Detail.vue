@@ -171,7 +171,7 @@ const checkOverlap = (start_1, end_1, start_2, end_2) => {
               </div>
               <div
                 v-show="!edit"
-                v-else-if="typeof detail.eventNotes"
+                v-else
                 class="text-base font-medium auto-fill py-2"
               >
                 No messages

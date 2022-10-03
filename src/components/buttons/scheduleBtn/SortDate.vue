@@ -1,6 +1,6 @@
 <script setup>
-import {ref} from 'vue';
-defineEmits(["sort-date"])
+import { ref } from "vue";
+defineEmits(["sort-date"]);
 const Time = ref();
 </script>
 
@@ -9,7 +9,7 @@ const Time = ref();
     <span>
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="h-5 w-5"
+        class="h-8 w-8"
         viewBox="0 0 20 20"
         fill="currentColor"
       >
@@ -20,18 +20,25 @@ const Time = ref();
         />
       </svg>
     </span>
-    <form method="post" @input.prevent="$emit('sort-date', Time); Time = undefined">
+    <form
+      method="post"
+      @input.prevent="
+        $emit('sort-date', Time);
+        Time = undefined;
+      "
+    >
       <input type="date" class="datepicker-input" v-model="Time" />
     </form>
   </span>
 </template>
 
-<style>
+<style scoped> 
+
 .datepicker-toggle {
   display: inline-block;
   position: relative;
-  width: 18px;
-  height: 19px;
+  width: 30px;
+  height: 30px;
 }
 
 .datepicker-input {
