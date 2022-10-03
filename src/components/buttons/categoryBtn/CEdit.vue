@@ -130,14 +130,14 @@ const unique = (name, id) => {
             </div>
             <div class="flex justify-end">
               <input
-                class="btn m-2"
+                class="btn m-2 btn-color"
                 v-show="isModalOn"
                 type="submit"
                 value="OK"
                 @click="unique(name, detail.id)"
               />
               <input
-                class="btn m-2"
+                class="btn m-2 btn-color"
                 v-show="isModalOn"
                 type="button"
                 value="Cancel"
@@ -156,6 +156,12 @@ const unique = (name, id) => {
   @apply border-transparent;
   color: white;
   background-color: #f99952;
+}
+
+.btn-color:hover {
+  @apply border-transparent;
+  color: rgb(211, 209, 209);
+  background-color: #f48c41;
 }
 .auto-fill {
   color: #8f8f8f;
