@@ -15,6 +15,7 @@ const reloadPage = () => {
 
 //POST
 const LoginUsers = async (username, password) => {
+  var bearer_token = 'Bearer ' + localStorage.getItem('token')
   const res = await fetch(import.meta.env.VITE_LOGIN_URL, {
     method: "POST",
     headers: {
@@ -28,9 +29,11 @@ const LoginUsers = async (username, password) => {
   if (res.status === 200) {
     console.log("Login successfully");
     token.value = await res.json();
-    localStorage.setItem("token", token.value.token);
+    localStorage.setItem("token",'Bearer ' + token.value.accessToken);
+    console.log(bearer_token)
     error.value = false;
   } else {
+    console.log(bearer_token)
     error.value = true;
     console.log("error, cannot be login");
   }
