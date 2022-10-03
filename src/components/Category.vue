@@ -9,7 +9,14 @@ let token = localStorage.getItem("token");
 
 // GET
 const getCategories = async () => {
-  const res = await fetch(import.meta.env.VITE_CATEGORY_URL);
+  const res = await fetch(import.meta.env.VITE_CATEGORY_URL, {
+    method: "GET",
+    headers: { 
+      "content-type": "application/json",
+      "Authorization": token.toString(),
+    }
+  });
+  
   if (res.status === 200) {
     categories.value = await res.json();
   } else console.log("error, cannot get data");
@@ -32,6 +39,7 @@ const modifyCategories = async (
       method: "PUT",
       headers: {
         "content-type": "application/json",
+        "Authorization": token
       },
       body: JSON.stringify({
         eventCategoryName: newName,

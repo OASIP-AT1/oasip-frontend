@@ -10,10 +10,16 @@ const appRouter = useRouter();
 const signUpRouter = () => appRouter.push({ name: "signUpContents" });
 const users = ref([]);
 
-let token = localStorage.getItem("token");
+var token = localStorage.getItem('token');
 // GET
 const getUsers = async () => {
-  const res = await fetch(import.meta.env.VITE_USER_URL);
+  const res = await fetch(import.meta.env.VITE_USER_URL, {
+    method: "GET",
+    headers: { 
+      "content-type": "application/json",
+      "Authorization": "Bearer " + token
+    }
+  });
   if (res.status === 200) {
     users.value = await res.json();
   } else console.log("error, cannot get data");
@@ -45,6 +51,7 @@ const modifyUser = async (newId, newName, newEmail, newRole, isunique) => {
       method: "PUT",
       headers: {
         "content-type": "application/json",
+        "Authorization": token
       },
       body: JSON.stringify({
         name: newName,

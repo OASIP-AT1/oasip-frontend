@@ -8,6 +8,7 @@ const username = ref("");
 const password = ref("");
 const error = ref("");
 const token = ref("");
+const refreshToken = ref("");
 
 const reloadPage = () => {
     location.replace('/schedule')
@@ -24,15 +25,18 @@ const LoginUsers = async (username, password) => {
       email: username,
       password: password,
     }),
-  });
+  }
+  );
   if (res.status === 200) {
     console.log("Login successfully");
     token.value = await res.json();
-    localStorage.setItem("token", token.value.token);
+    localStorage.setItem("token", token.value.accessToken);
+    console.log(token.value.accessToken)
     error.value = false;
   } else {
     error.value = true;
     console.log("error, cannot be login");
+    console.log(token.value.accessToken)
   }
 };
 </script>

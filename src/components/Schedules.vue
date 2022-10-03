@@ -13,7 +13,13 @@ let token = localStorage.getItem("token");
 
 // GET
 const getSchedules = async () => {
-  const res = await fetch(import.meta.env.VITE_EVENT_URL);
+  const res = await fetch(import.meta.env.VITE_EVENT_URL, {
+    method: "GET",
+    headers: { 
+      "content-type": "application/json",
+      "Authorization": token.toString(),
+    }
+  });
   if (res.status === 200) {
     schedules.value = await res.json();
   } else console.log("error, cannot get data");
@@ -49,6 +55,7 @@ const modifySchedules = async (newId, newTime, newNotes, isOverlap) => {
       method: "PUT",
       headers: {
         "content-type": "application/json",
+
       },
       body: JSON.stringify({
         eventStartTime: moment(newTime).utcOffset("+07:00"),
