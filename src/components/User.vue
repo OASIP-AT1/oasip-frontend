@@ -1,6 +1,5 @@
 <script setup>
 import UNavbar from "./buttons/userBtn/UNavbar.vue";
-// import UCreate from "./buttons/userBtn/UCreate.vue";
 import UDetail from "./buttons/userBtn/UDetail.vue";
 import UDelete from "./buttons/Delete.vue";
 import Login from "./LoginFirst.vue";
@@ -22,28 +21,6 @@ const getUsers = async () => {
 onBeforeMount(async () => {
   await getUsers();
 });
-
-// POST
-const createNewUsers = async (Name, Email, Role, Password, isunique, error) => {
-  if (Name.trim() != "" && isunique == false && error == false) {
-    const res = await fetch(import.meta.env.VITE_USER_URL, {
-      // const res = await fetch("http://localhost:5001/user", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        name: Name.trim(),
-        email: Email.trim(),
-        role: Role,
-        password: Password,
-      }),
-    });
-    if (res.status === 201) {
-      getUsers();
-    } else console.log("error, cannot be added");
-  }
-};
 
 // DELETE
 const removeUsers = async (removeContentID) => {
@@ -87,60 +64,67 @@ const currentDetail = ref({});
 
 const moreDetail = (curUserId) => {
   currentDetail.value = curUserId;
-  getUsers();
 };
 </script>
 
 <template>
-  <Login v-if="token == null" />
+  <Login v-if="token === null" />
   <div v-else>
-    <div id="contents-list" v-cloak class="px-10 py-5 grid justify-items-center">
-    <h1 class="inline-block text-5xl font-medium py-5">Users Event</h1>
-    <table class="table-zebra table-layout table-element">
-      <thead class="table-header bg-base-200">
-        <tr>
-          <UNavbar />
-          <th>
-            <button class="btn btn-color text-xl font-extrabold px-10" @click.left="signUpRouter">CREATE</button>
-            <!-- <UCreate @create="createNewUsers" :users="users" /> -->
-          </th>
-        </tr>
-      </thead>
-      <div class="no-event text-5xl pt-20" v-if="users.length < 1" v-cloak>
-        No Users
-      </div>
-      <tbody v-else>
-        <tr v-for="contents in users" :key="contents">
-          <td class="p-10 text-xl">
-            <div class="box-element break-words">
-              {{ contents.name }}
-            </div>
-          </td>
-          <td class="p-10 text-xl">
-            <div class="box-element break-words">
-              {{ contents.email }}
-            </div>
-          </td>
-          <td class="p-10 text-xl">
-            <div class="box-element break-words">
-              {{ contents.role }}
-            </div>
-          </td>
-          <td>
-            <div>
-              <UDetail
-                @moreDetail="moreDetail(contents)"
-                :detail="currentDetail"
-                :users="users"
-                @editDetail="modifyUser"
-              />
-              <UDelete @delete="removeUsers(contents.id)" />
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <div
+      id="contents-list"
+      v-cloak
+      class="px-10 py-5 grid justify-items-center"
+    >
+      <h1 class="inline-block text-5xl font-medium py-5">Users Event</h1>
+      <table class="table-zebra table-layout table-element">
+        <thead class="table-header bg-base-200">
+          <tr>
+            <UNavbar />
+            <th>
+              <button
+                class="btn btn-color text-xl font-extrabold px-10 mr-5"
+                @click.left="signUpRouter"
+              >
+                CREATE
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <div class="no-event text-5xl pt-20" v-if="users.length < 1">
+          No Users
+        </div>
+        <tbody v-else>
+          <tr v-for="contents in users" :key="contents">
+            <td class="p-10 text-xl">
+              <div class="box-element break-words">
+                {{ contents.name }}
+              </div>
+            </td>
+            <td class="p-10 text-xl">
+              <div class="box-element break-words">
+                {{ contents.email }}
+              </div>
+            </td>
+            <td class="p-10 text-xl">
+              <div class="box-element break-words">
+                {{ contents.role }}
+              </div>
+            </td>
+            <td>
+              <div>
+                <UDetail
+                  @moreDetail="moreDetail(contents)"
+                  :detail="currentDetail"
+                  :users="users"
+                  @editDetail="modifyUser"
+                />
+                <UDelete @delete="removeUsers(contents.id)" />
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 

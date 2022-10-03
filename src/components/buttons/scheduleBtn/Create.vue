@@ -85,12 +85,23 @@ const empty = (name) => {
     errorname.value = false;
   }
 };
+
+const reset = () => {
+  Name.value = "";
+  Email.value = "";
+  Selected.value = undefined;
+  Time.value = undefined;
+  Duration.value = undefined;
+  Notes.value = "";
+  error.value = false;
+  errorname.value = false;
+};
 </script>
 
 <template>
   <div id="create">
     <button
-      class="btn text-xl font-extrabold px-10"
+      class="btn btn-color text-xl font-extrabold px-10"
       @click="
         Name = '';
         Email = '';
@@ -140,44 +151,47 @@ const empty = (name) => {
               >Name
               <span class="auto-fill">({{ Name.length }}/100)</span></label
             >
-            <div class="py-3">
+            <div class="py-2">
               <input
                 type="text"
                 v-model="Name"
                 maxlength="100"
-                class="form-element bg-base-100 italic" 
+                class="input input-md border-slate-400 w-full max-w-xs bg-white"
                 placeholder="Your name"
                 required
               />
-              <p class="text-red-600" v-show="errorname">Error!!!</p>
+              <p class="text-red-600" v-show="errorname">
+                Please fill your name
+              </p>
             </div>
             <!-- Email -->
             <label for="Email"
               >Email
               <span class="auto-fill">({{ Email.length }}/50)</span></label
             >
-            <div class="py-3">
+            <div class="py-2">
               <input
                 type="email"
                 v-model="Email"
                 maxlength="50"
-                class="form-element bg-base-100 border-b-2 italic"
+                class="input input-md border-slate-400 w-full max-w-xs bg-white"
                 placeholder="Your email"
                 required
               />
             </div>
             <!-- Clinic -->
             <label for="clinics">Clinic</label>
-            <div class="py-3">
+            <div class="py-2">
               <select
                 name="clinics"
-                class="form-element bg-base-100 border-b-2 italic"
+                class="input input-md border-slate-400 w-full max-w-xs bg-white"
                 @change="newDuration"
                 v-model="Selected"
                 required
               >
                 <option
-                  v-for="categories in category" :key="categories"
+                  v-for="categories in category"
+                  :key="categories"
                   :value="categories.eventCategoryName"
                 >
                   {{ categories.eventCategoryName }}
@@ -186,13 +200,13 @@ const empty = (name) => {
             </div>
             <!-- Date -->
             <label for="Date">Date</label>
-            <div class="py-3">
+            <div class="py-2">
               <input
                 type="datetime-local"
                 v-model="Time"
                 :min="date"
                 step="any"
-                class="text-black form-element"
+                class="input input-md border-slate-400 w-full max-w-xs bg-white"
                 required
               />
               <p class="text-red-600" v-show="error">
@@ -201,9 +215,9 @@ const empty = (name) => {
             </div>
             <!-- Duration -->
             <label for="Duration">Duration (minutes)</label>
-            <div class="py-3">
+            <div class="py-2">
               <input
-                class="bg-base-100 border-b-2 italic focus:outline-none pointer-events-none form-element"
+                class="input input-md border-slate-400 w-full max-w-xs bg-slate-100"
                 readonly
                 type="text"
                 v-model="Duration"
@@ -212,24 +226,30 @@ const empty = (name) => {
             </div>
             <!-- Note -->
             <label for="Note"
-              >Note
-              <span class="auto-fill">({{ Notes.length }}/500)</span></label
+              >Note <span class="auto-fill">(optional )</span></label
             >
-            <div class="py-3">
+            <div class="py-2">
               <textarea
                 cols="50"
                 rows="2"
                 v-model="Notes"
                 maxlength="500"
-                class="bg-base-100 border-b-2 italic p-2 form-element"
-                placeholder="Your message"
+                class="textarea border-slate-400 w-full max-w-xs bg-white"
+                placeholder="Maximum 500 characters"
               ></textarea>
             </div>
           </div>
-          <div class="flex justify-end pt-2">
+
+          <div class="pt-2">
+            <input
+              class="justify-start btn btn-color border-transparent"
+              type="reset"
+              value="Reset"
+              @click="reset()"
+            />
             <!-- Create -->
             <input
-              class="btn"
+              class="float-right justify-end btn btn-color border-transparent"
               type="submit"
               value="Create"
               @click="
@@ -244,7 +264,18 @@ const empty = (name) => {
   </div>
 </template>
 
-<style>
+<style scoped>
+.btn-color {
+  @apply border-transparent;
+  color: white;
+  background-color: #f99952;
+}
+
+.btn-color:hover {
+  @apply border-transparent;
+  color: rgb(211, 209, 209);
+  background-color: #f48c41;
+}
 .form-element {
   border-color: #494a7d;
   border-radius: 5px;
@@ -259,7 +290,7 @@ const empty = (name) => {
 
 .modal-content {
   margin: auto;
-  padding: 20px;
+  padding: 10px;
   width: 500px;
 }
 .modal-show {

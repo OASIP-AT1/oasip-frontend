@@ -3,7 +3,6 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 const appRouter = useRouter();
 const signUpRouter = () => appRouter.push({ name: "signUpContents" });
-const scheduleRouter = () => appRouter.push({ name: "scheduleContents" });
 
 const username = ref("");
 const password = ref("");

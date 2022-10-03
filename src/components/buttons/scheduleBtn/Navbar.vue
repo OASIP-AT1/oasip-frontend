@@ -61,7 +61,6 @@ const ListCategory = (list) => {
     </div>
   </th>
   <th class="text-xl font-extrabold px-10">DURATION</th>
-  <th></th>
 </template>
 
 <style scoped>
