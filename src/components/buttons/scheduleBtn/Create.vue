@@ -10,10 +10,17 @@ const props = defineProps({
 });
 const isModalOn = ref(false);
 const category = ref([]);
+let token = localStorage.getItem("token");
 
 // GET
 const getCategories = async () => {
-  const res = await fetch(import.meta.env.VITE_CATEGORY_URL);
+  const res = await fetch(import.meta.env.VITE_CATEGORY_URL, {
+    method: "GET",
+    headers: { 
+      "content-type": "application/json",
+      Authorization : "Bearer " + token,
+    }
+  });
   if (res.status === 200) {
     category.value = await res.json();
   } else console.log("error, cannot get data");

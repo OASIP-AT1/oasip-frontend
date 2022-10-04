@@ -8,7 +8,13 @@ const appRouter = useRouter();
 
 // GET
 const getSchedules = async () => {
-  const res = await fetch(import.meta.env.VITE_EVENT_URL);
+  const res = await fetch(import.meta.env.VITE_EVENT_URL, {
+    method: "GET",
+    headers: { 
+      "content-type": "application/json",
+      Authorization: "Bearer " + token,
+    }
+  });
   if (res.status === 200) {
     schedules.value = await res.json();
   } else console.log("error, cannot get data");

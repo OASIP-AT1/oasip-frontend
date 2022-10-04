@@ -188,7 +188,7 @@ const checkOverlap = (start_1, end_1, start_2, end_2) => {
             </div>
             <div class="flex justify-end">
               <input
-                class="btn m-2"
+                class="btn m-2 btn-color"
                 v-show="edit"
                 type="submit"
                 value="OK"
@@ -198,7 +198,7 @@ const checkOverlap = (start_1, end_1, start_2, end_2) => {
                 "
               />
               <input
-                class="btn m-2"
+                class="btn m-2 btn-color"
                 v-show="edit"
                 type="button"
                 value="Cancel"
@@ -220,6 +220,12 @@ const checkOverlap = (start_1, end_1, start_2, end_2) => {
   @apply border-transparent;
   color: white;
   background-color: #f99952;
+}
+
+.btn-color:hover {
+  @apply border-transparent;
+  color: rgb(211, 209, 209);
+  background-color: #f48c41;
 }
 .font-header {
   color: #ff9d00;

@@ -19,11 +19,17 @@ const LoginRouter = () => appRouter.push({ name: "loginContents" });
       </div>
 </template>
  
-<style>
+<style scoped>
 .btn-color {
   @apply border-transparent;
   color: white;
   background-color: #f99952;
+}
+
+.btn-color:hover {
+  @apply border-transparent;
+  color: rgb(211, 209, 209);
+  background-color: #f48c41;
 }
 
 </style>

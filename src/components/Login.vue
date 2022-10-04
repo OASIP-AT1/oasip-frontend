@@ -8,6 +8,7 @@ const username = ref("");
 const password = ref("");
 const error = ref("");
 const token = ref("");
+const refreshToken = ref("");
 
 const reloadPage = () => {
     location.replace('/schedule')
@@ -15,7 +16,6 @@ const reloadPage = () => {
 
 //POST
 const LoginUsers = async (username, password) => {
-  var bearer_token = 'Bearer ' + localStorage.getItem('token')
   const res = await fetch(import.meta.env.VITE_LOGIN_URL, {
     method: "POST",
     headers: {
@@ -25,17 +25,18 @@ const LoginUsers = async (username, password) => {
       email: username,
       password: password,
     }),
-  });
+  }
+  );
   if (res.status === 200) {
     console.log("Login successfully");
     token.value = await res.json();
-    localStorage.setItem("token",'Bearer ' + token.value.accessToken);
-    console.log(bearer_token)
+    localStorage.setItem("token", token.value.accessToken);
     error.value = false;
   } else {
     console.log(bearer_token)
     error.value = true;
     console.log("error, cannot be login");
+    console.log(token.value.accessToken)
   }
 };
 </script>

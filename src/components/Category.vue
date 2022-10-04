@@ -9,10 +9,20 @@ let token = localStorage.getItem("token");
 
 // GET
 const getCategories = async () => {
-  const res = await fetch(import.meta.env.VITE_CATEGORY_URL);
+  const res = await fetch(import.meta.env.VITE_CATEGORY_URL, {
+    method: "GET",
+    headers: {
+      "content-type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
+
   if (res.status === 200) {
     categories.value = await res.json();
-  } else console.log("error, cannot get data");
+  } else {
+    console.log(token);
+    console.log("error, cannot get data");
+  }
 };
 
 onBeforeMount(async () => {
@@ -32,6 +42,7 @@ const modifyCategories = async (
       method: "PUT",
       headers: {
         "content-type": "application/json",
+        Authorization: "Bearer " + token,
       },
       body: JSON.stringify({
         eventCategoryName: newName,
@@ -55,63 +66,65 @@ const moreDetail = (curbookingId) => {
 </script>
 
 <template>
-<Login v-if="token == null" />
-<div v-else>
-  <div id="contents-list" v-cloak class="px-10 py-5 grid justify-items-center">
-    <h1 class="inline-block text-5xl font-medium py-5">
-    Category Event
-  </h1>
-    <table class="table-zebra table-layout table-element ">
-      <thead class="table-header bg-base-100">
-        <tr>
-          <CNavbar />
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="contents in categories" :key="contents.id">
-          <td class="p-10 text-xl">
-            <div class="box-element break-words">
-              {{ contents.eventCategoryName }}
-            </div>
-          </td>
-          <td class="p-10 text-xl">
-            <div
-              v-if="
-                contents.eventCategoryDescription != null &&
-                contents.eventCategoryDescription.trim() != ''
-              "
-              class="pt-2 box-element break-word"
-            >
-              {{ contents.eventCategoryDescription }}
-            </div>
-            <div
-              v-else-if="typeof contents.eventCategoryDescription"
-              class="auto-fill text-xl font-medium"
-            >
-              No message
-            </div>
-          </td>
-          <td class="p-10 text-xl">{{ contents.eventDuration }} minute</td>
+  <Login v-if="token == null" />
+  <div v-else>
+    <div
+      id="contents-list"
+      v-cloak
+      class="px-10 py-5 grid justify-items-center"
+    >
+      <h1 class="inline-block text-5xl font-medium py-5">Category Event</h1>
+      <table class="table-zebra table-layout table-element">
+        <thead class="table-header bg-base-100">
+          <tr>
+            <CNavbar />
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="contents in categories" :key="contents.id">
+            <td class="p-10 text-xl">
+              <div class="box-element break-words">
+                {{ contents.eventCategoryName }}
+              </div>
+            </td>
+            <td class="p-10 text-xl">
+              <div
+                v-if="
+                  contents.eventCategoryDescription != null &&
+                  contents.eventCategoryDescription.trim() != ''
+                "
+                class="pt-2 box-element break-word"
+              >
+                {{ contents.eventCategoryDescription }}
+              </div>
+              <div
+                v-else-if="typeof contents.eventCategoryDescription"
+                class="auto-fill text-xl font-medium"
+              >
+                No message
+              </div>
+            </td>
+            <td class="p-10 text-xl">{{ contents.eventDuration }} minute</td>
 
-          <td>
-            <div id="showDetail">
-              <CEdit
-                @moreDetail="moreDetail(contents)"
-                :detail="currentDetail"
-                :name="currentDetail.eventCategoryName"
-                :description="currentDetail.eventCategoryDescription"
-                :duration="currentDetail.eventDuration"
-                :category="categories"
-                @editDetail="modifyCategories"
-              />
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            <td>
+              <div id="showDetail">
+                <CEdit
+                  @moreDetail="moreDetail(contents)"
+                  :detail="currentDetail"
+                  :name="currentDetail.eventCategoryName"
+                  :description="currentDetail.eventCategoryDescription"
+                  :duration="currentDetail.eventDuration"
+                  :category="categories"
+                  @editDetail="modifyCategories"
+                />
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
 </template>
 
 <style scoped>
