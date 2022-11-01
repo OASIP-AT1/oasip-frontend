@@ -1,5 +1,54 @@
 <script setup>
-defineEmits(["delete"]);
+import { ref } from "vue";
+import TokenService from '../../services/token.js';
+defineEmits(["data"]);
+const props = defineProps({
+  delete: {
+    type: Number,
+    default : 0,
+  },
+  content : {
+    type: Array,
+    required: true,
+  },
+  URLname : {
+    type: String,
+    required: true,
+  }
+});
+
+const contents = ref(props.content)
+
+const eventURL = (event) => {
+    if(event === "event") {
+        return import.meta.env.VITE_EVENT_URL
+    }else if(event === "user") {
+        return import.meta.env.VITE_USER_URL
+    }
+}
+
+//DELETE
+const removeContent = async (event,removeContentID) => {
+  if (confirm("Do you really want to delete")) {
+    const res = await fetch(
+      eventURL(event) + "/" + removeContentID,
+      {
+        method: "DELETE",
+        headers: {
+          "content-type": "application/json",
+          Authorization: TokenService.getAccessToken(),
+        },
+      }
+    );
+    if (res.status === 200) {
+        location.reload();
+        contents.value = contents.value.filter(
+        (contents) => contents.id !== removeContentID
+      );
+      console.log("deleted successfullly");
+    } else console.log("error, cannot delete");
+  }
+};
 </script>
 
 <template>
@@ -11,7 +60,7 @@ defineEmits(["delete"]);
             viewBox="0 0 24 24"
             stroke="currentColor"
             stroke-width="2"
-            @click="$emit('delete')" 
+            @click="removeContent(props.URLname,props.delete)" 
         >
             <path
                 stroke-linecap="round"

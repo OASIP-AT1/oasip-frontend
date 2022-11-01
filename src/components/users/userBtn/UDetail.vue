@@ -123,7 +123,7 @@ const uniqueemail = (email, id) => {
                 type="text"
                 v-model="detail.name"
                 maxlength="100"
-                class="text-black p-2 rounded-lg text-lg w-72"
+                class="text-black p-2 rounded-lg text-lg w-72 ring-black ring-1"
               />
               <p class="text-red-600" v-show="Nerror">
                 Error!!! unique element
@@ -135,7 +135,7 @@ const uniqueemail = (email, id) => {
                 type="email"
                 v-model="detail.email"
                 maxlength="50"
-                class="text-black p-2 rounded-lg text-lg w-72"
+                class="text-black p-2 rounded-lg text-lg w-72 ring-black ring-1"
               />
               <p class="text-red-600" v-show="Eerror">
                 Error!!! unique element
@@ -146,7 +146,7 @@ const uniqueemail = (email, id) => {
                 Role :
                 <select
                   name="role"
-                  class="text-black p-2 rounded-lg text-lg"
+                  class="text-black p-2 rounded-lg text-lg ring-black ring-1"
                   v-model="detail.role"
                   required
                 >

@@ -1,11 +1,11 @@
 <script setup>
-import signUp from "../components/forms/SignUp.vue";
+import AddEvent from "../components/events/AddSchedules.vue";
 </script>
 
 <template>
     <div class="container">
       <div class="child">
-        <signUp />
+        <AddEvent />
       </div>
     </div>
 </template>

@@ -1,10 +1,10 @@
 <script setup>
-import Schedules from "../components/Schedules.vue";
+import Schedules from "../components/events/Schedules.vue";
 </script>
 
 <template>
     <div id="content-section">
-        <schedules/>
+        <Schedules/>
     </div>
 </template>
 

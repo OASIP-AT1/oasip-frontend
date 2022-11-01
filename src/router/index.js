@@ -6,6 +6,8 @@ import HomeContents from "../views/HomeContent.vue";
 import LoginContent from "../views/LoginContent.vue";
 import SignUpContent from "../views/SignUpContent.vue";
 import NotFound from "../views/NotFound.vue";
+import Permission from "../views/PermissionPage.vue";
+import AddSchedule from "../views/AddSchedule.vue";
 
 const history = createWebHistory(
     import.meta.env.VITE_BASE_URL);
@@ -43,6 +45,16 @@ const routes = [{
         name: "NotFound",
         component: NotFound,
     },
+    {
+        path: "/permissionPage",
+        name: "Permissionpage",
+        component: Permission,
+    },
+    {
+        path: "/AddSchedule",
+        name: "AddScheduleContents",
+        component: AddSchedule,
+    },  
 ];
 
 const router = createRouter({

@@ -1,11 +1,15 @@
 <script setup>
-import users from "../components/User.vue";
+import Users from "../components/users/User.vue";
 </script>
 
 <template>
   <div id="content-section">
-    <users />
+    <Users />
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+div {
+  width: 100%;
+}
+</style>

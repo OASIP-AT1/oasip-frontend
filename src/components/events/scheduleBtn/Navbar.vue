@@ -1,24 +1,10 @@
 <script setup>
-import { onBeforeMount, ref } from "vue";
 defineEmits(["option", "upcoming", "past"]);
-const category = ref([]);
-let token = localStorage.getItem("token");
-
-// GET
-const getCategories = async () => {
-  const res = await fetch(import.meta.env.VITE_CATEGORY_URL, {
-    method: "GET",
-    headers: { 
-      "content-type": "application/json",
-      Authorization : "Bearer " + token,
-    }
-  });
-  if (res.status === 200) {
-    category.value = await res.json();
-  } else console.log("error, cannot get data");
-};
-onBeforeMount(async () => {
-  await getCategories();
+const props = defineProps({
+  category: {
+    type: Array,
+    require: true,
+  }
 });
 
 const ListCategory = (list) => {
@@ -43,7 +29,7 @@ const ListCategory = (list) => {
             All Clinic
           </button>
         </li>
-        <li v-for="content in category" :key="content">
+        <li v-for="content in props.category" :key="content">
           <button @click="$emit('option', content.id)" class="text-lg">
             {{ ListCategory(content) }}
           </button>
@@ -68,6 +54,7 @@ const ListCategory = (list) => {
     </div>
   </th>
   <th class="text-xl font-extrabold px-10">DURATION</th>
+  <th class="px-20"></th>
 </template>
 
 <style scoped>
