@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, inject } from "vue";
 import { useRouter } from "vue-router";
 import TokenService from "../../services/token.js";
 
@@ -9,6 +9,8 @@ const signUpRouter = () => appRouter.push({ name: "signUpContents" });
 const username = ref("");
 const password = ref("");
 const error = ref("");
+
+const refreshTokenFunction = inject("refreshTokenFunction");
 
 const reloadPage = () => {
     location.replace("/schedule");

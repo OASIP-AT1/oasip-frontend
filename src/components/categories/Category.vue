@@ -20,9 +20,7 @@ const getCategories = async () => {
 
         if (res.status === 200) {
             categories.value = await res.json();
-        } else if (TokenService.isTokenExpired()) {
-            refreshTokenFunction();
-            // alert("token is expired. Please try again later.");
+
         } else console.log("error, cannot get category");
     }
 };

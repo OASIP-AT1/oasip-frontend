@@ -75,7 +75,8 @@ class TokenService {
     checkLocalStorage() {
         return (
             localStorage.getItem(this.#ACCESS_TOKEN) === null &&
-            localStorage.getItem(this.#REFRESH_TOKEN) === null
+            localStorage.getItem(this.#REFRESH_TOKEN) === null &&
+            localStorage.getItem(this.#ROLE) === null 
         );
     }
 

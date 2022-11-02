@@ -75,7 +75,7 @@ const AddNewSchedules = async (
             method: "POST",
             headers: {
                 "content-type": "application/json",
-                Authorization: TokenService.getAccessToken(),
+                Authorization: TokenService.checkLocalStorage() ? null : TokenService.getAccessToken(),
             },
             body: JSON.stringify({
                 bookingName: Name,

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onBeforeMount, inject } from "vue";
+import { ref, onBeforeMount, inject, onUpdated, computed } from "vue";
 import moment from "moment";
 import Detail from "./scheduleBtn/Detail.vue";
 import Delete from "../buttons/Delete.vue";
@@ -12,6 +12,11 @@ const schedules = ref([]);
 const category = ref([]);
 const refreshTokenFunction = inject("refreshTokenFunction");
 
+setInterval(() => {
+    if (TokenService.isTokenExpired()) {
+        refreshTokenFunction();
+    }
+}, 1000);
 // GET
 const getSchedules = async () => {
     if (!TokenService.checkLocalStorage()) {
@@ -24,9 +29,6 @@ const getSchedules = async () => {
         });
         if (res.status === 200) {
             schedules.value = await res.json();
-        } else if (TokenService.isTokenExpired()) {
-            refreshTokenFunction();
-            // alert("token is expired. Please try again later.");
         } else console.log("error, cannot get data");
     }
 };
@@ -54,6 +56,12 @@ onBeforeMount(async () => {
     await getSchedules(), getCategories();
 });
 
+// computed(() => {
+//     if (TokenService.isTokenExpired()) {
+//         refreshTokenFunction();
+//     }
+// });
+
 // PUT
 const modifySchedules = async (newId, newTime, newNotes, isOverlap) => {
     if (isOverlap) {
@@ -78,8 +86,6 @@ const modifySchedules = async (newId, newTime, newNotes, isOverlap) => {
         } else console.log("error, cannot edit");
     }
 };
-
-
 
 const currentDetail = ref({});
 const data = ref("");

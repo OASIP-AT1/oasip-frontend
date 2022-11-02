@@ -4,7 +4,7 @@ import UDetail from "./userBtn/UDetail.vue";
 import UDelete from "../buttons/Delete.vue";
 import Login from "../../views/LoginFirst.vue";
 import PermissionPage from "../../views/PermissionPage.vue";
-import { ref, onBeforeMount, inject } from "vue";
+import { ref, onBeforeMount, inject, computed } from "vue";
 import { useRouter } from "vue-router";
 import TokenService from "../../services/token.js";
 
@@ -26,16 +26,13 @@ const getUsers = async () => {
         if (res.status === 200) {
             users.value = await res.json();
         } 
-        else if (TokenService.isTokenExpired()) {
-            refreshTokenFunction();
-            // alert("token is expired. Please try again later.");
-        }
         else console.log("error, cannot get use");
     }
 };
 onBeforeMount(async () => {
     await getUsers();
 });
+
 
 // PUT
 const modifyUser = async (newId, newName, newEmail, newRole, isunique) => {

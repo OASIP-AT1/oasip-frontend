@@ -1,6 +1,5 @@
 <script setup>
 import { ref, onBeforeMount } from "vue";
-import TokenService from '../../services/token.js';
 
 const Name = ref("");
 const Email = ref("");
