@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onBeforeMount, inject, onUpdated, computed } from "vue";
+import { ref, onBeforeMount, inject } from "vue";
 import moment from "moment";
 import Detail from "./scheduleBtn/Detail.vue";
 import Delete from "../buttons/Delete.vue";
@@ -13,8 +13,10 @@ const category = ref([]);
 const refreshTokenFunction = inject("refreshTokenFunction");
 
 setInterval(() => {
-    if (TokenService.isTokenExpired()) {
-        refreshTokenFunction();
+    if (!TokenService.checkLocalStorage()) {
+        if (TokenService.isTokenExpired()) {
+            refreshTokenFunction();
+        }
     }
 }, 1000);
 // GET

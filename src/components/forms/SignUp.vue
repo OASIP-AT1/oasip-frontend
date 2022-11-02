@@ -352,7 +352,7 @@ const toggleconpassword = () => {
           />
         </div>
       </form>
-          <div v-show="warning === false" class="modal-show flex justify-center">
+      <div v-show="warning === false" class="modal-show flex justify-center">
       <div class="modal-content">
         <div class="text-center alert alert-success shadow-lg w-full">
           <div>
