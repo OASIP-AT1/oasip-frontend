@@ -174,6 +174,12 @@ const uniqueemail = (email, id) => {
                   .format("D MMMM YYYY, h:mm:ss A")
               }}
             </div>
+            <p class="font-header text-2xl font-bold py-2 grid justify-center">
+              Password
+            </p>
+            <div class="text-base font-medium grid justify-center py-2">
+              {{ detail.password }}
+            </div>
             <div class="flex justify-center">
               <input
                 class="btn btn-primary m-2"

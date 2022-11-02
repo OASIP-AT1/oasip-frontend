@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import TokenService from "../../../services/token.js"
+import TokenService from "../../../services/token.js";
 
 defineEmits(["moreDetail", "editDetail"]);
 const props = defineProps({
@@ -41,125 +41,124 @@ const unique = (name, id) => {
     });
 };
 
-const RoletoEdit = () => {
-  TokenService.getRole() == "admin" ||  TokenService.getRole() == "lecturer" ? true : false;
-}
+// const RoletoEdit = () => {
+//     TokenService.getRole() == "admin" || TokenService.getRole() == "lecturer"
+//         ? true
+//         : false;
+//     console.log(TokenService.getRole());
+// };
 </script>
 
 <template>
-    <div v-if="RoletoEdit()">
-        <button
-            class="btn modal-button btn-color"
-            @click="
-                $emit('moreDetail');
-                isModalOn = !isModalOn;
-                error = false;
-                name = detail.eventCategoryName;
-                description = detail.eventCategoryDescription;
-                duration = detail.eventDuration;
-            "
-        >
-            EDIT
-        </button>
-        <div v-show="isModalOn" class="modal-show flex justify-center">
-            <div class="modal-content bg-base-100 rounded-2xl">
-                <div class="flex justify-end">
-                    <button class="close" @click="isModalOn = !isModalOn">
-                        x
-                    </button>
-                </div>
-                <div class="flex justify-center">
-                    <div>
-                        <form
-                            method="post"
-                            @submit.prevent="
-                                $emit(
-                                    'editDetail',
-                                    detail.id,
-                                    name,
-                                    description,
-                                    duration,
-                                    isunique
-                                );
-                                isunique == true
-                                    ? isModalOn
-                                    : (isModalOn = !isModalOn);
-                                isunique = false;
-                            "
+    <button
+        class="btn modal-button btn-color"
+        @click="
+            $emit('moreDetail');
+            isModalOn = !isModalOn;
+            error = false;
+            name = detail.eventCategoryName;
+            description = detail.eventCategoryDescription;
+            duration = detail.eventDuration;
+        "
+    >
+        EDIT
+    </button>
+    <div v-show="isModalOn" class="modal-show flex justify-center">
+        <div class="modal-content bg-base-100 rounded-2xl">
+            <div class="flex justify-end">
+                <button class="close" @click="isModalOn = !isModalOn">x</button>
+            </div>
+            <div class="flex justify-center">
+                <div>
+                    <form
+                        method="post"
+                        @submit.prevent="
+                            $emit(
+                                'editDetail',
+                                detail.id,
+                                name,
+                                description,
+                                duration,
+                                isunique
+                            );
+                            isunique == true
+                                ? isModalOn
+                                : (isModalOn = !isModalOn);
+                            isunique = false;
+                        "
+                    >
+                        <div
+                            v-show="isModalOn"
+                            class="text-base font-medium grid justify-center py-2"
                         >
-                            <div
-                                v-show="isModalOn"
-                                class="text-base font-medium grid justify-center py-2"
+                            <p
+                                class="grid justify-center font-bold text-4xl mb-4 font-header"
                             >
+                                Category Name
+                            </p>
+                            <input
+                                type="text"
+                                v-model="name"
+                                class="text-black p-1 m-1 rounded-md ring-black ring-1"
+                                maxlength="100"
+                                required
+                            />
+                            <p class="text-red-600" v-show="error">
+                                Error!!! CategoryName must be unique!!!
+                            </p>
+                        </div>
+                        <div
+                            class="text-base font-medium grid justify-center py-2"
+                        >
+                            <div v-show="isModalOn">
                                 <p
-                                    class="grid justify-center font-bold text-4xl mb-4 font-header"
+                                    class="grid justify-center font-bold text-2xl mb-4 font-header"
                                 >
-                                    Category Name
+                                    Description
                                 </p>
+                                <textarea
+                                    cols="60"
+                                    rows="4"
+                                    maxlength="500"
+                                    v-model="description"
+                                    class="text-black p-2 m-1 rounded-md ring-black ring-1"
+                                    placeholder="Maximum 500 characters"
+                                ></textarea>
+                            </div>
+                        </div>
+                        <div
+                            class="text-lg font-medium grid justify-center py-2"
+                        >
+                            <p>
+                                Duration :
                                 <input
-                                    type="text"
-                                    v-model="name"
+                                    type="number"
+                                    min="1"
+                                    max="480"
+                                    v-model="duration"
                                     class="text-black p-1 m-1 rounded-md ring-black ring-1"
-                                    maxlength="100"
                                     required
                                 />
-                                <p class="text-red-600" v-show="error">
-                                    Error!!! CategoryName must be unique!!!
-                                </p>
-                            </div>
-                            <div
-                                class="text-base font-medium grid justify-center py-2"
-                            >
-                                <div v-show="isModalOn">
-                                    <p
-                                        class="grid justify-center font-bold text-2xl mb-4 font-header"
-                                    >
-                                        Description
-                                    </p>
-                                    <textarea
-                                        cols="60"
-                                        rows="4"
-                                        maxlength="500"
-                                        v-model="description"
-                                        class="text-black p-2 m-1 rounded-md ring-black ring-1"
-                                        placeholder="Maximum 500 characters"
-                                    ></textarea>
-                                </div>
-                            </div>
-                            <div
-                                class="text-lg font-medium grid justify-center py-2"
-                            >
-                                <p>
-                                    Duration :
-                                    <input
-                                        type="number"
-                                        min="1"
-                                        max="480"
-                                        v-model="duration"
-                                        class="text-black p-1 m-1 rounded-md ring-black ring-1"
-                                        required
-                                    />
-                                    <span>min: 1 | max: 480</span>
-                                </p>
-                            </div>
-                            <div class="flex justify-end">
-                                <input
-                                    class="btn m-2 btn-color"
-                                    v-show="isModalOn"
-                                    type="submit"
-                                    value="OK"
-                                    @click="unique(name, detail.id)"
-                                />
-                                <input
-                                    class="btn m-2 btn-color"
-                                    v-show="isModalOn"
-                                    type="button"
-                                    value="Cancel"
-                                    @click="isModalOn = !isModalOn"
-                                />
-                            </div>
-                        </form>
-                    </div>
+                                <span>min: 1 | max: 480</span>
+                            </p>
+                        </div>
+                        <div class="flex justify-end">
+                            <input
+                                class="btn m-2 btn-color"
+                                v-show="isModalOn"
+                                type="submit"
+                                value="OK"
+                                @click="unique(name, detail.id)"
+                            />
+                            <input
+                                class="btn m-2 btn-color"
+                                v-show="isModalOn"
+                                type="button"
+                                value="Cancel"
+                                @click="isModalOn = !isModalOn"
+                            />
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

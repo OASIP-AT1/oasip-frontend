@@ -11,8 +11,8 @@ const Conpass = ref("");
 const empty = ref(false);
 const users = ref("");
 const isunique = ref(false);
-const Nerror = ref(false);
-const error = ref(null);
+const error = ref(false);
+const warning = ref(null);
 
 
 // GET
@@ -51,10 +51,10 @@ const createNewUsers = async (Name, Email, option, Password) => {
       }),
     });
     if (res.status === 201) {
-      error.value = false;
+      warning.value = false;
       getUsers();
     } else{
-      error.value = true;
+      warning.value = true;
       console.log("error, cannot be added");
     } 
   }
@@ -76,23 +76,26 @@ const uniquename = (name) => {
   for(let user of users.value){
       if(user.name.toLowerCase() == name.toLowerCase()){
         isunique.value = true;
-        Nerror.value = true;
+        error.value = true;
         break;
       }else{
-        Nerror.value = false;
+        error.value = false;
       }
   }
 };
+
 const Eerror = ref(false);
 const uniqueemail = (email) => {
-  for(let user of users.value){
-      if(user.email.toLowerCase() == email.toLowerCase()){
-        isunique.value = true;
-        Eerror.value = true;
-        break;
-      }else{
-        Eerror.value = false;
-      }
+  if(!!email.match(/^([a-zA-Z0-9._-])+@\w+([a-zA-Z0-9._-])*(\.[a-zA-Z0-9_-]{2,10})+$/)){
+    for(let user of users.value){
+        if(user.email.toLowerCase() == email.toLowerCase()){
+          isunique.value = true;
+          Eerror.value = true;
+          break;
+        }else{
+          Eerror.value = false;
+        }
+    }
   }
 };
 
@@ -148,7 +151,7 @@ const toggleconpassword = () => {
             class="input input-md border-slate-400 w-full max-w-xs bg-white mb-5"
             required
           />
-          <p class="text-red-600" v-show="Nerror">
+          <p class="text-red-600" v-show="error">
             This name is already in use!!!
           </p>
           <p class="text-red-600" v-show="empty">
@@ -350,7 +353,7 @@ const toggleconpassword = () => {
           />
         </div>
       </form>
-          <div v-show="error === false" class="modal-show flex justify-center">
+          <div v-show="warning === false" class="modal-show flex justify-center">
       <div class="modal-content">
         <div class="text-center alert alert-success shadow-lg w-full">
           <div>
@@ -380,7 +383,7 @@ const toggleconpassword = () => {
         </div>
       </div>
     </div>
-    <div v-show="error === true" class="modal-show flex justify-center">
+    <div v-show="warning === true" class="modal-show flex justify-center">
       <div class="modal-content">
         <div class="alert alert-error shadow-lg">
           <div>
@@ -401,7 +404,7 @@ const toggleconpassword = () => {
           </div>
           <div class="flex justify-end">
             <button
-              @click.left="error = null"
+              @click.left="warning = null"
               class="btn btn-sm text-red-600 bg-white hover:bg-slate-200 px-5"
             >
               Ok

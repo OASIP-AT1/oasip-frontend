@@ -7,22 +7,6 @@ import TokenService from "../../services/token.js";
 const categories = ref([]);
 const refreshTokenFunction = inject("refreshTokenFunction");
 
-//GETREFRESHTOKEN
-// const getRefreshToken = async () => {
-//     const res = await fetch(import.meta.env.VITE_REFRESHTOKEN_URL, {
-//         method: "GET",
-//         headers: {
-//             "content-type": "application/json",
-//             refreshToken: TokenService.getRefreshToken(),
-//         },
-//     });
-//     if (res.status === 200) {
-//         const token = await res.json();
-//         console.log(token);
-//         localStorage.setItem("accessToken", token.accessToken);
-//     } else console.log("error, cannot get data");
-// };
-
 // GET
 const getCategories = async () => {
     if (!TokenService.checkLocalStorage()) {
@@ -82,6 +66,12 @@ const moreDetail = (curbookingId) => {
     currentDetail.value = curbookingId;
     data.value = currentDetail.value;
 };
+
+const RoletoEdit = () => {
+    return TokenService.checkRole("admin") || TokenService.checkRole("lecturer")
+        ? true
+        : false;
+};
 </script>
 
 <template>
@@ -140,6 +130,7 @@ const moreDetail = (curbookingId) => {
                         <td>
                             <div id="showDetail">
                                 <CEdit
+                                    v-if="RoletoEdit()"
                                     @moreDetail="moreDetail(contents)"
                                     :detail="currentDetail"
                                     :name="currentDetail.eventCategoryName"

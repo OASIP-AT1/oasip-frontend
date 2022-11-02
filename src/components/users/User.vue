@@ -12,20 +12,6 @@ const appRouter = useRouter();
 const signUpRouter = () => appRouter.push({ name: "signUpContents" });
 const users = ref([]);
 const refreshTokenFunction = inject("refreshTokenFunction");
-//GETREFRESHTOKEN
-// const getRefreshToken = async () => {
-//     const res = await fetch(import.meta.env.VITE_REFRESHTOKEN_URL, {
-//         method: "GET",
-//         headers: {
-//             "content-type": "application/json",
-//             refreshToken: TokenService.getRefreshToken(),
-//         },
-//     });
-//     if (res.status === 200) {
-//         const token = await res.json();
-//         TokenService.setAccessToken(token.accessToken);
-//     } else console.log("error, cannot get data");
-// };
 
 // GET
 const getUsers = async () => {
@@ -39,7 +25,8 @@ const getUsers = async () => {
         });
         if (res.status === 200) {
             users.value = await res.json();
-        } else if (TokenService.isTokenExpired()) {
+        } 
+        else if (TokenService.isTokenExpired()) {
             refreshTokenFunction();
             // alert("token is expired. Please try again later.");
         }
@@ -81,7 +68,7 @@ const moreDetail = (curUserId) => {
 </script>
 
 <template>
-    <Login v-if="TokenService.checkLocalStorage()" />
+    <Login v-if="TokenService.checkLocalStorage()"/>
     <PermissionPage v-else-if="!TokenService.checkRole('admin')" />
     <div v-else>
         <div

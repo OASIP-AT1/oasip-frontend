@@ -69,7 +69,7 @@ const AddNewSchedules = async (
     Duration,
     Notes
 ) => {
-    if (isOverlap.value || Name.trim() == "") {
+    if (isOverlap.value || Name == "") {
     } else {
         const res = await fetch(import.meta.env.VITE_EVENT_URL, {
             method: "POST",
@@ -83,7 +83,7 @@ const AddNewSchedules = async (
                 categoryId: selectedId,
                 eventStartTime: moment(Time).utcOffset("+07:00"),
                 eventDuration: Duration,
-                eventNotes: Notes.trim() == "" ? null : Notes.trim(),
+                eventNotes: Notes == "" ? null : Notes,
             }),
         });
         if (res.status === 201) {
@@ -136,7 +136,7 @@ const realTime = () => {
 realTime();
 
 const empty = (name) => {
-    if (name.trim() == "") {
+    if (name == "") {
         errorname.value = true;
         isOverlap.value = true;
     } else {
@@ -178,7 +178,7 @@ const reset = () => {
                 <div class="py-2">
                     <input
                         type="text"
-                        v-model="Name"
+                        v-model.trim="Name"
                         maxlength="100"
                         class="input input-md border-slate-400 w-full max-w-xs bg-white"
                         placeholder="Your name"
@@ -197,11 +197,22 @@ const reset = () => {
                 >
                 <div class="py-2">
                     <input
+                        v-if="TokenService.checkLocalStorage()"
                         type="email"
-                        v-model="Email"
+                        v-model.trim="Email"
                         maxlength="50"
                         class="input input-md border-slate-400 w-full max-w-xs bg-white"
                         placeholder="Your email"
+                        required
+                    />
+                    <input
+                        v-else-if="!TokenService.checkLocalStorage()"
+                        type="email"
+                        v-model.trim="Email"
+                        maxlength="50"
+                        class="input input-md border-slate-400 w-full max-w-xs bg-slate-100"
+                        placeholder="Your email"
+                        readonly
                         required
                     />
                 </div>
@@ -258,7 +269,7 @@ const reset = () => {
                     <textarea
                         cols="50"
                         rows="2"
-                        v-model="Notes"
+                        v-model.trim="Notes"
                         maxlength="500"
                         class="textarea border-slate-400 w-full max-w-xs bg-white"
                         placeholder="Maximum 500 characters"

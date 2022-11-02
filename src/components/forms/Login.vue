@@ -16,26 +16,28 @@ const reloadPage = () => {
 
 //POST
 const LoginUsers = async (username, password) => {
-    const res = await fetch(import.meta.env.VITE_LOGIN_URL, {
-        method: "POST",
-        headers: {
-            "content-type": "application/json",
-        },
-        body: JSON.stringify({
-            email: username,
-            password: password,
-        }),
-    });
-    if (res.status === 200) {
-        console.log("Login successfully");
-        const token = await res.json();
-        TokenService.setAccessToken(token.accessToken);
-        TokenService.setRefreshToken(token.refreshToken);
-        TokenService.setRole(token.role);
-        error.value = false;
-    } else {
-        error.value = true;
-        console.log("error, cannot be login");
+    if(!!username.match(/^([a-zA-Z0-9._-])+@\w+([a-zA-Z0-9._-])*(\.[a-zA-Z0-9_-]{2,10})+$/)){
+        const res = await fetch(import.meta.env.VITE_LOGIN_URL, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify({
+                email: username,
+                password: password,
+            }),
+        });
+        if (res.status === 200) {
+            console.log("Login successfully");
+            const token = await res.json();
+            TokenService.setAccessToken(token.accessToken);
+            TokenService.setRefreshToken(token.refreshToken);
+            TokenService.setRole(token.role);
+            error.value = false;
+        } else {
+            error.value = true;
+            console.log("error, cannot be login");
+        }
     }
 };
 

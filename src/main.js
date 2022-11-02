@@ -16,10 +16,11 @@ app.provide("refreshTokenFunction", async () => {
     if (res.status === 200) {
         const token = await res.json();
         TokenService.setAccessToken(token.accessToken);
-    } else if (res.status === 401) {
-        TokenService.clearToken();
+    } else {
         location.replace("/");
-    } else console.log("error, cannot get data");
+        TokenService.clearToken();
+        console.log("error, cannot get data");
+    }
 });
 app.use(router);
 app.mount("#app");

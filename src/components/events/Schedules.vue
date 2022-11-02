@@ -11,17 +11,6 @@ import TokenService from "../../services/token.js";
 const schedules = ref([]);
 const category = ref([]);
 const refreshTokenFunction = inject("refreshTokenFunction");
-const matchId = ref(null);
-
-const matchEmail = () => {
-    if(TokenService.getRole() == "student"){
-        schedules.value.forEach((e) => {
-            if (e.email == TokenService.getEmail()) {
-                matchId.value = e.id;
-            } 
-        });
-    }
-}
 
 // GET
 const getSchedules = async () => {

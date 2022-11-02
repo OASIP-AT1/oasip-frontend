@@ -28,9 +28,10 @@ class TokenService {
     }
 
     clearToken() {
-        localStorage.removeItem(this.#ACCESS_TOKEN);
-        localStorage.removeItem(this.#REFRESH_TOKEN);
-        localStorage.removeItem(this.#ROLE);
+        // localStorage.removeItem(this.#ACCESS_TOKEN);
+        // localStorage.removeItem(this.#REFRESH_TOKEN);
+        // localStorage.removeItem(this.#ROLE);
+        localStorage.clear();
     }
 
     isTokenExpired() {
