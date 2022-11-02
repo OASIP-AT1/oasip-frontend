@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onBeforeMount } from "vue";
-
+  
 const Name = ref("");
 const Email = ref("");
 const option = ref();

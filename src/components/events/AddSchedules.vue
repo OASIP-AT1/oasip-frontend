@@ -246,7 +246,7 @@ const reset = () => {
                         class="input input-md border-slate-400 w-full max-w-xs bg-white"
                         required
                     />
-                    <p class="text-red-600" v-show="error">
+                    <p class="text-red-600" v-show="eggirror">
                         Error!!! this start time is overlapped other event.
                     </p>
                 </div>
