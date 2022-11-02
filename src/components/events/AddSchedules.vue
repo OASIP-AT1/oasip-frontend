@@ -75,7 +75,8 @@ const AddNewSchedules = async (
             method: "POST",
             headers: {
                 "content-type": "application/json",
-                Authorization: TokenService.checkLocalStorage() ? null : TokenService.getAccessToken(),
+                "account":  TokenService.checkLocalStorage() ? "guest" : TokenService.getEmail()
+
             },
             body: JSON.stringify({
                 bookingName: Name,
@@ -246,7 +247,7 @@ const reset = () => {
                         class="input input-md border-slate-400 w-full max-w-xs bg-white"
                         required
                     />
-                    <p class="text-red-600" v-show="eggirror">
+                    <p class="text-red-600" v-show="error">
                         Error!!! this start time is overlapped other event.
                     </p>
                 </div>
