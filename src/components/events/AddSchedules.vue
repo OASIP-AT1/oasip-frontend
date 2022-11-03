@@ -42,19 +42,21 @@ const checkform = () => {
 
 // GET
 const getCategories = async () => {
-        const res = await fetch(import.meta.env.VITE_CATEGORY_URL, {
-            method: "GET",
-            headers: {
-                "content-type": "application/json",
-                "account":  TokenService.checkLocalStorage() ? "guest" : TokenService.getEmail()
-            },
-        });
-        if (res.status === 200) {
-            categories.value = await res.json();
-        } else if (TokenService.isTokenExpired()) {
-            refreshTokenFunction();
-            // alert("token is expired. Please try again later.");
-        } else console.log("error, cannot get data");
+    const res = await fetch(import.meta.env.VITE_CATEGORY_URL, {
+        method: "GET",
+        headers: {
+            "content-type": "application/json",
+            account: TokenService.checkLocalStorage()
+                ? "guest"
+                : TokenService.getEmail(),
+        },
+    });
+    if (res.status === 200) {
+        categories.value = await res.json();
+    } else if (TokenService.isTokenExpired()) {
+        refreshTokenFunction();
+        // alert("token is expired. Please try again later.");
+    } else console.log("error, cannot get data");
 };
 
 onBeforeMount(async () => {
@@ -98,15 +100,19 @@ const AddNewSchedules = async (
 };
 
 const overlap = () => {
-    console.log("over");
     var startTime = moment(Time.value).format();
     var endTime = moment(Time.value).add(Duration.value, "minutes").format();
+    console.log(startTime);
+    console.log(endTime);
     categories.value.forEach((e) => {
-        if (e.categoryId === selectedId.value) {
-            var startTime_2 = e.eventStartTime;
+        if (e.id === selectedId.value) {
+            var startTime_2 = moment(e.eventStartTime).format();
             var endTime_2 = moment(e.eventStartTime)
-                .add(e.eventDuration, "minute")
-                .format();
+            .add(e.eventDuration, "minute")
+            .format();
+            console.log(startTime_2);
+            console.log(endTime_2);
+            console.log(checkOverlap(startTime, endTime, startTime_2, endTime_2));
             if (checkOverlap(startTime, endTime, startTime_2, endTime_2)) {
                 isOverlap.value = true;
                 error.value = true;
@@ -117,9 +123,7 @@ const overlap = () => {
 };
 
 const checkOverlap = (start_1, end_1, start_2, end_2) => {
-    if (start_1 <= start_2 && start_2 <= end_1) return true;
-    if (start_1 <= end_2 && end_2 <= end_1) return true;
-    if (start_2 < start_1 && end_1 < end_2) return true;
+    if (start_1 < end_2 && end_1 > start_2) return true;
     return false;
 };
 
