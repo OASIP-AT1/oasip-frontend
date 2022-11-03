@@ -58,16 +58,9 @@ onBeforeMount(async () => {
     await getSchedules(), getCategories();
 });
 
-// computed(() => {
-//     if (TokenService.isTokenExpired()) {
-//         refreshTokenFunction();
-//     }
-// });
-
 // PUT
 const modifySchedules = async (newId, newTime, newNotes, isOverlap) => {
-    if (isOverlap) {
-    } else {
+    if (!isOverlap) {
         const res = await fetch(import.meta.env.VITE_EVENT_URL + "/" + newId, {
             method: "PUT",
             headers: {
@@ -90,15 +83,14 @@ const modifySchedules = async (newId, newTime, newNotes, isOverlap) => {
 };
 
 const currentDetail = ref({});
-const data = ref("");
+const data = ref(null);
 
 const moreDetail = (curbookingId) => {
     currentDetail.value = curbookingId;
-    data.value = curbookingId.eventNotes;
+    // data.value = curbookingId.eventNotes;
     currentDetail.value.eventStartTime = moment(
         currentDetail.value.eventStartTime
     ).format("YYYY-MM-DDTHH:mm:ss");
-    getSchedules();
 };
 
 const filter = ref();
@@ -229,7 +221,8 @@ const getSortDate = async (date) => {
                                     <Detail
                                         @moreDetail="moreDetail(contents)"
                                         :detail="currentDetail"
-                                        :data="data"
+                                        :description="currentDetail.eventNotes"
+                                        :dateTime="currentDetail.eventStartTime"
                                         :event="schedules"
                                         @editDetail="modifySchedules"
                                     />
@@ -273,7 +266,8 @@ const getSortDate = async (date) => {
                                     <Detail
                                         @moreDetail="moreDetail(contents)"
                                         :detail="currentDetail"
-                                        :data="data"
+                                        :description="currentDetail.eventNotes"
+                                        :dateTime="currentDetail.eventStartTime"
                                         @editDetail="modifySchedules"
                                     />
                                     <Delete
