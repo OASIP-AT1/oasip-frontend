@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onBeforeMount, inject } from "vue";
+import { ref, onBeforeMount } from "vue";
 import moment from "moment";
 import TokenService from "../../services/token.js";
 
@@ -16,7 +16,6 @@ const error = ref(false);
 const errorname = ref(false);
 const categories = ref([]);
 const warning = ref(null);
-const refreshTokenFunction = inject("refreshTokenFunction");
 
 const checkEmail = () => {
     if (!TokenService.checkLocalStorage()) {
