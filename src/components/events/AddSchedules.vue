@@ -77,7 +77,9 @@ const AddNewSchedules = async (
             method: "POST",
             headers: {
                 "content-type": "application/json",
-                "account":  TokenService.checkLocalStorage() ? "guest" : TokenService.getEmail()
+                account: TokenService.checkLocalStorage()
+                    ? "guest"
+                    : TokenService.getEmail(),
             },
             body: JSON.stringify({
                 bookingName: Name,
@@ -93,7 +95,6 @@ const AddNewSchedules = async (
         } else {
             warning.value = true;
         }
-    
     }
 };
 
@@ -152,7 +153,9 @@ const empty = (name) => {
 
 const reset = () => {
     Name.value = "";
-    Email.value = "";
+    TokenService.checkLocalStorage()
+        ? (Email.value = "")
+        : (Email.value = TokenService.getEmail());
     Selected.value = undefined;
     Time.value = undefined;
     Duration.value = undefined;
@@ -303,65 +306,65 @@ const reset = () => {
             </div>
         </form>
         <div v-show="warning === false" class="modal-show flex justify-center">
-      <div class="modal-content">
-        <div class="text-center alert alert-success shadow-lg w-full">
-          <div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="stroke-current flex-shrink-0 h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <span>Create successfully.</span>
-          </div>
-          <div class="flex justify-end">
-            <button
-              @click.left="reset, warning = null"
-              class="btn btn-sm text-green-600 bg-white hover:bg-slate-200 px-5"
-            >
-              Ok
-            </button>
-          </div>
+            <div class="modal-content">
+                <div class="text-center alert alert-success shadow-lg w-full">
+                    <div>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="stroke-current flex-shrink-0 h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                        </svg>
+                        <span>Create successfully.</span>
+                    </div>
+                    <div class="flex justify-end">
+                        <button
+                            @click.left="reset, (warning = null)"
+                            class="btn btn-sm text-green-600 bg-white hover:bg-slate-200 px-5"
+                        >
+                            Ok
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div v-show="warning === true" class="modal-show flex justify-center">
-      <div class="modal-content">
-        <div class="alert alert-error shadow-lg">
-          <div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="stroke-current flex-shrink-0 h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <span>Error! failed to create.</span>
-          </div>
-          <div class="flex justify-end">
-            <button
-              @click.left="warning = null"
-              class="btn btn-sm text-red-600 bg-white hover:bg-slate-200 px-5"
-            >
-              Ok
-            </button>
-          </div>
+        <div v-show="warning === true" class="modal-show flex justify-center">
+            <div class="modal-content">
+                <div class="alert alert-error shadow-lg">
+                    <div>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="stroke-current flex-shrink-0 h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                        </svg>
+                        <span>Error! failed to create.</span>
+                    </div>
+                    <div class="flex justify-end">
+                        <button
+                            @click.left="warning = null"
+                            class="btn btn-sm text-red-600 bg-white hover:bg-slate-200 px-5"
+                        >
+                            Ok
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
     </div>
 </template>
 

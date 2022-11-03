@@ -4,7 +4,7 @@ import UDetail from "./userBtn/UDetail.vue";
 import UDelete from "../buttons/Delete.vue";
 import Login from "../../views/LoginFirst.vue";
 import PermissionPage from "../../views/PermissionPage.vue";
-import { ref, onBeforeMount, inject, computed } from "vue";
+import { ref, onBeforeMount, inject } from "vue";
 import { useRouter } from "vue-router";
 import TokenService from "../../services/token.js";
 

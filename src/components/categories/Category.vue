@@ -5,7 +5,6 @@ import Login from "../../views/LoginFirst.vue";
 import TokenService from "../../services/token.js";
 
 const categories = ref([]);
-const refreshTokenFunction = inject("refreshTokenFunction");
 
 // GET
 const getCategories = async () => {
@@ -20,6 +19,7 @@ const getCategories = async () => {
 
         if (res.status === 200) {
             categories.value = await res.json();
+            // console.log(categories.value);
 
         } else console.log("error, cannot get category");
     }
