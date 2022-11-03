@@ -40,7 +40,7 @@ const getCategories = async () => {
             method: "GET",
             headers: {
                 "content-type": "application/json",
-                Authorization: TokenService.getAccessToken(),
+                "account":  TokenService.checkLocalStorage() ? "guest" : TokenService.getEmail()
             },
         });
         if (res.status === 200) {

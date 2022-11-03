@@ -47,6 +47,7 @@ const getCategories = async () => {
             method: "GET",
             headers: {
                 "content-type": "application/json",
+                "account":  TokenService.checkLocalStorage() ? "guest" : TokenService.getEmail()
             },
         });
         if (res.status === 200) {
@@ -88,7 +89,6 @@ const AddNewSchedules = async (
             }),
         });
         if (res.status === 201) {
-            getSchedules();
             warning.value = false;
         } else {
             warning.value = true;
@@ -98,6 +98,7 @@ const AddNewSchedules = async (
 };
 
 const overlap = () => {
+    console.log("over");
     var startTime = moment(Time.value).format();
     var endTime = moment(Time.value).add(Duration.value, "minutes").format();
     categories.value.forEach((e) => {
@@ -322,7 +323,7 @@ const reset = () => {
           </div>
           <div class="flex justify-end">
             <button
-              @click.left="reset"
+              @click.left="reset, warning = null"
               class="btn btn-sm text-green-600 bg-white hover:bg-slate-200 px-5"
             >
               Ok

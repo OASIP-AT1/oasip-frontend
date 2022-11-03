@@ -14,7 +14,7 @@ const getCategories = async () => {
             method: "GET",
             headers: {
                 "content-type": "application/json",
-                Authorization: TokenService.getAccessToken(),
+                "account":  TokenService.checkLocalStorage() ? "guest" : TokenService.getEmail()
             },
         });
 
@@ -42,7 +42,7 @@ const modifyCategories = async (
             method: "PUT",
             headers: {
                 "content-type": "application/json",
-                Authorization: TokenService.AccessToken(),
+                "account":  TokenService.checkLocalStorage() ? "guest" : TokenService.getEmail()
             },
             body: JSON.stringify({
                 eventCategoryName: newName,
