@@ -42,15 +42,19 @@ const checkform = () => {
 
 // GET
 const getCategories = async () => {
-    const res = await fetch(import.meta.env.VITE_CATEGORY_URL, {
-        method: "GET",
-        headers: {
-            "content-type": "application/json",
-        },
-    });
-    if (res.status === 200) {
-        categories.value = await res.json();
-    } else console.log("error, cannot get data");
+        const res = await fetch(import.meta.env.VITE_CATEGORY_URL, {
+            method: "GET",
+            headers: {
+                "content-type": "application/json",
+                "account":  TokenService.checkLocalStorage() ? "guest" : TokenService.getEmail()
+            },
+        });
+        if (res.status === 200) {
+            categories.value = await res.json();
+        } else if (TokenService.isTokenExpired()) {
+            refreshTokenFunction();
+            // alert("token is expired. Please try again later.");
+        } else console.log("error, cannot get data");
 };
 
 onBeforeMount(async () => {
@@ -94,6 +98,7 @@ const AddNewSchedules = async (
 };
 
 const overlap = () => {
+    console.log("over");
     var startTime = moment(Time.value).format();
     var endTime = moment(Time.value).add(Duration.value, "minutes").format();
     categories.value.forEach((e) => {
