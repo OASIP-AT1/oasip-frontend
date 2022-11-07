@@ -94,13 +94,13 @@ const toggleReadmore = () => {
                         fill="currentColor"
                         class="w-8 h-8"
                     >
-                    <g class="fa-group">
-                        <path
-                            fill-rule="evenodd"
-                            d="M19.5 21a3 3 0 003-3V9a3 3 0 00-3-3h-5.379a.75.75 0 01-.53-.22L11.47 3.66A2.25 2.25 0 009.879 3H4.5a3 3 0 00-3 3v12a3 3 0 003 3h15zm-6.75-10.5a.75.75 0 00-1.5 0v2.25H9a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H15a.75.75 0 000-1.5h-2.25V10.5z"
-                            clip-rule="evenodd"
-                            class="fa-secondary"
-                        />
+                        <g class="fa-group">
+                            <path
+                                fill-rule="evenodd"
+                                d="M19.5 21a3 3 0 003-3V9a3 3 0 00-3-3h-5.379a.75.75 0 01-.53-.22L11.47 3.66A2.25 2.25 0 009.879 3H4.5a3 3 0 00-3 3v12a3 3 0 003 3h15zm-6.75-10.5a.75.75 0 00-1.5 0v2.25H9a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H15a.75.75 0 000-1.5h-2.25V10.5z"
+                                clip-rule="evenodd"
+                                class="fa-secondary"
+                            />
                         </g>
                     </svg>
 
@@ -237,15 +237,27 @@ const toggleReadmore = () => {
                         class="m-0 self-end"
                         v-if="!TokenService.checkLocalStorage()"
                     >
-                        <a v-for="(role, index) in roles" :key="index" href="#">
-                            <img
-                                v-if="TokenService.checkRole(role)"
-                                :src="`/src/assets/${role}.png`"
-                                width="50"
-                                height="50"
-                                alt=""
-                            />
-                        </a>
+                        <img
+                            v-if="TokenService.checkRole('admin')"
+                            src="../assets/admin.png"
+                            width="50"
+                            height="50"
+                            alt=""
+                        />
+                        <img
+                            v-else-if="TokenService.checkRole('lecturer')"
+                            src="../assets/lecturer.png"
+                            width="50"
+                            height="50"
+                            alt=""
+                        />
+                        <img
+                            v-else-if="TokenService.checkRole('student')"
+                            src="../assets/student.png"
+                            width="50"
+                            height="50"
+                            alt=""
+                        />
                     </div>
                     <a v-else-if="TokenService.checkLocalStorage()" href="#">
                         <img
