@@ -13,7 +13,7 @@ const error = ref("");
 const refreshTokenFunction = inject("refreshTokenFunction");
 
 const reloadPage = () => {
-    location.replace("/schedule");
+    location.replace("/at1/schedule");
 };
 
 //POST

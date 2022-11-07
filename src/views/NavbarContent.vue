@@ -14,7 +14,7 @@ const AddEventRouter = () => appRouter.push({ name: "AddScheduleContents" });
 
 const reloadPage = () => {
     TokenService.clearToken();
-    location.replace("/");
+    location.replace("/at1");
 };
 
 const roles = ["admin", "lecturer", "student"];

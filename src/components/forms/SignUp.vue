@@ -60,7 +60,7 @@ const createNewUsers = async (Name, Email, option, Password) => {
 };
 
 const reloadPage = () => {
-  location.replace("/login");
+  location.replace("/at1/login");
 }
 
 const emptys = (name) => {
