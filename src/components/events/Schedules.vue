@@ -222,7 +222,6 @@ const getSortDate = async (date) => {
                                         @moreDetail="moreDetail(contents)"
                                         :detail="currentDetail"
                                         :description="currentDetail.eventNotes"
-                                        :dateTime="currentDetail.eventStartTime"
                                         :event="schedules"
                                         @editDetail="modifySchedules"
                                     />
@@ -267,7 +266,6 @@ const getSortDate = async (date) => {
                                         @moreDetail="moreDetail(contents)"
                                         :detail="currentDetail"
                                         :description="currentDetail.eventNotes"
-                                        :dateTime="currentDetail.eventStartTime"
                                         @editDetail="modifySchedules"
                                     />
                                     <Delete

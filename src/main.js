@@ -17,7 +17,7 @@ app.provide("refreshTokenFunction", async () => {
         const token = await res.json();
         TokenService.setAccessToken(token.accessToken);
     } else {
-        location.replace("/");
+        location.replace("/at1");
         TokenService.clearToken();
         console.log("error, cannot get data");
     }
