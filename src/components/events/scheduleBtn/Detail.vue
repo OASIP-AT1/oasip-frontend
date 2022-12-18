@@ -12,10 +12,6 @@ const props = defineProps({
         type: String,
         default: "",
     },
-    dateTime: {
-        type: String,
-        default: "",
-    },
     event: {
         type: Array,
         default: [],
@@ -85,7 +81,7 @@ const checkOverlap = (start_1, end_1, start_2, end_2) => {
             error = false;
             isModalOn = !isModalOn;
             description = detail.eventNotes;
-            dateTime = detail.eventStartTime;
+            // dateTime = detail.eventStartTime;
         "
     >
         Detail
@@ -142,7 +138,7 @@ const checkOverlap = (start_1, end_1, start_2, end_2) => {
                             $emit(
                                 'editDetail',
                                 detail.id,
-                                dateTime,
+                                detail.eventStartTime,
                                 description,
                                 isOverlap
                             );
@@ -160,7 +156,7 @@ const checkOverlap = (start_1, end_1, start_2, end_2) => {
                   .format("D MMMM YYYY, h:mm:ss A")
               }} -->
                             {{
-                                moment(dateTime)
+                                moment(detail.eventStartTime)
                                     .local()
                                     .format("D MMMM YYYY, h:mm:ss A")
                             }}
@@ -171,7 +167,7 @@ const checkOverlap = (start_1, end_1, start_2, end_2) => {
                         >
                             <input
                                 type="datetime-local"
-                                v-model="dateTime"
+                                v-model="detail.eventStartTime"
                                 :min="date"
                                 step="any"
                                 class="text-black p-1 rounded-md ring-black ring-1"

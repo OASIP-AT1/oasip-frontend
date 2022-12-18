@@ -99,6 +99,29 @@ const AddNewSchedules = async (
     }
 };
 
+const file = ref(null);
+const testFile = (event) => {
+    file.value = event.target.files;
+    console.log(file.value);
+
+};
+const AddFile = async () => {
+    const formData = new FormData();
+    formData.append("file", file.value[0]);
+
+    await fetch(import.meta.env.VITE_FILE_URL, {
+        method: "POST",
+        body: formData,
+    })
+
+};
+
+const clearFile = () => {
+    file.value = null;
+    console.log(file.value);
+};
+
+
 const overlap = () => {
     var startTime = moment(Time.value).format();
     var endTime = moment(Time.value).add(Duration.value, "minutes").format();
@@ -108,11 +131,13 @@ const overlap = () => {
         if (e.id === selectedId.value) {
             var startTime_2 = moment(e.eventStartTime).format();
             var endTime_2 = moment(e.eventStartTime)
-            .add(e.eventDuration, "minute")
-            .format();
+                .add(e.eventDuration, "minute")
+                .format();
             console.log(startTime_2);
             console.log(endTime_2);
-            console.log(checkOverlap(startTime, endTime, startTime_2, endTime_2));
+            console.log(
+                checkOverlap(startTime, endTime, startTime_2, endTime_2)
+            );
             if (checkOverlap(startTime, endTime, startTime_2, endTime_2)) {
                 isOverlap.value = true;
                 error.value = true;
@@ -171,152 +196,151 @@ const reset = () => {
 <template>
     <div id="create">
         <!-- form -->
-        <p class="text-4xl py-3 font-black grid justify-start text-black">ADD SCHEDULE</p>
-        <form
+        <p class="text-4xl py-3 font-black grid justify-start text-black">
+            ADD SCHEDULE
+        </p>
+        <!-- <form
             method="post"
             @submit.prevent="
                 AddNewSchedules(Name, Email, selectedId, Time, Duration, Notes);
                 checkform();
             "
-        >
-            <!-- Name -->
-            <div class="grid justify-center">
-                <label for="name"
-                    >Name
-                    <span class="auto-fill"
-                        >({{ Name.length }}/100)</span
-                    ></label
+        > -->
+        <!-- Name -->
+        <div class="grid justify-center">
+            <label for="name"
+                >Name
+                <span class="auto-fill">({{ Name.length }}/100)</span></label
+            >
+            <div class="py-2">
+                <input
+                    type="text"
+                    v-model.trim="Name"
+                    maxlength="100"
+                    class="input input-md border-slate-400 w-full max-w-xs bg-white"
+                    placeholder="Your name"
+                    required
+                />
+                <p class="text-red-600" v-show="errorname">
+                    Please fill your name
+                </p>
+            </div>
+            <!-- Email -->
+            <label for="Email"
+                >Email
+                <span class="auto-fill">({{ Email.length }}/50)</span></label
+            >
+            <div class="py-2">
+                <input
+                    v-if="TokenService.checkLocalStorage()"
+                    type="email"
+                    v-model.trim="Email"
+                    maxlength="50"
+                    class="input input-md border-slate-400 w-full max-w-xs bg-white"
+                    placeholder="Your email"
+                    required
+                />
+                <input
+                    v-else-if="!TokenService.checkLocalStorage()"
+                    type="email"
+                    v-model.trim="Email"
+                    maxlength="50"
+                    class="input input-md border-slate-400 w-full max-w-xs bg-slate-100"
+                    placeholder="Your email"
+                    readonly
+                    required
+                />
+            </div>
+            <!-- Clinic -->
+            <label for="clinics">Clinic</label>
+            <div class="py-2">
+                <select
+                    name="clinics"
+                    class="input input-md border-slate-400 w-full max-w-xs bg-white"
+                    @change="newDuration"
+                    v-model="Selected"
+                    required
                 >
-                <div class="py-2">
-                    <input
-                        type="text"
-                        v-model.trim="Name"
-                        maxlength="100"
-                        class="input input-md border-slate-400 w-full max-w-xs bg-white"
-                        placeholder="Your name"
-                        required
-                    />
-                    <p class="text-red-600" v-show="errorname">
-                        Please fill your name
-                    </p>
-                </div>
-                <!-- Email -->
-                <label for="Email"
-                    >Email
-                    <span class="auto-fill"
-                        >({{ Email.length }}/50)</span
-                    ></label
-                >
-                <div class="py-2">
-                    <input
-                        v-if="TokenService.checkLocalStorage()"
-                        type="email"
-                        v-model.trim="Email"
-                        maxlength="50"
-                        class="input input-md border-slate-400 w-full max-w-xs bg-white"
-                        placeholder="Your email"
-                        required
-                    />
-                    <input
-                        v-else-if="!TokenService.checkLocalStorage()"
-                        type="email"
-                        v-model.trim="Email"
-                        maxlength="50"
-                        class="input input-md border-slate-400 w-full max-w-xs bg-slate-100"
-                        placeholder="Your email"
-                        readonly
-                        required
-                    />
-                </div>
-                <!-- Clinic -->
-                <label for="clinics">Clinic</label>
-                <div class="py-2">
-                    <select
-                        name="clinics"
-                        class="input input-md border-slate-400 w-full max-w-xs bg-white"
-                        @change="newDuration"
-                        v-model="Selected"
-                        required
+                    <option
+                        v-for="category in categories"
+                        :key="category.id"
+                        :value="category.eventCategoryName"
                     >
-                        <option
-                            v-for="category in categories"
-                            :key="category.id"
-                            :value="category.eventCategoryName"
-                        >
-                            {{ category.eventCategoryName }}
-                        </option>
-                    </select>
-                </div>
-                <!-- Date -->
-                <label for="Date">Date</label>
-                <div class="py-2">
-                    <input
-                        type="datetime-local"
-                        v-model="Time"
-                        :min="date"
-                        step="any"
-                        class="input input-md border-slate-400 w-full max-w-xs bg-white"
-                        required
-                    />
-                    <p class="text-red-600" v-show="error">
-                        Error!!! this start time is overlapped other event.
-                    </p>
-                </div>
-                <!-- Duration -->
-                <label for="Duration">Duration (minutes)</label>
-                <div class="py-2">
-                    <input
-                        class="input input-md border-slate-400 w-full max-w-xs bg-slate-100"
-                        readonly
-                        type="text"
-                        v-model="Duration"
-                        placeholder="Select your clinic"
-                    />
-                </div>
-                <!-- Note -->
-                <label for="Note"
-                    >Note <span class="auto-fill">(optional)</span></label
-                >
-                <div class="py-2">
-                    <textarea
-                        cols="50"
-                        rows="2"
-                        v-model.trim="Notes"
-                        maxlength="500"
-                        class="textarea border-slate-400 w-full max-w-xs bg-white"
-                        placeholder="Maximum 500 characters"
-                    ></textarea>
-                </div>
-                <!-- File -->
-                <label for="File"
-                    >File <span class="auto-fill">(optional)</span></label>
-                <div class="py-2">
-                    <input
-                        type="file"
-                        multiple
-                    />
-                    </div>
+                        {{ category.eventCategoryName }}
+                    </option>
+                </select>
             </div>
-
-            <div class="pt-2">
+            <!-- Date -->
+            <label for="Date">Date</label>
+            <div class="py-2">
                 <input
-                    class="justify-start btn btn-color border-transparent"
-                    type="reset"
-                    value="Reset"
-                    @click="reset()"
+                    type="datetime-local"
+                    v-model="Time"
+                    :min="date"
+                    step="any"
+                    class="input input-md border-slate-400 w-full max-w-xs bg-white"
+                    required
                 />
-                <!-- Create -->
+                <p class="text-red-600" v-show="error">
+                    Error!!! this start time is overlapped other event.
+                </p>
+            </div>
+            <!-- Duration -->
+            <label for="Duration"
+                >Duration <span class="auto-fill">(minutes)</span></label
+            >
+            <div class="py-2">
                 <input
-                    class="float-right justify-end btn btn-success text-white border-transparent"
-                    type="submit"
-                    value="Create"
-                    @click="
-                        overlap();
-                        empty(Name);
-                    "
+                    class="input input-md border-slate-400 w-full max-w-xs bg-slate-100"
+                    readonly
+                    type="text"
+                    v-model="Duration"
+                    placeholder="Select your clinic"
                 />
             </div>
-        </form>
+            <!-- Note -->
+            <label for="Note"
+                >Note <span class="auto-fill">(optional)</span></label
+            >
+            <div class="py-2">
+                <textarea
+                    cols="50"
+                    rows="2"
+                    v-model.trim="Notes"
+                    maxlength="500"
+                    class="textarea border-slate-400 w-full max-w-xs bg-white"
+                    placeholder="Maximum 500 characters"
+                ></textarea>
+            </div>
+            <!-- File -->
+            <label for="File"
+                >File <span class="auto-fill">(optional)</span></label
+            >
+            <div class="py-2 flex">
+                <input type="file" @change="testFile" ref="myFileInput" multiple />
+                <button @click="clearFile" class="btn">Clear</button>
+            </div>
+            <button @click="AddFile" class="btn">submit</button>
+        </div>
+        <div class="pt-2">
+            <input
+                class="justify-start btn btn-color border-transparent"
+                type="reset"
+                value="Reset"
+                @click="reset()"
+            />
+            <!-- Create -->
+            <input
+                class="float-right justify-end btn btn-success text-white border-transparent"
+                type="submit"
+                value="Create"
+                @click="
+                    overlap();
+                    empty(Name);
+                "
+            />
+        </div>
+        <!-- </form> -->
         <div v-show="warning === false" class="modal-show flex justify-center">
             <div class="modal-content">
                 <div class="text-center alert alert-success shadow-lg w-full">

@@ -234,7 +234,7 @@ const getSortDate = async (date) => {
                             </td>
                             <td class="p-10 text-xl box-element break-words">
                                 {{
-                                    moment(contents.eventStartTime)
+                                    moment.unix(contents.eventStartTime)
                                         .local()
                                         .format("D MMMM YYYY, h:mm:ss A")
                                 }}
