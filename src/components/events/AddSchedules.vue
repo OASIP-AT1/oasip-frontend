@@ -16,6 +16,7 @@ const error = ref(false);
 const errorname = ref(false);
 const categories = ref([]);
 const warning = ref(null);
+const formData = new FormData();
 
 const checkEmail = () => {
     if (!TokenService.checkLocalStorage()) {
@@ -99,6 +100,23 @@ const AddNewSchedules = async (
     }
 };
 
+const AddFile = async () => {
+        await fetch(import.meta.env.VITE_FILE_URL, {
+            method: "POST",
+            headers: {
+                "content-type": "multipart/form-data",
+                account: TokenService.checkLocalStorage()
+                    ? "guest"
+                    : TokenService.getEmail(),
+            },
+            body: formData,
+        });
+};
+
+const testFile = (event) => {
+    console.log(event.target.files)
+}
+
 const overlap = () => {
     var startTime = moment(Time.value).format();
     var endTime = moment(Time.value).add(Duration.value, "minutes").format();
@@ -108,11 +126,13 @@ const overlap = () => {
         if (e.id === selectedId.value) {
             var startTime_2 = moment(e.eventStartTime).format();
             var endTime_2 = moment(e.eventStartTime)
-            .add(e.eventDuration, "minute")
-            .format();
+                .add(e.eventDuration, "minute")
+                .format();
             console.log(startTime_2);
             console.log(endTime_2);
-            console.log(checkOverlap(startTime, endTime, startTime_2, endTime_2));
+            console.log(
+                checkOverlap(startTime, endTime, startTime_2, endTime_2)
+            );
             if (checkOverlap(startTime, endTime, startTime_2, endTime_2)) {
                 isOverlap.value = true;
                 error.value = true;
@@ -263,7 +283,7 @@ const reset = () => {
                     </p>
                 </div>
                 <!-- Duration -->
-                <label for="Duration">Duration (minutes)</label>
+                <label for="Duration">Duration <span class="auto-fill">(minutes)</span></label>
                 <div class="py-2">
                     <input
                         class="input input-md border-slate-400 w-full max-w-xs bg-slate-100"
@@ -275,7 +295,7 @@ const reset = () => {
                 </div>
                 <!-- Note -->
                 <label for="Note"
-                    >Note <span class="auto-fill">(optional )</span></label
+                    >Note <span class="auto-fill">(optional)</span></label
                 >
                 <div class="py-2">
                     <textarea
@@ -287,8 +307,14 @@ const reset = () => {
                         placeholder="Maximum 500 characters"
                     ></textarea>
                 </div>
+                <label for="Email">File <span class="auto-fill">(optional)</span></label>
+                <div class="py-2">
+                    <input
+                        type="file"
+                        @change="AddFile"
+                    />
+                </div>
             </div>
-
             <div class="pt-2">
                 <input
                     class="justify-start btn btn-color border-transparent"
@@ -304,6 +330,8 @@ const reset = () => {
                     @click="
                         overlap();
                         empty(Name);
+                        
+                       
                     "
                 />
             </div>
