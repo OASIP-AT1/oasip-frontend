@@ -12,8 +12,7 @@ import AddEvent from "../components/events/AddSchedules.vue";
 
 <style scoped>
 .container {
-    margin: 25px;
-    width: 350px;
+    width: 100%;
     height: auto;
     display: flex;
     justify-content: center;

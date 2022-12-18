@@ -99,28 +99,25 @@ const AddNewSchedules = async (
     }
 };
 
-const file = ref(null);
+const files = ref(null);
 const testFile = (event) => {
-    file.value = event.target.files;
-    console.log(file.value);
-
+    files.value = event.target.files;
+    console.log(files.value);
 };
 const AddFile = async () => {
     const formData = new FormData();
-    formData.append("file", file.value[0]);
+    formData.append("file", files.value[0]);
 
     await fetch(import.meta.env.VITE_FILE_URL, {
         method: "POST",
         body: formData,
-    })
-
+    });
 };
 
 const clearFile = () => {
-    file.value = null;
-    console.log(file.value);
+    files.value = null;
+    console.log(files.value);
 };
-
 
 const overlap = () => {
     var startTime = moment(Time.value).format();
@@ -191,12 +188,28 @@ const reset = () => {
     error.value = false;
     errorname.value = false;
 };
+
+const isMaxsize = ref(false);
+const calculateFile = (size) => {
+    isMaxsize.value = false;
+    const fileSizeKB = size / 1024;
+    if (fileSizeKB > 1024) {
+        const fileSizeMB = fileSizeKB / 1024;
+        if (fileSizeMB > 10) {
+            files.value = null;
+            isMaxsize.value = true;
+        }
+        return `${fileSizeMB.toFixed(2)} MB`;
+    } else {
+        return `${fileSizeKB.toFixed(2)} KB`;
+    }
+};
 </script>
 
 <template>
-    <div id="create">
+    <div id="create" class="py-12">
         <!-- form -->
-        <p class="text-4xl py-3 font-black grid justify-start text-black">
+        <p class="text-5xl py-3 font-black grid justify-center text-black">
             ADD SCHEDULE
         </p>
         <!-- <form
@@ -207,131 +220,240 @@ const reset = () => {
             "
         > -->
         <!-- Name -->
-        <div class="grid justify-center">
-            <label for="name"
-                >Name
-                <span class="auto-fill">({{ Name.length }}/100)</span></label
-            >
-            <div class="py-2">
-                <input
-                    type="text"
-                    v-model.trim="Name"
-                    maxlength="100"
-                    class="input input-md border-slate-400 w-full max-w-xs bg-white"
-                    placeholder="Your name"
-                    required
-                />
-                <p class="text-red-600" v-show="errorname">
-                    Please fill your name
-                </p>
+        <div class="grid grid-cols-2 justify-center pt-6 gap-5">
+            <div>
+                <label for="name"
+                    >Name
+                    <span class="auto-fill"
+                        >({{ Name.length }}/100)</span
+                    ></label
+                >
+                <div class="py-2">
+                    <input
+                        type="text"
+                        v-model.trim="Name"
+                        maxlength="100"
+                        class="input input-md border-slate-400 w-full max-w-xs bg-white"
+                        placeholder="Your name"
+                        required
+                    />
+                    <p class="text-red-600" v-show="errorname">
+                        Please fill your name
+                    </p>
+                </div>
             </div>
             <!-- Email -->
-            <label for="Email"
-                >Email
-                <span class="auto-fill">({{ Email.length }}/50)</span></label
-            >
-            <div class="py-2">
-                <input
-                    v-if="TokenService.checkLocalStorage()"
-                    type="email"
-                    v-model.trim="Email"
-                    maxlength="50"
-                    class="input input-md border-slate-400 w-full max-w-xs bg-white"
-                    placeholder="Your email"
-                    required
-                />
-                <input
-                    v-else-if="!TokenService.checkLocalStorage()"
-                    type="email"
-                    v-model.trim="Email"
-                    maxlength="50"
-                    class="input input-md border-slate-400 w-full max-w-xs bg-slate-100"
-                    placeholder="Your email"
-                    readonly
-                    required
-                />
+            <div>
+                <label for="Email"
+                    >Email
+                    <span class="auto-fill"
+                        >({{ Email.length }}/50)</span
+                    ></label
+                >
+                <div class="py-2">
+                    <input
+                        v-if="TokenService.checkLocalStorage()"
+                        type="email"
+                        v-model.trim="Email"
+                        maxlength="50"
+                        class="input input-md border-slate-400 w-full max-w-xs bg-white"
+                        placeholder="Your email"
+                        required
+                    />
+                    <input
+                        v-else-if="!TokenService.checkLocalStorage()"
+                        type="email"
+                        v-model.trim="Email"
+                        maxlength="50"
+                        class="input input-md border-slate-400 w-full max-w-xs bg-slate-100"
+                        placeholder="Your email"
+                        readonly
+                        required
+                    />
+                </div>
             </div>
             <!-- Clinic -->
-            <label for="clinics">Clinic</label>
-            <div class="py-2">
-                <select
-                    name="clinics"
-                    class="input input-md border-slate-400 w-full max-w-xs bg-white"
-                    @change="newDuration"
-                    v-model="Selected"
-                    required
-                >
-                    <option
-                        v-for="category in categories"
-                        :key="category.id"
-                        :value="category.eventCategoryName"
+            <div>
+                <label for="clinics">Clinic</label>
+                <div class="py-2">
+                    <select
+                        name="clinics"
+                        class="input input-md border-slate-400 w-full max-w-xs bg-white"
+                        @change="newDuration"
+                        v-model="Selected"
+                        required
                     >
-                        {{ category.eventCategoryName }}
-                    </option>
-                </select>
+                        <option
+                            v-for="category in categories"
+                            :key="category.id"
+                            :value="category.eventCategoryName"
+                        >
+                            {{ category.eventCategoryName }}
+                        </option>
+                    </select>
+                </div>
             </div>
             <!-- Date -->
-            <label for="Date">Date</label>
-            <div class="py-2">
-                <input
-                    type="datetime-local"
-                    v-model="Time"
-                    :min="date"
-                    step="any"
-                    class="input input-md border-slate-400 w-full max-w-xs bg-white"
-                    required
-                />
-                <p class="text-red-600" v-show="error">
-                    Error!!! this start time is overlapped other event.
-                </p>
+            <div>
+                <label for="Date">Date</label>
+                <div class="py-2">
+                    <input
+                        type="datetime-local"
+                        v-model="Time"
+                        :min="date"
+                        step="any"
+                        class="input input-md border-slate-400 w-full max-w-xs bg-white"
+                        required
+                    />
+                    <p class="text-red-600" v-show="error">
+                        Error!!! this start time is overlapped other event.
+                    </p>
+                </div>
             </div>
             <!-- Duration -->
-            <label for="Duration"
-                >Duration <span class="auto-fill">(minutes)</span></label
-            >
-            <div class="py-2">
-                <input
-                    class="input input-md border-slate-400 w-full max-w-xs bg-slate-100"
-                    readonly
-                    type="text"
-                    v-model="Duration"
-                    placeholder="Select your clinic"
-                />
+            <div>
+                <label for="Duration"
+                    >Duration <span class="auto-fill">(minutes)</span></label
+                >
+                <div class="py-2">
+                    <input
+                        class="input input-md border-slate-400 w-full max-w-xs bg-slate-100"
+                        readonly
+                        type="text"
+                        v-model="Duration"
+                        placeholder="Select your clinic"
+                    />
+                </div>
             </div>
             <!-- Note -->
-            <label for="Note"
-                >Note <span class="auto-fill">(optional)</span></label
+            <div>
+                <label for="Note"
+                    >Note <span class="auto-fill">(optional)</span></label
+                >
+                <div class="py-2">
+                    <textarea
+                        cols="50"
+                        rows="2"
+                        v-model.trim="Notes"
+                        maxlength="500"
+                        class="textarea border-slate-400 w-full max-w-xs bg-white"
+                        placeholder="Maximum 500 characters"
+                    ></textarea>
+                </div>
+            </div>
+        </div>
+        <!-- File -->
+        <div>
+            <label for="File"
+                >Attachments <span class="auto-fill">(optional)</span></label
             >
             <div class="py-2">
-                <textarea
-                    cols="50"
-                    rows="2"
-                    v-model.trim="Notes"
-                    maxlength="500"
-                    class="textarea border-slate-400 w-full max-w-xs bg-white"
-                    placeholder="Maximum 500 characters"
-                ></textarea>
+                <div>
+                    <label
+                        class="flex w-full justify-center items-center border-dotted border-4 py-5 rounded-lg bg-blue-100 border-blue-300"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            class="w-6 h-6 mr-2"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                d="M19.902 4.098a3.75 3.75 0 00-5.304 0l-4.5 4.5a3.75 3.75 0 001.035 6.037.75.75 0 01-.646 1.353 5.25 5.25 0 01-1.449-8.45l4.5-4.5a5.25 5.25 0 117.424 7.424l-1.757 1.757a.75.75 0 11-1.06-1.06l1.757-1.757a3.75 3.75 0 000-5.304zm-7.389 4.267a.75.75 0 011-.353 5.25 5.25 0 011.449 8.45l-4.5 4.5a5.25 5.25 0 11-7.424-7.424l1.757-1.757a.75.75 0 111.06 1.06l-1.757 1.757a3.75 3.75 0 105.304 5.304l4.5-4.5a3.75 3.75 0 00-1.035-6.037.75.75 0 01-.354-1z"
+                                clip-rule="evenodd"
+                            />
+                        </svg>
+
+                        Upload your files
+                        <input type="file" @change="testFile" hidden />
+                    </label>
+                </div>
+                <div v-if="isMaxsize" class="text-red-600 mt-3">** File is too large, The file should not exceed 10 MB.</div>
+                <div
+                    class="mt-4 p-5 px-8 rounded-md bg-[#f4f4fc] flex justify-between"
+                    v-for="file in files"
+                >
+                    <div class="flex items-center">
+                        <img
+                            v-if="file.type.includes('png')"
+                            class="w-10 mr-5"
+                            src="../../assets/png-file.png"
+                            alt=""
+                        />
+                        <img
+                            v-else-if="file.type.includes('jpg')"
+                            class="w-10 mr-5"
+                            src="../../assets/jpg-file.png"
+                            alt=""
+                        />
+                        <img
+                            v-else-if="file.type.includes('svg')"
+                            class="w-10 mr-5"
+                            src="../../assets/svg.png"
+                            alt=""
+                        />
+                        <img
+                            v-else-if="file.type.includes('pdf')"
+                            class="w-10 mr-5"
+                            src="../../assets/pdf-file.png"
+                            alt=""
+                        />
+                        <img
+                            v-else-if="file.type.includes('zip')"
+                            class="w-10 mr-5"
+                            src="../../assets/zip-file.png"
+                            alt=""
+                        />
+                        <img
+                            v-else-if="file.type.includes('doc')"
+                            class="w-10 mr-5"
+                            src="../../assets/doc-file.png"
+                            alt=""
+                        />
+                        <img
+                            v-else
+                            class="w-10 mr-5"
+                            src="../../assets/file.png"
+                            alt=""
+                        />
+                        <div>
+                            <p>
+                                {{ file.name }}
+                            </p>
+                            <p>
+                                {{ calculateFile(file.size) }}
+                            </p>
+                        </div>
+                    </div>
+                    <svg
+                        @click="clearFile"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        class="w-7 h-7 cursor-pointer hover:bg-red-500 hover:text-white rounded-full p-1 justify-end"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+                            clip-rule="evenodd"
+                        />
+                    </svg>
+                </div>
+                <!-- <button @click="clearFile" class="btn">Clear</button> -->
             </div>
-            <!-- File -->
-            <label for="File"
-                >File <span class="auto-fill">(optional)</span></label
-            >
-            <div class="py-2 flex">
-                <input type="file" @change="testFile" ref="myFileInput" multiple />
-                <button @click="clearFile" class="btn">Clear</button>
-            </div>
-            <button @click="AddFile" class="btn">submit</button>
         </div>
-        <div class="pt-2">
+        <!-- <button @click="AddFile" class="btn">submit</button> -->
+        <div class="pt-2 flex justify-around w-full">
             <input
-                class="justify-start btn btn-color border-transparent"
+                class="justify-center btn btn-color border-transparent w-1/4 rounded-md mr-2"
                 type="reset"
                 value="Reset"
                 @click="reset()"
             />
             <!-- Create -->
             <input
-                class="float-right justify-end btn btn-success text-white border-transparent"
+                class="justify-center btn btn-success text-white border-transparent w-3/4 rounded-md"
                 type="submit"
                 value="Create"
                 @click="
