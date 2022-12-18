@@ -73,7 +73,7 @@ const moreDetail = (curUserId) => {
             v-cloak
             class="px-10 py-5 grid justify-items-center"
         >
-            <h1 class="inline-block text-5xl font-medium py-5">Users Event</h1>
+            <h1 class="inline-block text-5xl font-bold py-5 uppercase">Users Event</h1>
             <table class="table-zebra table-layout table-element">
                 <thead class="table-header bg-base-200">
                     <tr>
@@ -91,7 +91,7 @@ const moreDetail = (curUserId) => {
                 <div class="no-event text-5xl pt-20" v-if="users.length < 1">
                     No Users
                 </div>
-                <tbody v-else>
+                <tbody class="text-gray-500 font-light" v-else>
                     <tr v-for="contents in users" :key="contents">
                         <td class="p-10 text-xl">
                             <div class="box-element break-words">

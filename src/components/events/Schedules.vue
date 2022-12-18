@@ -42,7 +42,9 @@ const getCategories = async () => {
             method: "GET",
             headers: {
                 "content-type": "application/json",
-                "account":  TokenService.checkLocalStorage() ? "guest" : TokenService.getEmail()
+                account: TokenService.checkLocalStorage()
+                    ? "guest"
+                    : TokenService.getEmail(),
             },
         });
         if (res.status === 200) {
@@ -102,7 +104,14 @@ const getClinic = async (id) => {
         upcomingEvent.value = undefined;
         pastEvent.value = undefined;
         const res = await fetch(
-            import.meta.env.VITE_CATEGORY_URL + "/" + id + "/events"
+            import.meta.env.VITE_CATEGORY_URL + "/" + id + "/events",
+            {
+                method: "GET",
+                headers: {
+                    "content-type": "application/json",
+                    Authorization: TokenService.getAccessToken(),
+                },
+            }
         );
         if (res.status === 200) {
             filter.value = await res.json();
@@ -115,7 +124,13 @@ const getClinic = async (id) => {
 };
 
 const getUpcoming = async () => {
-    const res = await fetch(import.meta.env.VITE_EVENT_URL + "/upcoming");
+    const res = await fetch(import.meta.env.VITE_EVENT_URL + "/upcoming", {
+        method: "GET",
+        headers: {
+            "content-type": "application/json",
+            Authorization: TokenService.getAccessToken(),
+        },
+    });
     if (res.status === 200) {
         filter.value = await res.json();
         upcomingEvent.value = filter.value;
@@ -124,7 +139,13 @@ const getUpcoming = async () => {
 };
 
 const getPast = async () => {
-    const res = await fetch(import.meta.env.VITE_EVENT_URL + "/past");
+    const res = await fetch(import.meta.env.VITE_EVENT_URL + "/past", {
+        method: "GET",
+        headers: {
+            "content-type": "application/json",
+            Authorization: TokenService.getAccessToken(),
+        },
+    });
     if (res.status === 200) {
         filter.value = await res.json();
         pastEvent.value = filter.value;
@@ -135,7 +156,14 @@ const getPast = async () => {
 //GET
 const getSortDate = async (date) => {
     const res = await fetch(
-        import.meta.env.VITE_EVENT_URL + "/sort-date/" + date
+        import.meta.env.VITE_EVENT_URL + "/sort-date/" + date,
+        {
+            method: "GET",
+            headers: {
+                "content-type": "application/json",
+                Authorization: TokenService.getAccessToken(),
+            },
+        }
     );
     if (res.status === 200) {
         filter.value = await res.json();
@@ -152,7 +180,7 @@ const getSortDate = async (date) => {
             class="px-10 py-5 grid justify-items-center"
         >
             <div>
-                <h1 class="inline-block text-5xl font-medium py-5 pr-5">
+                <h1 class="inline-block text-5xl font-bold py-5 pr-5 uppercase">
                     Schedules Event
                 </h1>
                 <SortDate @sort-date="getSortDate" />
@@ -164,7 +192,7 @@ const getSortDate = async (date) => {
                 />
             </div>
             <table class="table-zebra table-layout table-element">
-                <thead class="table-header bg-base-200">
+                <thead class="table-header bg-base-200 ">
                     <tr>
                         <Navbar
                             @option="getClinic"
@@ -176,7 +204,7 @@ const getSortDate = async (date) => {
                 </thead>
                 <div
                     v-if="schedules < 1 || filter < 1"
-                    class="no-event text-5xl pt-20"
+                    class="no-event text-5xl pt-20 font-normal"
                     v-cloak
                 >
                     <p
@@ -191,7 +219,7 @@ const getSortDate = async (date) => {
                     </p>
                     <p v-else>No Past Events</p>
                 </div>
-                <tbody v-else>
+                <tbody class="font-light text-gray-500" v-else>
                     <template v-if="filter === undefined">
                         <tr v-for="contents in schedules" :key="contents.id">
                             <td class="p-10 text-xl">
@@ -221,8 +249,6 @@ const getSortDate = async (date) => {
                                     <Detail
                                         @moreDetail="moreDetail(contents)"
                                         :detail="currentDetail"
-                                        :description="currentDetail.eventNotes"
-                                        :dateTime="currentDetail.eventStartTime"
                                         :event="schedules"
                                         @editDetail="modifySchedules"
                                     />
@@ -230,7 +256,7 @@ const getSortDate = async (date) => {
                                     <Delete
                                         :delete="contents.id"
                                         :content="schedules"
-                                        :URLname="'event'"
+                                        URLname="event"
                                     />
                                 </div>
                             </td>
@@ -266,13 +292,13 @@ const getSortDate = async (date) => {
                                     <Detail
                                         @moreDetail="moreDetail(contents)"
                                         :detail="currentDetail"
-                                        :description="currentDetail.eventNotes"
-                                        :dateTime="currentDetail.eventStartTime"
+                                        :event="schedules"
                                         @editDetail="modifySchedules"
                                     />
                                     <Delete
                                         :delete="contents.id"
                                         :content="schedules"
+                                        URLname="event"
                                     />
                                 </div>
                             </td>

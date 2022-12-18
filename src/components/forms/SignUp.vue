@@ -127,8 +127,8 @@ const toggleconpassword = () => {
 </script>
 
 <template>
-  <div id="create">
-    <div class="grid justify-center">
+  <div id="create" >
+    <div class="grid justify-center ">
       <p class="text-5xl py-5 font-black grid justify-start">SIGN UP</p>
       <form
         class="text-black grid justify-center"
@@ -140,7 +140,7 @@ const toggleconpassword = () => {
       >
         <div id="Name">
           <label for="Name"
-            >Name <span class="auto-fill">({{ Name.length }}/100)</span></label
+            >Name <span class="auto-fill ">({{ Name.length }}/100)</span></label
           >
           <input
             type="text"
@@ -340,7 +340,7 @@ const toggleconpassword = () => {
           />
           <!-- Create -->
           <input
-            class="float-right justify-end btn btn-color border-transparent"
+            class="float-right justify-end btn btn-success text-white border-transparent"
             type="submit"
             value="Create"
             @click="
@@ -484,5 +484,10 @@ const toggleconpassword = () => {
 }
 .auto-fill {
   color: #8f8f8f;
+}
+
+label {
+  color: rgb(107 114 128 / var(--tw-text-opacity));
+
 }
 </style>

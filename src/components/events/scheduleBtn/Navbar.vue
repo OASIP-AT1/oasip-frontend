@@ -13,16 +13,16 @@ const ListCategory = (list) => {
 </script>
 
 <template>
-  <th class="text-xl font-extrabold px-10">NAME</th>
+  <th class="text-xl font-normal px-10">NAME</th>
 
   <th class="px-10">
     <div class="dropdown dropdown-hover">
-      <button tabindex="0" class="m-1 text-xl font-extrabold">
+      <button tabindex="0" class="m-1 text-xl font-normal">
         <p>CLINIC<i class="arrow down ml-3 mb-1"></i></p>
       </button>
       <ul
         tabindex="0"
-        class="dropdown-content menu p-2 bg-base-300 shadow rounded-box w-64"
+        class="dropdown-content menu p-2 bg-base-300 shadow rounded-box w-64 "
       >
         <li>
           <button @click="$emit('option', 0)" class="text-lg">
@@ -39,7 +39,7 @@ const ListCategory = (list) => {
   </th>
   <th class="px-10 w-1/4">
     <div class="dropdown dropdown-hover">
-      <button tabindex="0" class="m-1 text-xl font-extrabold">
+      <button tabindex="0" class="m-1 text-xl font-normal">
         <p>DATE<i class="arrow down ml-3 mb-1"></i></p>
       </button>
       <ul
@@ -53,7 +53,7 @@ const ListCategory = (list) => {
       </ul>
     </div>
   </th>
-  <th class="text-xl font-extrabold px-10">DURATION</th>
+  <th class="text-xl font-normal px-10">DURATION</th>
   <th class="px-20"></th>
 </template>
 

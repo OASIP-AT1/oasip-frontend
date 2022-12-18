@@ -130,15 +130,15 @@ const togglepassword = () => {
                 </svg>
             </div>
 
-            <div class="text-center">
+            <div class="text-center font-normal text-gray-500">
                 Don't have an account?
                 <span
-                    class="font-semibold underline underline-offset-2"
+                    class="font-normal underline underline-offset-2"
                     @click.left="signUpRouter"
                     ><a href="#">Sign up</a></span
                 >
             </div>
-            <div class="flex justify-end">
+            <div class="flex justify-end font-normal">
                 <input
                     type="submit"
                     value="Login"

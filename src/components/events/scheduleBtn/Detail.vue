@@ -198,9 +198,7 @@ const checkOverlap = (start_1, end_1, start_2, end_2) => {
                             </p>
                             <div
                                 v-show="!edit"
-                                v-if="
-                                description.trim() != ''
-                                "
+                                v-if="description.trim() != ''"
                                 class="text-base font-medium py-2"
                             >
                                 {{ description }}
@@ -224,14 +222,7 @@ const checkOverlap = (start_1, end_1, start_2, end_2) => {
                         </div>
                         <div class="flex justify-end">
                             <input
-                                class="btn m-2 btn-color"
-                                v-show="edit"
-                                type="submit"
-                                value="OK"
-                                @click="overlap()"
-                            />
-                            <input
-                                class="btn m-2 btn-color"
+                                class="btn m-2 btn-error text-white"
                                 v-show="edit"
                                 type="button"
                                 value="Cancel"
@@ -239,6 +230,13 @@ const checkOverlap = (start_1, end_1, start_2, end_2) => {
                                     edit = !edit;
                                     description = detail.eventNotes;
                                 "
+                            />
+                            <input
+                                class="btn m-2 btn-success text-white"
+                                v-show="edit"
+                                type="submit"
+                                value="OK"
+                                @click="overlap()"
                             />
                         </div>
                     </form>

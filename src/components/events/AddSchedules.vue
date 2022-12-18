@@ -171,7 +171,7 @@ const reset = () => {
 <template>
     <div id="create">
         <!-- form -->
-        <p class="text-4xl py-3 font-black grid justify-start">ADD SCHEDULE</p>
+        <p class="text-4xl py-3 font-black grid justify-start text-black">ADD SCHEDULE</p>
         <form
             method="post"
             @submit.prevent="
@@ -275,7 +275,7 @@ const reset = () => {
                 </div>
                 <!-- Note -->
                 <label for="Note"
-                    >Note <span class="auto-fill">(optional )</span></label
+                    >Note <span class="auto-fill">(optional)</span></label
                 >
                 <div class="py-2">
                     <textarea
@@ -287,6 +287,15 @@ const reset = () => {
                         placeholder="Maximum 500 characters"
                     ></textarea>
                 </div>
+                <!-- File -->
+                <label for="File"
+                    >File <span class="auto-fill">(optional)</span></label>
+                <div class="py-2">
+                    <input
+                        type="file"
+                        multiple
+                    />
+                    </div>
             </div>
 
             <div class="pt-2">
@@ -298,7 +307,7 @@ const reset = () => {
                 />
                 <!-- Create -->
                 <input
-                    class="float-right justify-end btn btn-color border-transparent"
+                    class="float-right justify-end btn btn-success text-white border-transparent"
                     type="submit"
                     value="Create"
                     @click="

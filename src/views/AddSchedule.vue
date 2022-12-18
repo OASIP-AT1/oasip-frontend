@@ -4,7 +4,7 @@ import AddEvent from "../components/events/AddSchedules.vue";
 
 <template>
     <div class="container">
-      <div class="child">
+      <div class="child text-gray-500">
         <AddEvent />
       </div>
     </div>
