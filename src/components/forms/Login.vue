@@ -18,7 +18,11 @@ const reloadPage = () => {
 
 //POST
 const LoginUsers = async (username, password) => {
-    if(!!username.match(/^([a-zA-Z0-9._-])+@\w+([a-zA-Z0-9._-])*(\.[a-zA-Z0-9_-]{2,10})+$/)){
+    if (
+        !!username.match(
+            /^([a-zA-Z0-9._-])+@\w+([a-zA-Z0-9._-])*(\.[a-zA-Z0-9_-]{2,10})+$/
+        )
+    ) {
         const res = await fetch(import.meta.env.VITE_LOGIN_URL, {
             method: "POST",
             headers: {
@@ -57,77 +61,107 @@ const togglepassword = () => {
             @submit.prevent="LoginUsers(username, password)"
             class="text-black grid justify-center"
         >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="w-6 h-6 absolute z-10 mt-10 ml-3 text-gray-500"
+            >
+                <path
+                    d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z"
+                />
+                <path
+                    d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z"
+                />
+            </svg>
+            <p class="text-gray-700 ml-2 mb-1">Email</p>
+
             <input
                 type="email"
                 v-model="username"
                 placeholder="username"
-                class="input input-md border-slate-400 w-96 max-w-xs bg-white rounded-full mb-5"
+                class="input input-md border-slate-400 pl-10 w-96 max-w-xs bg-white rounded-full mb-5 text-gray-500 relative"
                 required
             />
-            <div v-if="!hidden" class="flex -space-x-7">
-                <input
-                    type="password"
-                    placeholder="Password"
-                    v-model="password"
-                    class="input input-md border-slate-400 w-full max-w-xs bg-white mb-3"
-                    minlength="8"
-                />
+            <p class="text-gray-700 ml-2 mb-1">Password</p>
+            <div>
                 <svg
-                    class="text-gray-800 mt-4 cursor-pointer"
-                    @click.left="togglepassword"
-                    width="24"
-                    height="16"
-                    fill="none"
-                    viewBox="0 0 22 16"
                     xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="w-6 h-6 z-[1] absolute mt-3 ml-3 text-gray-500"
                 >
                     <path
-                        d="M20.257 6.962C20.731 7.582 20.731 8.419 20.257 9.038C18.764 10.987 15.182 15 11 15C6.81801 15 3.23601 10.987 1.74301 9.038C1.51239 8.74113 1.38721 8.37592 1.38721 8C1.38721 7.62408 1.51239 7.25887 1.74301 6.962C3.23601 5.013 6.81801 1 11 1C15.182 1 18.764 5.013 20.257 6.962V6.962Z"
-                        stroke="currentColor"
-                        stroke-width="0.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    ></path>
-                    <path
-                        d="M11 11C12.6569 11 14 9.65685 14 8C14 6.34315 12.6569 5 11 5C9.34315 5 8 6.34315 8 8C8 9.65685 9.34315 11 11 11Z"
-                        stroke="currentColor"
-                        stroke-width="0.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    ></path>
+                        fill-rule="evenodd"
+                        d="M12 1.5a5.25 5.25 0 00-5.25 5.25v3a3 3 0 00-3 3v6.75a3 3 0 003 3h10.5a3 3 0 003-3v-6.75a3 3 0 00-3-3v-3c0-2.9-2.35-5.25-5.25-5.25zm3.75 8.25v-3a3.75 3.75 0 10-7.5 0v3h7.5z"
+                        clip-rule="evenodd"
+                    />
                 </svg>
-            </div>
-            <div v-else class="flex -space-x-7">
-                <input
-                    type="type"
-                    placeholder="Password"
-                    v-model="password"
-                    class="input input-md border-slate-400 w-full max-w-xs bg-white mb-3"
-                    minlength="8"
-                /><svg
-                    class="text-gray-800 mt-4 cursor-pointer"
-                    @click.left="togglepassword"
-                    width="24"
-                    height="16"
-                    viewBox="0 0 22 18"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path
-                        d="M5.87313 14.129C4.02813 12.819 2.56813 11.115 1.74313 10.039C1.51244 9.74198 1.38721 9.37659 1.38721 9.0005C1.38721 8.62441 1.51244 8.25902 1.74313 7.962C3.23613 6.013 6.81813 2 11.0001 2C12.8761 2 14.6301 2.807 16.1301 3.874"
-                        stroke="currentColor"
-                        stroke-width="0.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    ></path>
-                    <path
-                        d="M13.13 6.887C12.8523 6.60467 12.5214 6.38011 12.1565 6.22629C11.7916 6.07246 11.3998 5.99241 11.0038 5.99075C10.6078 5.98909 10.2154 6.06586 9.84915 6.21662C9.48295 6.36738 9.15022 6.58916 8.87016 6.86915C8.5901 7.14915 8.36824 7.48183 8.21739 7.84799C8.06654 8.21416 7.98969 8.60657 7.99125 9.00259C7.99282 9.3986 8.07278 9.79039 8.22652 10.1554C8.38026 10.5203 8.60473 10.8512 8.887 11.129M3 17L19 1M9 15.704C9.6492 15.8972 10.3227 15.9969 11 16C15.182 16 18.764 11.987 20.257 10.038C20.4876 9.74071 20.6127 9.37509 20.6125 8.99883C20.6124 8.62256 20.4869 8.25707 20.256 7.96C19.7313 7.27549 19.1684 6.62112 18.57 6"
-                        stroke="currentColor"
-                        stroke-width="0.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    ></path>
-                </svg>
+                <div v-if="!hidden" class="flex -space-x-7">
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        v-model="password"
+                        class="input input-md border-slate-400 w-full max-w-xs pl-10 bg-white mb-3 text-gray-500 relative"
+                        minlength="8"
+                    />
+                    <svg
+                        class="text-gray-800 mt-4 cursor-pointer relative"
+                        @click.left="togglepassword"
+                        width="24"
+                        height="16"
+                        fill="none"
+                        viewBox="0 0 22 16"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M20.257 6.962C20.731 7.582 20.731 8.419 20.257 9.038C18.764 10.987 15.182 15 11 15C6.81801 15 3.23601 10.987 1.74301 9.038C1.51239 8.74113 1.38721 8.37592 1.38721 8C1.38721 7.62408 1.51239 7.25887 1.74301 6.962C3.23601 5.013 6.81801 1 11 1C15.182 1 18.764 5.013 20.257 6.962V6.962Z"
+                            stroke="currentColor"
+                            stroke-width="0.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        ></path>
+                        <path
+                            d="M11 11C12.6569 11 14 9.65685 14 8C14 6.34315 12.6569 5 11 5C9.34315 5 8 6.34315 8 8C8 9.65685 9.34315 11 11 11Z"
+                            stroke="currentColor"
+                            stroke-width="0.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        ></path>
+                    </svg>
+                </div>
+                <div v-else class="flex -space-x-7">
+                    <input
+                        type="type"
+                        placeholder="Password"
+                        v-model="password"
+                        class="input input-md border-slate-400 pl-10 w-full max-w-xs text-gray-500 bg-white mb-3"
+                        minlength="8"
+                    /><svg
+                        class="text-gray-800 mt-4 cursor-pointer"
+                        @click.left="togglepassword"
+                        width="24"
+                        height="16"
+                        viewBox="0 0 22 18"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M5.87313 14.129C4.02813 12.819 2.56813 11.115 1.74313 10.039C1.51244 9.74198 1.38721 9.37659 1.38721 9.0005C1.38721 8.62441 1.51244 8.25902 1.74313 7.962C3.23613 6.013 6.81813 2 11.0001 2C12.8761 2 14.6301 2.807 16.1301 3.874"
+                            stroke="currentColor"
+                            stroke-width="0.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        ></path>
+                        <path
+                            d="M13.13 6.887C12.8523 6.60467 12.5214 6.38011 12.1565 6.22629C11.7916 6.07246 11.3998 5.99241 11.0038 5.99075C10.6078 5.98909 10.2154 6.06586 9.84915 6.21662C9.48295 6.36738 9.15022 6.58916 8.87016 6.86915C8.5901 7.14915 8.36824 7.48183 8.21739 7.84799C8.06654 8.21416 7.98969 8.60657 7.99125 9.00259C7.99282 9.3986 8.07278 9.79039 8.22652 10.1554C8.38026 10.5203 8.60473 10.8512 8.887 11.129M3 17L19 1M9 15.704C9.6492 15.8972 10.3227 15.9969 11 16C15.182 16 18.764 11.987 20.257 10.038C20.4876 9.74071 20.6127 9.37509 20.6125 8.99883C20.6124 8.62256 20.4869 8.25707 20.256 7.96C19.7313 7.27549 19.1684 6.62112 18.57 6"
+                            stroke="currentColor"
+                            stroke-width="0.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        ></path>
+                    </svg>
+                </div>
             </div>
 
             <div class="text-center font-normal text-gray-500">

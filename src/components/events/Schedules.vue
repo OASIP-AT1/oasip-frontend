@@ -70,8 +70,8 @@ const modifySchedules = async (newId, newTime, newNotes, isOverlap) => {
                 Authorization: TokenService.getAccessToken(),
             },
             body: JSON.stringify({
-                eventStartTime: moment(newTime).utcOffset("+07:00"),
-                eventNotes: newNotes == null ? null : newNotes.trim(),
+                eventStartTime: moment.unix(newTime).utcOffset("+07:00"),
+                eventNotes: newNotes == null ? null : newNotes
             }),
         });
         if (res.status === 200) {
@@ -89,10 +89,7 @@ const data = ref(null);
 
 const moreDetail = (curbookingId) => {
     currentDetail.value = curbookingId;
-    // data.value = curbookingId.eventNotes;
-    currentDetail.value.eventStartTime = moment(
-        currentDetail.value.eventStartTime
-    ).format("YYYY-MM-DDTHH:mm:ss");
+    currentDetail.value.eventStartTime = currentDetail.value.eventStartTime;
 };
 
 const filter = ref();
@@ -192,7 +189,7 @@ const getSortDate = async (date) => {
                 />
             </div>
             <table class="table-zebra table-layout table-element">
-                <thead class="table-header bg-base-200 ">
+                <thead class="table-header bg-base-200">
                     <tr>
                         <Navbar
                             @option="getClinic"
@@ -234,7 +231,8 @@ const getSortDate = async (date) => {
                             </td>
                             <td class="p-10 text-xl box-element break-words">
                                 {{
-                                    moment.unix(contents.eventStartTime)
+                                    moment
+                                        .unix(contents.eventStartTime)
                                         .local()
                                         .format("D MMMM YYYY, h:mm:ss A")
                                 }}
@@ -277,7 +275,8 @@ const getSortDate = async (date) => {
 
                             <td class="p-10 text-xl box-element break-words">
                                 {{
-                                    moment(contents.eventStartTime)
+                                    moment
+                                        .unix(contents.eventStartTime)
                                         .local()
                                         .format("D MMMM YYYY, h:mm:ss A")
                                 }}
