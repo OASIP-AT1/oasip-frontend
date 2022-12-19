@@ -55,17 +55,20 @@ const togglepassword = () => {
 
 <template>
     <div class="grid justify-center">
-        <p class="text-5xl p-5 font-black grid justify-center">OASIP-AT1</p>
+        <p class="text-5xl p-5 font-black grid justify-center tracking-widest">
+            OASIP-AT1
+        </p>
         <form
             action="post"
             @submit.prevent="LoginUsers(username, password)"
             class="text-black grid justify-center"
         >
+            <p class="text-gray-700 ml-2 mb-1">Email</p>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                class="w-6 h-6 absolute z-10 mt-10 ml-3 text-gray-500"
+                class="w-6 h-6 absolute z-10 mt-10 ml-4 text-gray-400"
             >
                 <path
                     d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z"
@@ -74,8 +77,6 @@ const togglepassword = () => {
                     d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z"
                 />
             </svg>
-            <p class="text-gray-700 ml-2 mb-1">Email</p>
-
             <input
                 type="email"
                 v-model="username"
@@ -89,7 +90,7 @@ const togglepassword = () => {
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    class="w-6 h-6 z-[1] absolute mt-3 ml-3 text-gray-500"
+                    class="w-6 h-6 z-[1] absolute mt-3 ml-3 text-gray-400"
                 >
                     <path
                         fill-rule="evenodd"
@@ -164,19 +165,11 @@ const togglepassword = () => {
                 </div>
             </div>
 
-            <div class="text-center font-normal text-gray-500">
-                Don't have an account?
-                <span
-                    class="font-normal underline underline-offset-2"
-                    @click.left="signUpRouter"
-                    ><a href="#">Sign up</a></span
-                >
-            </div>
-            <div class="flex justify-end font-normal">
+            <div class="flex font-normal">
                 <input
                     type="submit"
                     value="Login"
-                    class="btn mt-5 rounded-full btn-color"
+                    class="btn mt-2 rounded-full btn-color w-full"
                 />
             </div>
         </form>

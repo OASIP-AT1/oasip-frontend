@@ -174,15 +174,10 @@ const uniqueemail = (email, id) => {
                   .format("D MMMM YYYY, h:mm:ss A")
               }}
             </div>
-            <p class="font-header text-2xl font-bold py-2 grid justify-center">
-              Password
-            </p>
-            <div class="text-base font-medium grid justify-center py-2">
-              {{ detail.password }}
-            </div>
+
             <div class="flex justify-center">
               <input
-                class="btn btn-primary m-2"
+                class="btn btn-success text-white m-2 w-1/2 hover:bg-green-500 rounded-lg"
                 v-show="edit"
                 type="submit"
                 value="OK"
@@ -192,7 +187,7 @@ const uniqueemail = (email, id) => {
                 "
               />
               <input
-                class="btn m-2 btn-active text-white bg-red-400 hover:bg-red-500"
+                class="btn m-2 btn-error text-white hover:bg-red-500 w-1/2 rounded-lg"
                 v-show="edit"
                 type="button"
                 value="Cancel"

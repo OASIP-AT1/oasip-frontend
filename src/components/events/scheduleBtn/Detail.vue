@@ -186,7 +186,7 @@ const dateTime = (detail) => {
                         <div v-if="!edit">
                             <p class="text-black font-normal text-base">
                                 {{
-                                    detail.eventNotes != null
+                                    detail.eventNotes != '' && detail.eventNotes != null
                                         ? detail.eventNotes.trim()
                                         : "No message"
                                 }}
@@ -235,43 +235,43 @@ const dateTime = (detail) => {
                         <img
                             v-if="file.type.includes('png')"
                             class="w-10 mr-5"
-                            src="../../assets/png-file.png"
+                            src="../../../assets/png-file.png"
                             alt=""
                         />
                         <img
                             v-else-if="file.type.includes('jpg')"
                             class="w-10 mr-5"
-                            src="../../assets/jpg-file.png"
+                            src="../../../assets/jpg-file.png"
                             alt=""
                         />
                         <img
                             v-else-if="file.type.includes('svg')"
                             class="w-10 mr-5"
-                            src="../../assets/svg.png"
+                            src="../../../assets/svg.png"
                             alt=""
                         />
                         <img
                             v-else-if="file.type.includes('pdf')"
                             class="w-10 mr-5"
-                            src="../../assets/pdf-file.png"
+                            src="../../../assets/pdf-file.png"
                             alt=""
                         />
                         <img
                             v-else-if="file.type.includes('zip')"
                             class="w-10 mr-5"
-                            src="../../assets/zip-file.png"
+                            src="../../../assets/zip-file.png"
                             alt=""
                         />
                         <img
                             v-else-if="file.type.includes('doc')"
                             class="w-10 mr-5"
-                            src="../../assets/doc-file.png"
+                            src="../../../assets/doc-file.png"
                             alt=""
                         />
                         <img
                             v-else
                             class="w-10 mr-5"
-                            src="../../assets/file.png"
+                            src="../../../assets/file.png"
                             alt=""
                         />
                         <div>
@@ -296,6 +296,7 @@ const dateTime = (detail) => {
                             clip-rule="evenodd"
                         />
                     </svg>
+                    <!-- <a href="C:/Users/HP/Downloads" :download="file.name">Download</a> -->
                 </div>
                 <div id="btn-edit" class="mt-5" v-if="!edit">
                     <button

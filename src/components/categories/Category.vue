@@ -69,9 +69,7 @@ const moreDetail = (curbookingId) => {
 };
 
 const RoletoEdit = () => {
-    return TokenService.checkRole("admin") || TokenService.checkRole("lecturer")
-        ? true
-        : false;
+    return TokenService.checkRole("admin") || TokenService.checkRole("lecturer") ? true : false;
 };
 
 const colors = ["#ED5564", "#FFCE54", "#A0D568", "#4FC1E8", "#AC92EB"];
@@ -88,7 +86,10 @@ const colors = ["#ED5564", "#FFCE54", "#A0D568", "#4FC1E8", "#AC92EB"];
                     Category Event
                 </h1>
             </div>
-            <div class="grid grid-cols-2 gap-8 ml-40">
+            <div class="w-full" v-if="!categories.length">
+                <h1 class="w-96 uppercase font-bold text-4xl text-gray-500 text-center mt-20">No Category Event</h1>
+            </div>
+            <div v-else class="grid grid-cols-2 gap-8 ml-40">
                 <div
                     class="category-list shadow-xl rounded-lg"
                     v-for="(category, index) in categories"
@@ -147,7 +148,12 @@ const colors = ["#ED5564", "#FFCE54", "#A0D568", "#4FC1E8", "#AC92EB"];
                                     :category="categories"
                                     @editDetail="modifyCategories"
                                 /> -->
-                        <label for="my-modal-6" class="btn btn-color mt-5" @click="moreDetail(category)">
+                        <label
+                            v-if="RoletoEdit()"
+                            for="my-modal-6"
+                            class="btn btn-color mt-5"
+                            @click="moreDetail(category)"
+                        >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -167,15 +173,14 @@ const colors = ["#ED5564", "#FFCE54", "#A0D568", "#4FC1E8", "#AC92EB"];
                     </div>
                 </div>
             </div>
-                <CEdit
-                    v-if="RoletoEdit"
-                    :detail="currentDetail"
-                    :name="currentDetail.eventCategoryName"
-                    :description="currentDetail.eventCategoryDescription"
-                    :duration="currentDetail.eventDuration"
-                    :category="categories"
-                    @editDetail="modifyCategories"
-                />
+            <CEdit
+                :detail="currentDetail"
+                :name="currentDetail.eventCategoryName"
+                :description="currentDetail.eventCategoryDescription"
+                :duration="currentDetail.eventDuration"
+                :category="categories"
+                @editDetail="modifyCategories"
+            />
         </div>
         <!-- <div
             id="contents-list"
